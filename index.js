@@ -53,6 +53,7 @@ app.post('/login_user', (req, res) => {
       res.redirect('/dashboard_month'); 
     } else {
       // User not found - Fail
+      res.redirect('/error_page'); 
       console.log('Error'); 
       
       
@@ -62,14 +63,20 @@ app.post('/login_user', (req, res) => {
 
 /////////////////////////////////////////////////
 
+app.get('/error_page', (req, res) => {
+  console.log('Rendering /error_page:', 'error_page'); // Log the file path
+  res.render('error_page');
+});
 
 app.get('/dashboard_month', (req, res) => {
   console.log('Rendering /dashboard_month page:', 'dashboard_month'); // Log the file path
   res.render('dashboard_month');
 });
 
-
-
+app.get('/dashboard_day', (req, res) => {
+  console.log('Rendering /dashboard_day page:', 'dashboard_day'); // Log the file path
+  res.render('dashboard_day');
+});
 
 // Start the server{
 app.listen(3000, () => {

@@ -11,6 +11,10 @@
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
+  //font
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
 
   //API Calendar
   <script src="https://apis.google.com/js/api.js" async defer></script>
@@ -55,13 +59,13 @@
 <!-- ฺBar ข้างบน -->
 
 <body class="sb-nav-fixed">
-  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-warning">
-    <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
+  <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+    <button class="btn btn-link btn-md order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
       <i class="fas fa-bars"></i>
     </button>
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
     <!-- ชิดริม-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
     <!-- Navbar-->
@@ -94,7 +98,7 @@
               <nav class="sb-sidenav-menu-nested nav">
                 <a class="nav-link" href="/dashboard_month">
                   ปฏิทินรายเดือน</a>
-                <a class="nav-link" href="layout-sidenav-light.html">
+                <a class="nav-link" href="/dashboard_day">
                   สรุปรายวัน</a>
               </nav>
             </div>
@@ -119,7 +123,7 @@
         <div class="container-fluid px-4">
 
           <!-- นำทาง link -->
-          <h1 class="mt-4">แดชบอร์ด</h1>
+          <h1 class="mt-4">ปฏิทินรายเดือน</h1>
           <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item">
               <a href="/dashboard_month">แดชบอร์ด</a>
