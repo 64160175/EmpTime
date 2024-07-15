@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/login.css"> 
+</head>
+<body>
+    <div class="container">
+        <img src="/image/logo.svg" alt="Logo"
+
+        <!-- <% if (message) { %>
+            <p><%= message %></p>
+        <% } %> -->
+        
+        <form action="/login_user" method="POST">
+            
+            <input type="username" id="username" name="username" placeholder="Username">
+            <input type="password" id="password" name="password" placeholder="Password">
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+
+</html>

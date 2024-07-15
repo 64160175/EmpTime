@@ -1,0 +1,12 @@
+npm install express mysql body-parser ejs
+npm install -g nodemon
+
+nodemon index.js
+
+
+
+npm i bootstrap@5.3.3
+
+
+
+
