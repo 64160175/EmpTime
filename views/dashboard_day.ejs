@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>Dashboard Month</title>
+  <title>Dashboard Day</title>
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -69,7 +69,7 @@
               </nav>
             </div>
 
-            <a class="nav-link" href="index.html"> พนักงาน </a>
+            <a class="nav-link" href="/member"> พนักงาน </a>
             <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
             <a class="nav-link" href="index.html"> คำร้องขอ </a>
             <a class="nav-link" href="index.html"> ใบเสร็จรับเงิน </a>
@@ -99,17 +99,88 @@
 
 <!-- real content ----------------------------------------------------------------------------------------------------------- -->
 
-          <div class="card mb-4">
-            
-           
 
-            
+          <div class="card-body fw-bold" id="day_show"></div><br>
+          
+<!-- On time check ----------------------------->
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card mb-4 bg-blue">
+                <div class="card-header">
+                  Team
+                </div>
+                <div class="card-body">
+                  <p class="text-center">Content 1</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mb-4  bg-green">
+                <div class="card-header">
+                  On Time
+                </div>
+                <div class="card-body">
+                  <p class="text-center">Content 2</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mb-4  bg-warning">
+                <div class="card-header">
+                  Late
+                </div>
+                <div class="card-body">
+                  <p class="text-center">Content 3</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mb-4  bg-gray">
+                <div class="card-header">
+                  Leave
+                </div>
+                <div class="card-body">
+                  <p class="text-center">Content 4</p>
+                </div>
+              </div>
+            </div>
           </div>
+<!-- end On time check ----------------------------->
+
+<!-- member ----------------------------->
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    DataTable Example
+  </div>
+  <div class="card-body">
+    <table id="datatablesSimple" class="table table-striped">
+      <thead>
+        <tr>
+          <th class="col-1">Profile</th>
+          <th class="col-2">Name</th>
+          <th class="col-2">Status</th>
+          <th class="col-2">Checkin</th>
+          <th class="col-2">Checkout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img src="/image/profile.jpg" alt="Profile" width="50" height="50 rounded-circle"></td>
+          <td>John Doe</td>
+          <td>On Time</td>
+          <td>08:00 AM</td>
+          <td>05:00 PM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- end member ----------------------------->
+
         </div>
       </main>
 
-
-      
     </div>
   </div>
 
@@ -117,6 +188,7 @@
   <!-- ----------------------------------------------------------------------------------------------------------- -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
+  <script src="/js/today.js" defer></script>
 </body>
 
 </html>

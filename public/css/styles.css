@@ -500,6 +500,30 @@ progress {
   font-weight: 300;
 }
 
+
+.bg-blue{
+  background-color: #6299ec !important;;
+}
+
+.bg-green{
+  background-color: #28d43f !important;;
+}
+
+.bg-yellow{
+  background-color: #ffca2c !important;;
+}
+
+.bg-red{
+  background-color: #dc3545 !important;
+}
+
+.bg-gray{
+  background-color: #6c757d !important;
+}
+
+
+
+
 .display-1 {
   font-size: calc(1.625rem + 4.5vw);
   font-weight: 300;
@@ -4227,7 +4251,7 @@ textarea.form-control-lg {
 }
 
 .card-body {
-  flex: 1 1 auto;
+  flex: 1 1 1 1 auto;
   padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
   color: var(--bs-card-color);
 }
@@ -4317,6 +4341,9 @@ textarea.form-control-lg {
 .card-group > .card {
   margin-bottom: var(--bs-card-group-margin);
 }
+
+
+
 @media (min-width: 576px) {
   .card-group {
     display: flex;

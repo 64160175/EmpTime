@@ -78,6 +78,11 @@ app.get('/dashboard_day', (req, res) => {
   res.render('dashboard_day');
 });
 
+app.get('/member', (req, res) => {
+  console.log('Rendering /member:', 'member'); // Log the file path
+  res.render('member');
+});
+
 // Start the server{
 app.listen(3000, () => {
   console.log('Server listening on port 3000');

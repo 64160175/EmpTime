@@ -4,7 +4,10 @@
     
 }
 
-
+div[class="form-group"]{
+    align-items: center;
+    text-align: center;
+}
 body {
     font-family: "Prompt", sans-serif;
     font-weight: 400;
