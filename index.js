@@ -78,9 +78,21 @@ app.get('/dashboard_day', (req, res) => {
   res.render('dashboard_day');
 });
 
-app.get('/member', (req, res) => {
-  console.log('Rendering /member:', 'member'); // Log the file path
-  res.render('member');
+app.get('/employee', (req, res) => {
+  console.log('Rendering /employee:', 'employee'); // Log the file path
+  res.render('employee');
+});
+
+
+app.get('/employee_record_addemp', (req, res) => {
+  console.log('Rendering /employee_record_addemp:', 'employee_record_addemp'); // Log the file path
+  res.render('employee_record_addemp');
+});
+
+
+app.get('/employee_record', (req, res) => {
+  console.log('Rendering /employee_record:', 'employee_record'); // Log the file path
+  res.render('employee_record');
 });
 
 // Start the server{

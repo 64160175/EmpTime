@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>Member</title>
+  <title>employee</title>
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -69,7 +69,7 @@
               </nav>
             </div>
 
-            <a class="nav-link" href="/member"> พนักงาน </a>
+            <a class="nav-link" href="/employee"> พนักงาน </a>
             <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
             <a class="nav-link" href="index.html"> คำร้องขอ </a>
             <a class="nav-link" href="index.html"> ใบเสร็จรับเงิน </a>
@@ -97,14 +97,19 @@
 <!-- real content ----------------------------------------------------------------------------------------------------------- -->
 
 
-<!-- member ----------------------------->
+<!-- employee ----------------------------->
 <div class="card mb-4">
   <div class="card-header">
     <i class="fas fa-table me-1"></i>
-    DataTable Example
+    ตารางพนักงาน
+
+    <button class="btn btn-warning float-end" type="button" onclick="window.location.href='/employee_record_addemp'">เพิ่มพนักงาน</button>
+  
   </div>
-  <div class="card-body">
-    <table id="datatablesSimple" class="table table-striped">
+
+  <!--loop emp-->
+  <div class="card-body"   onclick="window.location.href='/employee_record'">
+    <table id="employee_show" class="table table-striped">
       <thead>
         <tr>
           <th class="col-1">Profile</th>
@@ -113,14 +118,14 @@
       </thead>
       <tbody>
         <tr>
-          <td><img src="/image/profile.jpg" alt="Profile" width="50" height="50 rounded-circle"></td>
+          <td><img  type=profile src="/image/profile.jpg" alt="Profile" ></td>
           <td>John Doe</td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
-<!-- end member ----------------------------->
+<!-- end employee ----------------------------->
 
         </div>
       </main>

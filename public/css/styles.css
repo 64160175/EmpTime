@@ -317,6 +317,20 @@ svg {
   vertical-align: middle;
 }
 
+img[type=profile]{
+  width: 50px ;
+  height: 50px;
+  object-fit: cover; 
+  border-radius: 50%;
+}
+
+img[type=profile_xl]{
+  width: 100px ;
+  height: 100px;
+  object-fit: cover; 
+  border-radius: 50%;
+}
+
 table {
   caption-side: bottom;
   border-collapse: collapse;
@@ -1802,6 +1816,10 @@ progress {
 
 .table-group-divider {
   border-top: 2px solid currentcolor;
+}
+
+.form-group {
+  margin-bottom: 1rem;
 }
 
 .caption-top {
@@ -8125,6 +8143,10 @@ textarea.form-control-lg {
 .text-dark {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-gray {
+  color: gray; ;
 }
 
 .text-black {
