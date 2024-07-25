@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>employee</title>
+  <title>ใบเสร็จรับเงิน</title>
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -89,9 +89,9 @@
         <div class="container-fluid px-4">
 
           <!-- นำทาง link -->
-          <h1 class="mt-4">พนักงาน</h1>
+          <h1 class="mt-4">ใบเสร็จรับเงิน</h1>
           <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item active">พนักงาน</li>
+            <li class="breadcrumb-item active">ใบเสร็จรับเงิน</li>
           </ol>
 
 <!-- real content ----------------------------------------------------------------------------------------------------------- -->
@@ -102,24 +102,23 @@
   <div class="card-header">
     <i class="fas fa-table me-1"></i>
     ตารางพนักงาน
-
-    <button class="btn btn-warning float-end" type="button" onclick="window.location.href='/employee_record_addemp'">เพิ่มพนักงาน</button>
-  
   </div>
 
   <!--loop emp-->
-  <div class="card-body" >
-    <table id="employee_show" class="table table-striped">
+  <div class="card-body">
+    <table id="employee_show" class="table table-striped" >
       <thead>
         <tr>
           <th class="col-1">Profile</th>
-          <th class="col-8">Name</th>
+          <th class="col-7">Name</th>
+          <th class="col-1"></th>
         </tr>
       </thead>
       <tbody>
-        <tr  onclick="window.location.href='/employee_record'">
+        <tr  onclick="window.location.href='/----------'">
           <td><img  type=profile src="/image/profile.jpg" alt="Profile" ></td>
           <td>John Doe</td>
+          <td><img src="/icon/ChevronRight.svg" alt="ChevronRight" class="float-end"></td>
         </tr>
       </tbody>
     </table>

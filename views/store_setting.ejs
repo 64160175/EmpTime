@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>Add Employee</title>
+  <title>ตั้งค่าร้าน</title>
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -79,90 +79,58 @@
     <div id="layoutSidenav_content">
       <main>
         <div class="container-fluid px-4">
-          <h1 class="mt-4">เพิ่มพนักงาน</h1>
+          <h1 class="mt-4">ตั้งค่าร้าน</h1>
           <ol class="breadcrumb mb-4">
-            <li class="breadcrumb-item">
-              <a href="/employee">พนักงาน</a>
-            </li>
-            <li class="breadcrumb-item active">เพิ่มพนักงาน</li>
+            <li class="breadcrumb-item active">ตั้งค่าร้าน</li>
           </ol>
 
           <div class="card mb-4">
             <div class="card-body">
-              <form action="/employee_record_addemp" method="POST">
-
+              <form action="/store_setting" method="POST">
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="firstName">ชื่อ:</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" id="firstName" name="firstName" required>
-                    </div>
+                  <label class="col-sm-2 col-form-label" for="storeName">ชื่อร้าน:</label>
+                  <div class="col-sm-3">
+                    <input type="text" class="form-control" id="storeName" name="storeName" required>
+                  </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="nickname">ชื่อเล่น:</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" id="nickname" name="nickname" required>
-                    </div>
-                </div>  
+                  <label class="col-sm-2 col-form-label" for="hourlyWage">อัตราค่าจ้าง/ชั่วโมง:</label>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" id="hourlyWage" name="hourlyWage" required>
+                  </div>
+                </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="phoneNumber">เบอร์โทร:</label>
-                    <div class="col-sm-3">
-                      <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
-                    </div>
-                </div>  
+                  <label class="col-sm-2 col-form-label" for="leaveDays">กำหนดวันลา:</label>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" id="leaveDays" name="leaveDays" required>
+                  </div>
+                </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="position">ตำแหน่ง:</label>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="position" name="position" required>
-                        <option class="text-gray" value="">เลือกตำแหน่ง</option>
-                        <option value="0">แอดมิน</option>
-                        <option value="1">เจ้าของร้าน</option>
-                        <option value="2">พนักงาน</option>
-                      </select>
-                    </div>
-                </div>  
+                  <label class="col-sm-2 col-form-label" for="lateDays">กำหนดวันสาย:</label>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" id="lateDays" name="lateDays" required>
+                  </div>
+                </div>
+
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="bank">ธนาคาร:</label>
-                    <div class="col-sm-3">
-                      <select class="form-control" id="bank" name="bank" required>
-                        <option class="text-gray" value="">เลือกธนาคาร</option>
-                        <option value="ธนาคารกรุงเทพ">ธนาคารกรุงเทพ</option>
-                        <option value="ธนาคารกสิกรไทย">ธนาคารกสิกรไทย</option>
-                        <option value="ธนาคารไทยพาณิชย์">ธนาคารไทยพาณิชย์</option>
-                        <option value="ธนาคารกรุงศรีอยุธยา">ธนาคารกรุงศรีอยุธยา</option>
-                        <option value="ธนาคารออมสิน">ธนาคารออมสิน</option>
-                      </select>
-                    </div>
-                </div>  
+                  <label class="col-sm-2 col-form-label" for="openTime">เวลาเปิดร้าน:</label>
+                  <div class="col-sm-3">
+                    <input type="time" class="form-control" id="openTime" name="openTime" required>
+                  </div>
+                </div>
 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="accountNumber">เลขบัญชี:</label>
-                    <div class="col-sm-3">
-                      <input type="tel" class="form-control" id="accountNumber" name="accountNumber" required>
-                    </div>
-                </div> 
+                  <label class="col-sm-2 col-form-label" for="closeTime">เวลาปิดร้าน:</label>
+                  <div class="col-sm-3">
+                    <input type="time" class="form-control" id="closeTime" name="closeTime" required>
+                  </div>
+                </div>
 
                 <br><br>
-
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="username">Username:</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" id="username" name="username" required>
-                    </div>
-                </div> 
-
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label" for="password">Password:</label>
-                    <div class="col-sm-3">
-                      <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                </div> 
-
-                <br>
-                <br>
 
                 <button type="submit" class="btn btn-primary float-end">บันทึก</button>
               </form>

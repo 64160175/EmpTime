@@ -91,6 +91,19 @@ app.get('/employee_record', (req, res) => {
   res.render('employee_record');
 });
 
+app.get('/recipt', (req, res) => {
+  console.log('Rendering /recipt:', 'recipt'); // Log the file path
+  res.render('recipt');
+});
+
+app.get('/store_setting', (req, res) => {
+  console.log('Rendering /store_setting:', 'store_setting'); // Log the file path
+  res.render('store_setting');
+});
+
+
+
+
 // Start the server{
 app.listen(3000, () => {
   console.log('Server listening on port 3000');

@@ -1,0 +1,47 @@
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label" for="openDays">วันที่เปิดร้าน:</label>
+                  <div class="col-sm-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Monday" id="openMonday" name="openDays[]">
+                      <label class="form-check-label" for="openMonday">
+                        วันจันทร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Tuesday" id="openTuesday" name="openDays[]">
+                      <label class="form-check-label" for="openTuesday">
+                        วันอังคาร
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Wednesday" id="openWednesday" name="openDays[]">
+                      <label class="form-check-label" for="openWednesday">
+                        วันพุธ
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Thursday" id="openThursday" name="openDays[]">
+                      <label class="form-check-label" for="openThursday">
+                        วันพฤหัสบดี
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Friday" id="openFriday" name="openDays[]">
+                      <label class="form-check-label" for="openFriday">
+                        วันศุกร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Saturday" id="openSaturday" name="openDays[]">
+                      <label class="form-check-label" for="openSaturday">
+                        วันเสาร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Sunday" id="openSunday" name="openDays[]">
+                      <label class="form-check-label" for="openSunday">
+                        วันอาทิตย์
+                      </label>
+                    </div>
+                  </div>
+                </div>
