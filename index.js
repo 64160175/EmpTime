@@ -37,29 +37,25 @@ app.get('/login', (req, res) => {
   });
   
 
-// Handle form submissions
-// ... (rest of your code)
-
-app.post('/login_user', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-
-  // Query the database to check if the user exists
-  connection.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, results) => {
-    if (results.length > 0) {
-      // User found - Success!
-      console.log('success'); // Log "success" if user is found
-      // Redirect to the index page
-      res.redirect('/dashboard_month'); 
-    } else {
-      // User not found - Fail
-      res.redirect('/error_page'); 
-      console.log('Error'); 
-      
-      
-    }
+  app.post('/login_user', (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+  
+    // Query the database to check if the user exists
+    connection.query('SELECT * FROM users WHERE username = ? AND password = SHA1(?)', [username, password], (err, results) => {
+      if (results.length > 0) {
+        // User found - Success!
+        console.log('success'); // Log "success" if user is found
+        // Redirect to the index page
+        res.redirect('/dashboard_month'); 
+      } else {
+        // User not found - Fail
+        res.redirect('/error_page'); 
+        console.log('Error'); 
+      }
+    });
   });
-});
+  
 
 /////////////////////////////////////////////////
 

@@ -4,8 +4,11 @@ npm install -g nodemon
 nodemon index.js
 
 
-
+#bootstrap
 npm i bootstrap@5.3.3
+
+#mysql
+UPDATE users SET password = SHA1(password);
 
 
 
