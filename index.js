@@ -4,6 +4,7 @@ const bodyParser = require('body-parser'); // Import body-parser
 const app = express();
 const ejs = require('ejs');
 
+
 // Database Configuration
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -31,6 +32,14 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+// ------------------------- Login ------------------------- //
+app.get('/login' , require('./routes/login'));
+//app.get('/logout' , require('./routes/login'));
+app.post('/loginUser' , require('./routes/login'))
+
+
+// ------------------------- Login เก่า ------------------------- //
+/*
 app.get('/login', (req, res) => {
     console.log('Rendering login page:', 'login'); // Log the file path
     res.render('login', { message: '' });
@@ -54,8 +63,10 @@ app.get('/login', (req, res) => {
         console.log('Error'); 
       }
     });
+
+    
   });
-  
+  */
 
 /////////////////////////////////////////////////
 

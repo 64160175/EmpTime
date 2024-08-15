@@ -11,19 +11,18 @@
 </head>
 <body>
     <div class="container">
-        <img src="/image/logo.svg" alt="Logo"
-
-        <!-- <% if (message) { %>
-            <p><%= message %></p>
-        <% } %> -->
+        <img src="/image/logo.svg" alt="Logo">
         
-        <form action="/login_user" method="POST">
-            
-            <input type="username" id="username" name="username" placeholder="Username">
-            <input type="password" id="password" name="password" placeholder="Password">
+        <form action="/loginUser" method="POST">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        
+            <% if (message) { %>
+                <p><%= message %></p> 
+              <% } %>
 
             <button type="submit">Login</button>
-        </form>
+          </form>
     </div>
 </body>
 
