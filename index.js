@@ -1,9 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
-const bodyParser = require('body-parser'); // Import body-parser
-const app = express();
+const bodyParser = require('body-parser');
+const session = require('express-session');
 const ejs = require('ejs');
+const { logoutView } = require('./controllers/loginController'); // Import logoutView directly
 
+const app = express();
+const port = 3000;
 
 // Database Configuration
 const connection = mysql.createConnection({
@@ -22,101 +25,78 @@ connection.connect(err => {
   console.log('Connected to database!');
 });
 
-// Set up EJS as the view engine
-app.set('view engine', 'ejs');
-
 // Serve static files (CSS, images, etc.)
 app.use(express.static('public'));
 
 // Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
+// ตั้งค่า session
+app.use(session({
+  secret: 'your_secret_key', // Replace with a strong, randomly generated secret
+  resave: false,
+  saveUninitialized: false, // Set to false for security
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
+
+// Set up EJS as the view engine
+app.set('view engine', 'ejs');
+
+// Middleware to check if the user is logged in
+const isLoggedIn = (req, res, next) => {
+  if (req.session.user) {
+    next(); // User is logged in
+  } else {
+    res.redirect('/login'); // Redirect to login if not
+  }
+};
 
 // ------------------------- Login ------------------------- //
-app.get('/login' , require('./routes/login'));
-//app.get('/logout' , require('./routes/login'));
+const loginRoutes = require('./routes/login');
+app.get('/login', loginRoutes); 
+
 app.post('/loginUser' , require('./routes/login'))
 
+// Protect other routes with the isLoggedIn middleware
+app.get('/logout', isLoggedIn, logoutView); 
 
-// ------------------------- Login เก่า ------------------------- //
-/*
-app.get('/login', (req, res) => {
-    console.log('Rendering login page:', 'login'); // Log the file path
-    res.render('login', { message: '' });
-  });
-  
 
-  app.post('/login_user', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-  
-    // Query the database to check if the user exists
-    connection.query('SELECT * FROM users WHERE username = ? AND password = SHA1(?)', [username, password], (err, results) => {
-      if (results.length > 0) {
-        // User found - Success!
-        console.log('success'); // Log "success" if user is found
-        // Redirect to the index page
-        res.redirect('/dashboard_month'); 
-      } else {
-        // User not found - Fail
-        res.redirect('/error_page'); 
-        console.log('Error'); 
-      }
-    });
-
-    
-  });
-  */
-
-/////////////////////////////////////////////////
-
-app.get('/error_page', (req, res) => {
-  console.log('Rendering /error_page:', 'error_page'); // Log the file path
+// Protect all other routes that require authentication
+app.get('/error_page', isLoggedIn, (req, res) => {
   res.render('error_page');
 });
 
-app.get('/dashboard_month', (req, res) => {
-  console.log('Rendering /dashboard_month page:', 'dashboard_month'); // Log the file path
+app.get('/dashboard_month', isLoggedIn, (req, res) => {
   res.render('dashboard_month');
 });
 
-app.get('/dashboard_day', (req, res) => {
-  console.log('Rendering /dashboard_day page:', 'dashboard_day'); // Log the file path
+app.get('/dashboard_day', isLoggedIn, (req, res) => {
   res.render('dashboard_day');
 });
 
-app.get('/employee', (req, res) => {
-  console.log('Rendering /employee:', 'employee'); // Log the file path
+app.get('/employee', isLoggedIn, (req, res) => {
   res.render('employee');
 });
 
-
-app.get('/employee_record_addemp', (req, res) => {
-  console.log('Rendering /employee_record_addemp:', 'employee_record_addemp'); // Log the file path
+app.get('/employee_record_addemp', isLoggedIn, (req, res) => {
   res.render('employee_record_addemp');
 });
 
-
-app.get('/employee_record', (req, res) => {
-  console.log('Rendering /employee_record:', 'employee_record'); // Log the file path
+app.get('/employee_record', isLoggedIn, (req, res) => {
   res.render('employee_record');
 });
 
-app.get('/recipt', (req, res) => {
-  console.log('Rendering /recipt:', 'recipt'); // Log the file path
+app.get('/recipt', isLoggedIn, (req, res) => {
   res.render('recipt');
 });
 
-app.get('/store_setting', (req, res) => {
-  console.log('Rendering /store_setting:', 'store_setting'); // Log the file path
+app.get('/store_setting', isLoggedIn, (req, res) => {
   res.render('store_setting');
 });
 
-
-
-
-// Start the server{
-app.listen(3000, () => {
-  console.log('Server listening on port 3000');
-  console.log('/http://localhost:3000/login'); // Log the file path
+// Start the server
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+  console.log(`http://localhost:${port}/login`); 
 });

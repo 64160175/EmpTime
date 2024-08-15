@@ -8,8 +8,13 @@ exports.loginView = (req, res) => {
 
 // Function to handle logout
 exports.logoutView = (req, res) => {
-  // Implement logout logic (e.g., clear session, redirect)
-  res.redirect('/login'); // Redirect to the login page
+  // Destroy the session to log the user out
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    }
+    res.redirect('/login'); // Redirect to the login page
+  });
 };
 
 // Function to handle login submission
@@ -30,7 +35,14 @@ exports.loginStage = (req, res) => {
       if (results.length > 0) {
         // User found - Success!
         console.log('success');
-        res.redirect('/dashboard_month');
+
+        // Store user information in the session
+        req.session.user = { 
+          username: results[0].username,
+          // Add other user details as needed
+        };
+
+        res.redirect('/dashboard_month'); 
       } else {
         // User not found - Fail
         res.render('login', { message: 'Invalid username or password' }); // Display error on login page

@@ -1,6 +1,6 @@
 npm install express mysql body-parser ejs
 npm install -g nodemon
-
+npm install express-session
 nodemon index.js
 
 
@@ -11,6 +11,6 @@ npm i bootstrap@5.3.3
 UPDATE users SET password = SHA1(password);
 
 
-npm install express-session
+
 
 
