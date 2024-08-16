@@ -1,5 +1,8 @@
 const express = require('express');
-const User = require('../models/user'); // Import the User model
+const LoginModel = require('../models/loginModels'); 
+
+
+// ------------------------- Function ------------------------- //
 
 // Function to display the login form
 exports.loginView = (req, res) => {
@@ -22,31 +25,16 @@ exports.loginStage = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  User.findUser(username, password, (err, results) => {
+  // Call the login function from the model
+  LoginModel.login(username, password, (err, user) => {
     if (err) {
-      console.error('Error finding user:', err);
-      // Handle password format error
-      if (err.message.includes('Password must be at least')) {
-        res.render('login', { message: err.message }); // Display error on login page
-      } else {
-        res.redirect('/error_page'); 
-      }
+      // Handle login errors (e.g., invalid credentials, database error)
+      console.error('Login error:', err);
+      res.render('login', { message: err.message }); // Or redirect to an error page
     } else {
-      if (results.length > 0) {
-        // User found - Success!
-        console.log('success');
-
-        // Store user information in the session
-        req.session.user = { 
-          username: results[0].username,
-          // Add other user details as needed
-        };
-
-        res.redirect('/dashboard_month'); 
-      } else {
-        // User not found - Fail
-        res.render('login', { message: 'Invalid username or password' }); // Display error on login page
-      }
+      // Login successful
+      req.session.user = user; // Store user data in the session
+      res.redirect('/dashboard_month'); 
     }
   });
 };

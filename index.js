@@ -3,12 +3,16 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const ejs = require('ejs');
+
 const { logoutView } = require('./controllers/loginController'); // Import logoutView directly
+
 
 const app = express();
 const port = 3000;
 
-// Database Configuration
+
+
+// ------------------------- Database Configuration ------------------------- //
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -23,7 +27,12 @@ connection.connect(err => {
     return;
   }
   console.log('Connected to database!');
+
+  const LoginModel = require('./models/loginModels'); 
+  LoginModel.initialize(connection); // Initialize the model with the database connection
 });
+
+// ------------------------- Setup ------------------------- //
 
 // Serve static files (CSS, images, etc.)
 app.use(express.static('public'));
@@ -34,7 +43,7 @@ app.use(bodyParser.json());
 
 // ตั้งค่า session
 app.use(session({
-  secret: 'your_secret_key', // Replace with a strong, randomly generated secret
+  secret: 'password', 
   resave: false,
   saveUninitialized: false, // Set to false for security
   cookie: { secure: false } // Set to true if using HTTPS
@@ -55,18 +64,13 @@ const isLoggedIn = (req, res, next) => {
 // ------------------------- Login ------------------------- //
 const loginRoutes = require('./routes/login');
 app.get('/login', loginRoutes); 
-
 app.post('/loginUser' , require('./routes/login'))
 
-// Protect other routes with the isLoggedIn middleware
 app.get('/logout', isLoggedIn, logoutView); 
 
+app.get('/error_page', isLoggedIn, (req, res) => {res.render('error_page');});
 
-// Protect all other routes that require authentication
-app.get('/error_page', isLoggedIn, (req, res) => {
-  res.render('error_page');
-});
-
+// ------------------------- Main Admin ------------------------- //
 app.get('/dashboard_month', isLoggedIn, (req, res) => {
   res.render('dashboard_month');
 });
@@ -95,7 +99,7 @@ app.get('/store_setting', isLoggedIn, (req, res) => {
   res.render('store_setting');
 });
 
-// Start the server
+// ------------------------- Start the server ------------------------- // 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
   console.log(`http://localhost:${port}/login`); 

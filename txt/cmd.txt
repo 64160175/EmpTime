@@ -1,7 +1,11 @@
+#express
 npm install express mysql body-parser ejs
 npm install -g nodemon
 npm install express-session
+npm install bcrypt
+
 nodemon index.js
+
 
 
 #bootstrap
