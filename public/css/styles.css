@@ -331,6 +331,14 @@ img[type=profile_xl]{
   border-radius: 50%;
 }
 
+img[type=logo] {
+  width: 200px;
+  height: 200px;
+  display: block; 
+  margin: 0 auto; 
+  margin-bottom: 20px;
+}
+
 table {
   caption-side: bottom;
   border-collapse: collapse;

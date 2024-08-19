@@ -99,6 +99,16 @@ app.get('/store_setting', isLoggedIn, (req, res) => {
   res.render('store_setting');
 });
 
+app.get('/gen_code', isLoggedIn, (req, res) => {
+  res.render('gen_code');
+});
+
+// ------------------------- Main User ------------------------- // 
+
+app.get('/user_home', isLoggedIn, (req, res) => {
+  res.render('user_home');
+});
+
 // ------------------------- Start the server ------------------------- // 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
