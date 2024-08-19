@@ -105,7 +105,7 @@ app.get('/gen_code', isLoggedIn, (req, res) => {
 
 // ------------------------- Main User ------------------------- // 
 
-app.get('/user_home', isLoggedIn, (req, res) => {
+app.get('/user_home', (req, res) => {
   res.render('user_home');
 });
 
