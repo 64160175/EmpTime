@@ -1,0 +1,1 @@
+INSERT INTO `tbl_user` (`id`, `u_name`, `u_pass`, `f_name`, `l_name`, `n_name`, `tel`, `u_type_name_id`, `u_namebank`, `u_idbook`) VALUES ('1', 'Kris', '1234', 'Kitsana', 'T', 'Top', '0888888888', '0', 'ธนาคารกสิกรไทย', '0311452673');

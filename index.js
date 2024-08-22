@@ -4,20 +4,18 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const ejs = require('ejs');
 
-const { logoutView } = require('./controllers/loginController'); // Import logoutView directly
-
+const { logoutView } = require('./controllers/loginController'); 
+const { checkPermission } = require('./controllers/PermissionController'); 
 
 const app = express();
 const port = 3000;
 
-
-
-// ------------------------- Database Configuration ------------------------- //
+// Database Configuration 
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'mysqlproject1'
+  database: 'empdatabase1'
 });
 
 // Connect to the database
@@ -29,15 +27,11 @@ connection.connect(err => {
   console.log('Connected to database!');
 
   const LoginModel = require('./models/loginModels'); 
-  LoginModel.initialize(connection); // Initialize the model with the database connection
+  LoginModel.initialize(connection); 
 });
 
-// ------------------------- Setup ------------------------- //
-
-// Serve static files (CSS, images, etc.)
+// Setup 
 app.use(express.static('public'));
-
-// Use body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -45,71 +39,34 @@ app.use(bodyParser.json());
 app.use(session({
   secret: 'password', 
   resave: false,
-  saveUninitialized: false, // Set to false for security
-  cookie: { secure: false } // Set to true if using HTTPS
+  saveUninitialized: false, 
+  cookie: { secure: false } 
 }));
 
-// Set up EJS as the view engine
 app.set('view engine', 'ejs');
 
-// Middleware to check if the user is logged in
+// index.js
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) {
-    next(); // User is logged in
+    next(); 
   } else {
-    res.redirect('/login'); // Redirect to login if not
+    res.redirect('/login/login'); // Redirect to /login/login
   }
 };
 
-// ------------------------- Login ------------------------- //
+
+// Login 
 const loginRoutes = require('./routes/login');
-app.get('/login', loginRoutes); 
-app.post('/loginUser' , require('./routes/login'))
+app.use('/', loginRoutes); // Use app.use to mount the router
 
 app.get('/logout', isLoggedIn, logoutView); 
-
 app.get('/error_page', isLoggedIn, (req, res) => {res.render('error_page');});
 
-// ------------------------- Main Admin ------------------------- //
-app.get('/dashboard_month', isLoggedIn, (req, res) => {
-  res.render('dashboard_month');
-});
+// Import userRoutes
+const userRoutes = require('./routes/userRoutes'); 
+app.use('/', userRoutes); // Mount userRoutes
 
-app.get('/dashboard_day', isLoggedIn, (req, res) => {
-  res.render('dashboard_day');
-});
-
-app.get('/employee', isLoggedIn, (req, res) => {
-  res.render('employee');
-});
-
-app.get('/employee_record_addemp', isLoggedIn, (req, res) => {
-  res.render('employee_record_addemp');
-});
-
-app.get('/employee_record', isLoggedIn, (req, res) => {
-  res.render('employee_record');
-});
-
-app.get('/recipt', isLoggedIn, (req, res) => {
-  res.render('recipt');
-});
-
-app.get('/store_setting', isLoggedIn, (req, res) => {
-  res.render('store_setting');
-});
-
-app.get('/gen_code', isLoggedIn, (req, res) => {
-  res.render('gen_code');
-});
-
-// ------------------------- Main User ------------------------- // 
-
-app.get('/user_home', (req, res) => {
-  res.render('user_home');
-});
-
-// ------------------------- Start the server ------------------------- // 
+// Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
   console.log(`http://localhost:${port}/login`); 

@@ -17,7 +17,8 @@ exports.login = (username, password, callback) => {
   }
 
   // SQL query to find the user (assuming you're hashing passwords)
-  const sql = 'SELECT * FROM users WHERE username = ? AND password = SHA1(?)';
+  // Added "AND u_status = 1" to check for active users
+  const sql = 'SELECT * FROM tbl_user WHERE u_name = ? AND u_pass = SHA1(?) AND u_status = 1'; 
 
   connection.query(sql, [username, password], (err, results) => {
     if (err) {
@@ -26,11 +27,15 @@ exports.login = (username, password, callback) => {
     }
 
     if (results.length === 1) {
-      // User found
+      // User found and u_status is 1 (active)
       return callback(null, results[0]); // Return the user object
     } else {
-      // User not found
-      return callback(new Error('Invalid username or password'), null);
+      // User not found or u_status is not 1 (inactive)
+      return callback(new Error('Invalid username or password'), null); 
     }
   });
 };
+
+
+
+

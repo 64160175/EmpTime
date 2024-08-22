@@ -9,16 +9,16 @@ exports.loginView = (req, res) => {
   res.render('login', { message: '' });
 };
 
-// Function to handle logout
+// controllers/loginController.js
 exports.logoutView = (req, res) => {
-  // Destroy the session to log the user out
   req.session.destroy(err => {
     if (err) {
       console.error('Error destroying session:', err);
     }
-    res.redirect('/login'); // Redirect to the login page
+    res.redirect('/login/login'); // Redirect to /login/login
   });
 };
+
 
 // Function to handle login submission
 exports.loginStage = (req, res) => {
@@ -34,7 +34,17 @@ exports.loginStage = (req, res) => {
     } else {
       // Login successful
       req.session.user = user; // Store user data in the session
-      res.redirect('/dashboard_month'); 
+
+      // Redirect based on user type
+      if (user.u_type_name_id === 0 || user.u_type_name_id === 1) {
+        res.redirect('/dashboard_month'); 
+      } else if (user.u_type_name_id === 2) {
+        res.redirect('/user_home');
+      } else {
+        // Handle unknown user type (optional - you might want to log this)
+        res.redirect('/login'); // Or redirect to an error page
+      }
     }
   });
 };
+
