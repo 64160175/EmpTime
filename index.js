@@ -45,26 +45,27 @@ app.use(session({
 
 app.set('view engine', 'ejs');
 
-// index.js
+
 const isLoggedIn = (req, res, next) => {
   if (req.session.user) {
     next(); 
   } else {
-    res.redirect('/login/login'); // Redirect to /login/login
+    res.redirect('/login'); 
   }
 };
 
 
-// Login 
-const loginRoutes = require('./routes/login');
+// ------------------------- Login ------------------------- //
+const loginRoutes = require('./routes/loginRoutes');
 app.use('/', loginRoutes); // Use app.use to mount the router
 
 app.get('/logout', isLoggedIn, logoutView); 
 app.get('/error_page', isLoggedIn, (req, res) => {res.render('error_page');});
 
-// Import userRoutes
+// ------------------- Import userRoutes ------------------- //
 const userRoutes = require('./routes/userRoutes'); 
-app.use('/', userRoutes); // Mount userRoutes
+app.use('/', userRoutes);
+
 
 // Start the server 
 app.listen(port, () => {

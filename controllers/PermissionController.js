@@ -1,5 +1,3 @@
-
-
 // Middleware to check permissions for different user types
 const checkPermission = (allowedTypes) => {
     return (req, res, next) => {

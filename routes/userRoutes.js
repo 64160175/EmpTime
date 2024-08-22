@@ -3,8 +3,13 @@ const express = require('express');
 const router = express.Router();
 const { checkPermission } = require('../controllers/PermissionController'); 
 
+// ------------------- Admin & Shop Owner Routes ------------------- //
 
-// Admin & Shop Owner Routes
+// u_type_name_id =0 => Admin
+// u_type_name_id =1 => Shop Owner
+// u_type_name_id =2 => User
+
+
 router.get('/dashboard_month', checkPermission([0, 1]), (req, res) => {
   res.render('dashboard_month');
 });
@@ -37,9 +42,15 @@ router.get('/gen_code', checkPermission([0, 1]), (req, res) => {
   res.render('gen_code');
 });
 
-// User Route
+
+// ----------------------- User Route ----------------------- //
+
 router.get('/user_home', checkPermission([2]), (req, res) => {
   res.render('user_home');
 });
+
+
+
+
 
 module.exports = router;
