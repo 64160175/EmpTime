@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { checkPermission } = require('../controllers/PermissionController'); 
+const employeeController = require('../controllers/employeeController');
 
 // ------------------- Admin & Shop Owner Routes ------------------- //
 
@@ -18,9 +19,7 @@ router.get('/dashboard_day', checkPermission([0, 1]), (req, res) => {
   res.render('dashboard_day');
 });
 
-router.get('/employee', checkPermission([0, 1]), (req, res) => {
-  res.render('employee');
-});
+
 
 router.get('/employee_record_addemp', checkPermission([0, 1]), (req, res) => {
   res.render('employee_record_addemp');

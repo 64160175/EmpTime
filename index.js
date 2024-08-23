@@ -7,6 +7,7 @@ const ejs = require('ejs');
 const { logoutView } = require('./controllers/loginController'); 
 const { checkPermission } = require('./controllers/PermissionController'); 
 
+
 const app = express();
 const port = 3000;
 
@@ -63,8 +64,12 @@ app.get('/logout', isLoggedIn, logoutView);
 app.get('/error_page', isLoggedIn, (req, res) => {res.render('error_page');});
 
 // ------------------- Import userRoutes ------------------- //
-const userRoutes = require('./routes/userRoutes'); 
+const userRoutes = require('./routes/userRoutes');
 app.use('/', userRoutes);
+
+
+const employeeRoutes = require('./routes/employeeRoutes');
+app.use('/', employeeRoutes);
 
 
 // Start the server 

@@ -4,7 +4,7 @@
   <title>Error</title>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="" />
   <meta name="author" content="" />
   <link href="/css/styles.css" rel="stylesheet" />
@@ -15,11 +15,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1 class="error-message text-center mt-5">Error</h1>
-  <p class="error-message text-center mt-5">Username หรือ Password ไม่ถูกต้อง</p>
+  <div class="container"> 
+    <br><h1 class="error-message text-center mt-5">Error 401</h1><br>
+    <div class="card">
+      <div class="card-body">
+        <br><br>
+        <div class="text-center"> 
+          <i class="fa-solid fa-triangle-exclamation fa-bounce" style="color: #FFD43B; font-size: 100px;"></i> 
+        </div>
+        
+        <p class="error-message text-center mt-3"> 
+          เกิดจากที่คุณพยายามเข้าใช้เว็บไซต์ ที่คุณไม่ได้รับอนุญาตให้เข้าใช้งาน 
+          หรืออาจจะเกิดจากการใส่พาสเวิร์ดผิด ในกรณีนี้ให้คุณลองตรวจพาสเวิร์ดอีกครั้ง 
+          ดูให้แน่ใจว่าได้ใส่รหัสที่ถูกต้องหรือไม่
+        </p>
+      </div>
+    </div>
 
-  <div class="text-center "> <button class="btn btn-warning" type="button" onclick="window.location.href='/login'">กลับไปที่หน้า Login</button> </div> 
+
+    <div class="text-center mt-3"> 
+      <button class="btn btn-warning" type="button" onclick="window.location.href='/login'">
+        กลับไปที่หน้า Login
+      </button> 
+    </div> 
+  </div>
 
   <script src="scripts.js"></script>
 </body>
+
 </html>
