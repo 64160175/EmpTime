@@ -12,7 +12,7 @@ nodemon index.js
 npm i bootstrap@5.3.3
 
 #mysql
-UPDATE users SET password = SHA1(password);
+UPDATE tbl_user SET u_pass = SHA1(u_pass);
 
 
 

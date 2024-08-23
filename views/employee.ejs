@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>employee</title>
@@ -47,7 +47,8 @@
   </nav>
 
 
-  <!-- Side Bar--> <!-- ----------------------------------------------------------------------------------------------------- -->
+  <!-- Side Bar-->
+  <!-- ----------------------------------------------------------------------------------------------------- -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -72,7 +73,7 @@
             <a class="nav-link" href="/employee"> พนักงาน </a>
             <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
             <a class="nav-link" href="index.html"> คำร้องขอ </a>
-            <a class="nav-link" href="/recipt"> ใบเสร็จรับเงิน </a>
+            <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
             <a class="nav-link" href="index.html"> ข่าว</a>
             <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
 
@@ -80,7 +81,7 @@
         </div>
       </nav>
     </div>
-<!-- ----------------------------------------------------------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------------------------------------------------------- -->
 
     <!-- Content -->
     <div id="layoutSidenav_content">
@@ -94,38 +95,42 @@
             <li class="breadcrumb-item active">พนักงาน</li>
           </ol>
 
-<!-- real content ----------------------------------------------------------------------------------------------------------- -->
+          <!-- real content ----------------------------------------------------------------------------------------------------------- -->
 
 
-<!-- employee ----------------------------->
-<div class="card mb-4">
-  <div class="card-header">
-    <i class="fas fa-table me-1"></i>
-    ตารางพนักงาน
+          <!-- employee ----------------------------->
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              ตารางพนักงาน
 
-    <button class="btn btn-warning float-end" type="button" onclick="window.location.href='/employee_record_addemp'">เพิ่มพนักงาน</button>
-  
-  </div>
+              <button class="btn btn-warning float-end" type="button"
+                onclick="window.location.href='/employee_record_addemp'">เพิ่มพนักงาน</button>
 
-  <!--loop emp-->
-  <div class="card-body" >
-    <table id="employee_show" class="table table-striped">
-      <thead>
-        <tr>
-          <th class="col-1">Profile</th>
-          <th class="col-8">Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr  onclick="window.location.href='/employee_record'">
-          <td><img  type=profile src="/image/profile.jpg" alt="Profile" ></td>
-          <td>John Doe</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-<!-- end employee ----------------------------->
+            </div>
+
+            <!--loop emp-->
+            <div class="card-body">
+              <table id="employee_show" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="col-1">Profile</th>
+                    <th class="col-8">Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% employees.forEach(employee => { %>
+                    <tr onclick="window.location.href='/employee_record/<%= employee.id %>'">
+                      <td><img type="profile" src="/image/<%= employee.profile_picture %>" alt="Profile"></td>
+                      <td><%= employee.f_name %> <%= employee.l_name %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+          <!-- end employee ----------------------------->
 
         </div>
       </main>
@@ -135,7 +140,8 @@
 
   <!-- end Content -->
   <!-- ----------------------------------------------------------------------------------------------------------- -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
   <script src="/js/today.js" defer></script>
 </body>
