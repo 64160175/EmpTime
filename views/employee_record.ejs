@@ -94,20 +94,31 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <img src="/image/profile.jpg" alt="Profile" type="profile_xl">
+                                    <div class="profile-picture-container">
+                                        <img src="/employee/profile-picture/<%= employee.id %>" alt="Profile"
+                                            type="profile_xl">
+                                    </div>
                                 </div>
+
                                 <div class="col-md-9">
                                     <p class="fw-bold">
                                         <span class="profile-type">ชื่อ:</span>
-                                        <span class="profile-value">Kris T</span>
+                                        <span class="profile-value">
+                                            <%= employee.f_name %>
+                                                <%= employee.l_name %>
+                                        </span>
                                     </p>
                                     <p>
                                         <span class="profile-type">ชื่อเล่น:</span>
-                                        <span class="profile-value">Kris</span>
+                                        <span class="profile-value">
+                                            <%= employee.n_name %>
+                                        </span>
                                     </p>
                                     <p>
                                         <span class="profile-type">เบอร์โทร:</span>
-                                        <span class="profile-value">081-123-4567</span>
+                                        <span class="profile-value">
+                                            <%= employee.tel %>
+                                        </span>
                                     </p>
                                     <p>
                                         <span class="profile-type">ตำแหน่ง:</span>
@@ -115,11 +126,17 @@
                                     </p>
                                     <p>
                                         <span class="profile-type">ธนาคาร:</span>
-                                        <span class="profile-value">ธนาคารกรุงเทพ</span>
+                                        <span class="profile-value">
+                                            <%= employee.u_namebank %>
+                                        </span>
+
                                     </p>
                                     <p>
                                         <span class="profile-type">เลขบัญชีธนาคาร:</span>
-                                        <span class="profile-value">123-456-7890</span>
+                                        <span class="profile-value">
+                                            <%= employee.u_idbook %>
+                                        </span>
+
                                     </p>
                                 </div>
                             </div>
@@ -145,10 +162,12 @@
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-danger float-end delete-button">ลบพนักงาน</button>
+                    <!-- Delete Button and Modal -->
+                    <button type="button" class="btn btn-danger float-end delete-button" data-bs-toggle="modal"
+                        data-bs-target="#deleteConfirmationModal">
+                        ลบพนักงาน
+                    </button>
 
-
-                    
                     <!-- Delete Confirmation Modal -->
                     <div class="modal fade" id="deleteConfirmationModal" tabindex="-1"
                         aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
@@ -163,17 +182,15 @@
                                     คุณต้องการลบพนักงานนี้ใช่หรือไม่?
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">ยกเลิก</button>
-                                    <form action="/employee_record/delete" method="POST" class="delete-form">
-                                        <button type="submit" class="btn btn-danger">ลบ</button>
-                                    </form>
-                                </div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDelete" data-employee-id="<%= employee.id %>">ลบ</button>
+                                    
+
+                                  </div>
+                                  
                             </div>
                         </div>
                     </div>
-
-                    
 
                     <br><br><br>
 
@@ -183,10 +200,13 @@
 
     <!-- end Content -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-    <script src="/js/today.js" defer></script>
-    <script src="/delete_alert.js" defer></script>
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="/js/today.js" defer></script>
+  <script src="/delete_alert.js" defer></script>
+  <script src="/js/employee_record.js"></script> 
+
+
 
 </body>
 
