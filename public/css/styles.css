@@ -321,6 +321,14 @@ svg {
   vertical-align: middle;
 }
 
+.profile-picture-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Optional: Ensure the container takes up full width */
+  height: 180px; /* Optional: Set a fixed height for the container */
+}
+
 img[type=profile]{
   width: 50px ;
   height: 50px;

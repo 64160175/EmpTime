@@ -121,12 +121,11 @@
                 <tbody>
                   <% employees.forEach(employee => { %>
                     <tr onclick="window.location.href='/employee_record/<%= employee.id %>'">
-                      <td><img type="profile" src="/image/<%= employee.profile_picture %>" alt="Profile"></td>
+                      <td><img type="profile" src="/employee/profile-picture/<%= employee.id %>" alt="Profile"></td> 
                       <td><%= employee.f_name %> <%= employee.l_name %></td>
                     </tr>
                   <% }); %>
                 </tbody>
-
               </table>
             </div>
           </div>
