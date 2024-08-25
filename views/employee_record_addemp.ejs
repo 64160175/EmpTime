@@ -89,12 +89,19 @@
 
           <div class="card mb-4">
             <div class="card-body">
-              <form action="/employee_record_addemp" method="POST">
+              <form action="/employee/add" method="POST">
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="firstName">ชื่อ:</label>
                     <div class="col-sm-3">
                       <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="lastName">นามสกุล:</label> 
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="lastName" name="lastName"> 
                     </div>
                 </div>
 
@@ -146,7 +153,11 @@
                     </div>
                 </div> 
 
-                <br><br>
+                <br>
+                
+                
+                
+                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="username">Username:</label>
@@ -155,12 +166,20 @@
                     </div>
                 </div> 
 
+
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="password">Password:</label>
                     <div class="col-sm-3">
                       <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                 </div> 
+
+                                
+                <div>
+                  <% if (locals.error) { %> 
+                    <p style="color: red;"><%= error %></p> 
+                  <% } %>
+                </div>
 
                 <br>
                 <br>
@@ -181,3 +200,4 @@
 </body>
 
 </html>
+

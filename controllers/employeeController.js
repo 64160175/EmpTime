@@ -58,6 +58,29 @@ const employeeController = {
     });
   },
 
+  addEmployee: (req, res) => {
+    const employeeData = req.body;
+
+    Employee.addEmployee(employeeData, (err, result) => {
+      if (err) {
+        console.error('Error adding employee:', err);
+        if (err.message === 'Username already exists') {
+          // Handle username conflict, e.g., display an error message
+          return res.render('employee_record_addemp', { 
+            error: 'Username already exists!' 
+          });
+        } else {
+          return res.status(500).send('Error adding employee');
+        }
+      }
+      console.log('Employee added successfully:', result);
+      return res.redirect('/employee');
+    });
+  },
+
+
+
+
   
 
   

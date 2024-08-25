@@ -10,4 +10,6 @@ router.get('/employee/profile-picture/:id', checkPermission([0, 1]), employeeCon
 router.get('/employee_record/:id', employeeController.showEmployeeRecord);
 router.delete('/employee/delete/:id', employeeController.deleteEmployee);
 
+router.post('/employee/add', checkPermission([0, 1]), employeeController.addEmployee); 
+
 module.exports = router;
