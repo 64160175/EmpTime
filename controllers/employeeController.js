@@ -1,4 +1,18 @@
 const Employee = require('../models/employeeModel'); // Adjust path if needed
+const multer = require('multer');
+
+
+// ตั้งค่า Multer สำหรับจัดการไฟล์อัปโหลด
+const storage = multer.memoryStorage(); // เก็บรูปภาพในหน่วยความจำชั่วคราว
+
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // กำหนดขนาดไฟล์สูงสุด (เช่น 5MB)
+  }
+}).single('profilePicture'); // 'profilePicture' ต้องตรงกับชื่อ input ในฟอร์ม
+
+
 
 const employeeController = {
   showEmployeePage: (req, res) => {
@@ -59,22 +73,36 @@ const employeeController = {
   },
 
   addEmployee: (req, res) => {
-    const employeeData = req.body;
-
-    Employee.addEmployee(employeeData, (err, result) => {
-      if (err) {
-        console.error('Error adding employee:', err);
-        if (err.message === 'Username already exists') {
-          // Handle username conflict, e.g., display an error message
-          return res.render('employee_record_addemp', { 
-            error: 'Username already exists!' 
-          });
-        } else {
-          return res.status(500).send('Error adding employee');
-        }
+    upload(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        // เกิดข้อผิดพลาด Multer (เช่น ขนาดไฟล์เกิน)
+        return res.status(400).send({ error: err.message });
+      } else if (err) {
+        // เกิดข้อผิดพลาดอื่นๆ
+        return res.status(500).send({ error: 'Error uploading file' });
       }
-      console.log('Employee added successfully:', result);
-      return res.redirect('/employee');
+
+      const employeeData = req.body;
+      let profilePicture = null;
+
+      if (req.file) {
+        profilePicture = req.file.buffer; // รับข้อมูลรูปภาพจาก buffer
+      }
+
+      Employee.addEmployee(employeeData, profilePicture, (err, result) => {
+        if (err) {
+          console.error('Error adding employee:', err);
+          if (err.message === 'Username already exists') {
+            return res.render('employee_record_addemp', { 
+              error: 'Username already exists!' 
+            });
+          } else {
+            return res.status(500).send('Error adding employee');
+          }
+        }
+        console.log('Employee added successfully:', result);
+        return res.redirect('/employee');
+      });
     });
   },
 

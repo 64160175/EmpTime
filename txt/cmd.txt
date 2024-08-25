@@ -3,6 +3,8 @@ npm install express mysql body-parser ejs
 npm install -g nodemon
 npm install express-session
 npm install bcrypt
+npm install multer --save
+
 
 nodemon index.js
 

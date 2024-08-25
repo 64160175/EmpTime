@@ -19,6 +19,8 @@
   </script>
 </head>
 
+<!-- ฺBar ข้างบน -->
+
 <body class="sb-nav-fixed">
   <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
     <!-- Sidebar Toggle-->
@@ -89,7 +91,7 @@
 
           <div class="card mb-4">
             <div class="card-body">
-              <form action="/employee/add" method="POST">
+              <form action="/employee/add" method="POST" enctype="multipart/form-data">
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="firstName">ชื่อ:</label>
@@ -119,6 +121,8 @@
                     </div>
                 </div>  
 
+                <br>
+
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="position">ตำแหน่ง:</label>
                     <div class="col-sm-3">
@@ -130,6 +134,8 @@
                       </select>
                     </div>
                 </div>  
+
+                <br>
 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="bank">ธนาคาร:</label>
@@ -155,7 +161,17 @@
 
                 <br>
                 
-                
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label" for="profilePicture">รูปโปรไฟล์:</label>
+                  <div class="col-sm-3">
+                    <input type="file" class="form-control-file" id="profilePicture" name="profilePicture">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-2"></div> <div class="col-sm-3">
+                    <small class="text-muted">สามารถข้ามการใส่รูปได้</small> 
+                  </div>
+                </div>
                 
                 <br>
 
@@ -174,12 +190,18 @@
                     </div>
                 </div> 
 
-                                
-                <div>
-                  <% if (locals.error) { %> 
-                    <p style="color: red;"><%= error %></p> 
-                  <% } %>
+                <div class="form-group row">
+                  <div class="col-sm-2"></div> <div class="col-sm-3">
+                    <div>
+                      <% if (locals.error) { %> 
+                        <p style="color: red;"><%= error %></p> 
+                      <% } %>
+                    </div>
+                  </div>
                 </div>
+
+                                
+                
 
                 <br>
                 <br>
