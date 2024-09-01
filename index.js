@@ -76,6 +76,11 @@ const settingRoutes = require('./routes/settingRoutes');
 app.use('/', settingRoutes);
 
 
+const inoutRoutes = require('./routes/inoutRoute');
+app.use('/', inoutRoutes); 
+
+
+
 // Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
