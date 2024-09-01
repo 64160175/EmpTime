@@ -84,6 +84,93 @@
             <li class="breadcrumb-item active">ตั้งค่าร้าน</li>
           </ol>
 
+<!--------แสดงตั้งค่า--------------------------------------------------------------------------------------------->
+
+          <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-cog"></i> ข้อมูลการตั้งค่าร้านล่าสุดเมื่อวันที่ <%= setting.formatted_log_history_time %>
+              </div>
+              <div class="card-body">
+                <% if (typeof setting !== 'undefined' && setting) { %>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>ID:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.id %></p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>ชื่อร้าน:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.n_res %></p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>อัตราค่าจ้าง/ชั่วโมง:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.rate_hr %> บาท/ชั่วโมง</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>กำหนดวันลา:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.leave_part %> ครั้ง</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>กำหนดวันสาย:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.late_part %> ครั้ง</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>กำหนดวันขาด:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.absent_part %> ครั้ง</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>เวลาเปิดร้าน:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.open_time %> นาฬิกา</p>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>เวลาปิดร้าน:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.close_time %> นาฬิกา</p>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>วันร้านปิด:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext">
+                        <% if (closedDays.length > 0) { %>
+                          <%= closedDays.join(', ') %> 
+                        <% } else { %>
+                          ร้านเปิดทุกวัน
+                        <% } %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <br>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>แก้ไขล่าสุด:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.formatted_log_history_time %></p>
+                    </div>
+                  </div>
+                  
+                <% } else { %>
+                  <p>ไม่พบข้อมูลการตั้งค่า</p>
+                <% } %>
+              </div>
+              
+            </div>
+  
+<!--------แก้ไขตั้งค่า--------------------------------------------------------------------------------------------->
+
           <div class="card mb-4">
             <div class="card-body">
               <form action="/store_setting" method="POST">
@@ -97,24 +184,34 @@
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label" for="hourlyWage">อัตราค่าจ้าง/ชั่วโมง:</label>
                   <div class="col-sm-3">
-                    <input type="number" class="form-control" id="hourlyWage" name="hourlyWage" required>
+                    <input type="number" class="form-control" id="hourlyWage" name="hourlyWage" required
+                      placeholder="ใส่แค่ตัวเลข">
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label" for="leaveDays">กำหนดวันลา:</label>
                   <div class="col-sm-3">
-                    <input type="number" class="form-control" id="leaveDays" name="leaveDays" required>
+                    <input type="number" class="form-control" id="leaveDays" name="leaveDays" required
+                      placeholder="ใส่แค่ตัวเลข">
                   </div>
                 </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label" for="lateDays">กำหนดวันสาย:</label>
                   <div class="col-sm-3">
-                    <input type="number" class="form-control" id="lateDays" name="lateDays" required>
+                    <input type="number" class="form-control" id="lateDays" name="lateDays" required
+                      placeholder="ใส่แค่ตัวเลข">
                   </div>
                 </div>
 
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label" for="lateDays">กำหนดวันขาด:</label>
+                  <div class="col-sm-3">
+                    <input type="number" class="form-control" id="lateDays" name="lateDays" required
+                      placeholder="ใส่แค่ตัวเลข">
+                  </div>
+                </div>
 
                 <div class="form-group row">
                   <label class="col-sm-2 col-form-label" for="openTime">เวลาเปิดร้าน:</label>
@@ -130,6 +227,56 @@
                   </div>
                 </div>
 
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label" for="openDays">วันที่เปิดร้าน:</label>
+                  <div class="col-sm-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Monday" id="1" name="openDays[]">
+                      <label class="form-check-label" for="1">
+                        วันจันทร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Tuesday" id="2" name="openDays[]">
+                      <label class="form-check-label" for="2">
+                        วันอังคาร
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Wednesday" id="3" name="openDays[]">
+                      <label class="form-check-label" for="3">
+                        วันพุธ
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Thursday" id="4" name="openDays[]">
+                      <label class="form-check-label" for="4">
+                        วันพฤหัสบดี
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Friday" id="5" name="openDays[]">
+                      <label class="form-check-label" for="5">
+                        วันศุกร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Saturday" id="6" name="openDays[]">
+                      <label class="form-check-label" for="6">
+                        วันเสาร์
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="Sunday" id="7" name="openDays[]">
+                      <label class="form-check-label" for="7">
+                        วันอาทิตย์
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+                
+
                 <br><br>
 
                 <button type="submit" class="btn btn-primary float-end">บันทึก</button>
@@ -142,7 +289,8 @@
   </div>
 
   <!-- end Content -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
   <script src="/js/today.js" defer></script>
 </body>

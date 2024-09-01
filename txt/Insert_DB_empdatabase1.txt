@@ -1,1 +1,7 @@
 INSERT INTO `tbl_user` (`id`, `u_name`, `u_pass`, `f_name`, `l_name`, `n_name`, `tel`, `u_type_name_id`, `u_namebank`, `u_idbook`) VALUES ('1', 'Kris', '1234', 'Kitsana', 'T', 'Top', '0888888888', '0', 'ธนาคารกสิกรไทย', '0311452673');
+
+
+INSERT INTO `tbl_setting` (`id`, `n_res`, `rate_hr`, `leave_part`, `late_part`, `absent_part`, `open_time`, `close_time`, `log_history_time`) VALUES ('1', 'ร้านป้าจูนบัวลอย ซอยสดใส', '45', '8', '9', '10', '08:30:00', '16:30:00', TIMESTAMP('2024-09-01 13:24:49'));
+
+
+INSERT INTO `tbl_week` (`id`, `day_close`, `close_res`) VALUES ('1', 'Monday', '1'), ('2', 'Tuesday', '1'), ('3', 'Wednesday', '1'), ('4', 'Thursday', '1'), ('5', 'Friday', '1'), ('6', 'Saturday', '0'), ('7', 'Sunday', '0');

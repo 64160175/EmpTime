@@ -72,6 +72,10 @@ const employeeRoutes = require('./routes/employeeRoutes');
 app.use('/', employeeRoutes);
 
 
+const settingRoutes = require('./routes/settingRoutes');
+app.use('/', settingRoutes);
+
+
 // Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

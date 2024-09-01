@@ -33,9 +33,6 @@ router.get('/recipt', checkPermission([0, 1]), (req, res) => {
   res.render('recipt');
 });
 
-router.get('/store_setting', checkPermission([0, 1]), (req, res) => {
-  res.render('store_setting');
-});
 
 router.get('/gen_code', checkPermission([0, 1]), (req, res) => {
   res.render('gen_code');
