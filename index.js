@@ -75,6 +75,13 @@ app.use('/', employeeRoutes);
 const settingRoutes = require('./routes/settingRoutes');
 app.use('/', settingRoutes);
 
+app.get('/user_menu', checkPermission([2]), (req, res) => {
+  res.render('user_menu');
+});
+
+app.get('/user_schedule', checkPermission([2]), (req, res) => {
+  res.render('user_schedule');
+});
 
 const inoutRoutes = require('./routes/inoutRoute');
 app.use('/', inoutRoutes); 
