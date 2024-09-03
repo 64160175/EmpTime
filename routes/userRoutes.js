@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { checkPermission } = require('../controllers/PermissionController'); 
+const { checkPermission } = require('../controllers/permissionController'); 
 const employeeController = require('../controllers/employeeController');
 
 // ------------------- Admin & Shop Owner Routes ------------------- //
@@ -32,14 +32,6 @@ router.get('/employee_record', checkPermission([0, 1]), (req, res) => {
 router.get('/recipt', checkPermission([0, 1]), (req, res) => {
   res.render('recipt');
 });
-
-
-
-
-// ----------------------- User Route ----------------------- //
-
-
-
 
 
 

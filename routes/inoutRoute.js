@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const inoutCodeController = require('../controllers/inoutCodeController');
-const { checkPermission } = require('../controllers/PermissionController');
+const { checkPermission } = require('../controllers/permissionController');
 
 router.get('/gen_code', checkPermission([3]), (req, res) => {
     res.render('gen_code');

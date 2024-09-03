@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const settingController = require('../controllers/storeSettingController'); 
-const { checkPermission } = require('../controllers/PermissionController');
+const { checkPermission } = require('../controllers/permissionController');
 
 
 // Route for displaying the store settings page

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { checkPermission } = require('../controllers/PermissionController'); 
+const { checkPermission } = require('../controllers/permissionController'); 
 const employeeController = require('../controllers/employeeController');
 
 

@@ -5,7 +5,7 @@ const session = require('express-session');
 const ejs = require('ejs');
 
 const { logoutView } = require('./controllers/loginController'); 
-const { checkPermission } = require('./controllers/PermissionController'); 
+const { checkPermission } = require('./controllers/permissionController'); 
 
 
 const app = express();
