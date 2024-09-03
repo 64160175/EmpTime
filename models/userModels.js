@@ -12,7 +12,6 @@ const User = {
     });
   },
 
-  // เพิ่มฟังก์ชันอื่นๆ เช่น getUserById, createUser, updateUser, deleteUser ตามต้องการ
 };
 
 module.exports = User;

@@ -1,5 +1,6 @@
 const User = require('../models/userModels'); // กำหนด path ไปยังไฟล์ userModels.js
 
+
 const userController = {
   getAllUsers: (req, res) => {
     User.getAllUsers((err, users) => {
@@ -15,3 +16,7 @@ const userController = {
 };
 
 module.exports = userController;
+
+
+
+

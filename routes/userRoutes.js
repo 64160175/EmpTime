@@ -38,9 +38,7 @@ router.get('/recipt', checkPermission([0, 1]), (req, res) => {
 
 // ----------------------- User Route ----------------------- //
 
-router.get('/user_home', checkPermission([2]), (req, res) => {
-  res.render('user_home');
-});
+
 
 
 

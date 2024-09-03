@@ -87,6 +87,9 @@ const inoutRoutes = require('./routes/inoutRoute');
 app.use('/', inoutRoutes); 
 
 
+const userUserRoutes = require('./routes/user_userRoutes');
+app.use('/', userUserRoutes); 
+
 
 // Start the server 
 app.listen(port, () => {
