@@ -66,6 +66,7 @@ function handleDayClick(cell) {
       `${parseInt(date.split('-')[2])} ${monthNames[month]} ${year}`;
     document.getElementById("popupImage").src = imageUrl;
 
+    document.getElementById('dateInput').value = date;
     document.getElementById("eventPopup").style.display = "block";
   }
 }
@@ -75,7 +76,7 @@ function closePopup() {
 }
 
 document.getElementById('saveButton').addEventListener('click', function () {
-  const date = document.getElementById('popupDate').innerText; // Get date from popup
+  const date = document.getElementById('dateInput').value;  // Get date from popup
   const startTime = document.getElementById('startTime').value;
   const endTime = document.getElementById('endTime').value;
 
@@ -92,9 +93,21 @@ document.getElementById('saveButton').addEventListener('click', function () {
 
   // Close the popup
   closePopup();
+
+    // Extract year and month from the date
+  const year = parseInt(date.split('-')[0]);
+  const month = parseInt(date.split('-')[1]) - 1; // Month is 0-indexed
   
   generateCalendar(year, month);
 });
+
+function updateCalendarWithEvent(date, startTime, endTime) {
+  const cell = document.querySelector(`#calendar td[data-date="${date}"]`);
+  if (cell) {
+    // Display the saved times in the cell
+    cell.innerHTML = `${parseInt(date.split('-')[2])}<br>${startTime} - ${endTime}`; 
+  }
+}
 
 // Function to save event data (replace with your preferred storage method)
 function saveEvent(date, startTime, endTime) {
