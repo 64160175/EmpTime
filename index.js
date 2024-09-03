@@ -83,6 +83,10 @@ app.get('/user_schedule', checkPermission([2]), (req, res) => {
   res.render('user_schedule');
 });
 
+app.get('/user_editprofile', checkPermission([2]), (req, res) => {
+  res.render('user_editprofile');
+});
+
 const inoutRoutes = require('./routes/inoutRoute');
 app.use('/', inoutRoutes); 
 
