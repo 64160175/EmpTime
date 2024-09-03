@@ -34,9 +34,6 @@ router.get('/recipt', checkPermission([0, 1]), (req, res) => {
 });
 
 
-router.get('/gen_code', checkPermission([0, 1]), (req, res) => {
-  res.render('gen_code');
-});
 
 
 // ----------------------- User Route ----------------------- //

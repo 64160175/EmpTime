@@ -40,7 +40,9 @@ exports.loginStage = (req, res) => {
         res.redirect('/dashboard_month'); 
       } else if (user.u_type_name_id === 2) {
         res.redirect('/user_home');
-      } else {
+      } else if (user.u_type_name_id === 3) {
+        res.redirect('/gen_code'); 
+      }else {
         res.redirect('/login'); 
       }
     }

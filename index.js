@@ -83,6 +83,11 @@ app.get('/user_schedule', checkPermission([2]), (req, res) => {
   res.render('user_schedule');
 });
 
+const inoutRoutes = require('./routes/inoutRoute');
+app.use('/', inoutRoutes); 
+
+
+
 // Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
