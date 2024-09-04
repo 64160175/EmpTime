@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>ใบเสร็จรับเงิน</title>
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+  //font
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+  </script>
+
+
+</head>
+
+
+<!-- ฺBar ข้างบน -->
+
+<body class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-md order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
+    <!-- ชิดริม-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+
+  <!-- Side Bar--> <!-- ----------------------------------------------------------------------------------------------------- -->
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+              aria-expanded="false" aria-controls="collapseLayouts">
+              แดชบอร์ด
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="/dashboard_month">
+                  ปฏิทินรายเดือน</a>
+                <a class="nav-link" href="/dashboard_day">
+                  สรุปรายวัน</a>
+              </nav>
+            </div>
+
+            <a class="nav-link" href="/employee"> พนักงาน </a>
+            <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
+            <a class="nav-link" href="index.html"> คำร้องขอ </a>
+            <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
+            <a class="nav-link" href="index.html"> ข่าว</a>
+            <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
+
+          </div>
+        </div>
+      </nav>
+    </div>
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+    <!-- Content -->
+    <div id="layoutSidenav_content">
+
+      <main>
+        <div class="container-fluid px-4">
+
+          <!-- นำทาง link -->
+          <h1 class="mt-4">ใบเสร็จรับเงิน</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">ใบเสร็จรับเงิน</li>
+          </ol>
+
+<!-- real content ----------------------------------------------------------------------------------------------------------- -->
+
+
+<!-- employee ----------------------------->
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    ตารางพนักงาน
+  </div>
+
+  <!--loop emp-->
+  <div class="card-body">
+    <table id="employee_show" class="table table-striped" >
+      <thead>
+        <tr>
+          <th class="col-1">Profile</th>
+          <th class="col-7">Name</th>
+          <th class="col-1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  onclick="window.location.href='/----------'">
+          <td><img  type=profile src="/image/profile.jpg" alt="Profile" ></td>
+          <td>John Doe</td>
+          <td><img src="/icon/ChevronRight.svg" alt="ChevronRight" class="float-end"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- end employee ----------------------------->
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- end Content -->
+  <!-- ----------------------------------------------------------------------------------------------------------- -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="/js/today.js" defer></script>
+</body>
+
+</html>

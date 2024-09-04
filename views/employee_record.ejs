@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Employee Profile</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+    </script>
+</head>
+
+<!-- ฺBar ข้างบน -->
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
+      <!-- Sidebar Toggle-->
+      <button class="btn btn-link btn-md order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+        <i class="fas fa-bars"></i>
+      </button>
+      <!-- Navbar Brand-->
+      <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
+      <!-- ชิดริม-->
+      <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
+      <!-- Navbar-->
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Side Bar-->
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            แดชบอร์ด
+                            <div class="sb-sidenav-collapse-arrow">
+                                <i class="fas fa-angle-down"></i>
+                            </div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/dashboard_month">
+                                    ปฏิทินรายเดือน</a>
+                                <a class="nav-link" href="/dashboard_day">
+                                    สรุปรายวัน</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link" href="/employee"> พนักงาน </a>
+                        <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
+                        <a class="nav-link" href="index.html"> คำร้องขอ </a>
+                        <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
+                        <a class="nav-link" href="index.html"> ข่าว</a>
+                        <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
+
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Content -->
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">ข้อมูลส่วนตัวพนักงาน</h1>
+                    <ol class="breadcrumb mb-4">
+                        <li class="breadcrumb-item">
+                            <a href="/employee">พนักงาน</a>
+                        </li>
+                        <li class="breadcrumb-item active">ข้อมูลส่วนตัวพนักงาน</li>
+                    </ol>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="profile-picture-container">
+                                        <img src="/employee/profile-picture/<%= employee.id %>" alt="Profile"
+                                            type="profile_xl">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <p class="fw-bold">
+                                        <span class="profile-type">ชื่อ:</span>
+                                        <span class="profile-value">
+                                            <%= employee.f_name %>
+                                                <%= employee.l_name %>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span class="profile-type">ชื่อเล่น:</span>
+                                        <span class="profile-value">
+                                            <%= employee.n_name %>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span class="profile-type">เบอร์โทร:</span>
+                                        <span class="profile-value">
+                                            <%= employee.tel %>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span class="profile-type">ตำแหน่ง:</span>
+                                        <span class="profile-value">พนักงาน</span>
+                                    </p>
+                                    <p>
+                                        <span class="profile-type">ธนาคาร:</span>
+                                        <span class="profile-value">
+                                            <%= employee.u_namebank %>
+                                        </span>
+
+                                    </p>
+                                    <p>
+                                        <span class="profile-type">เลขบัญชีธนาคาร:</span>
+                                        <span class="profile-value">
+                                            <%= employee.u_idbook %>
+                                        </span>
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p class="fw-bold text-success">วันลาคงเหลือ:</p>
+                                    <p class="profile-value">10 วัน</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="fw-bold text-warning">วันเลทคงเหลือ:</p>
+                                    <p class="profile-value">5 วัน</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <p class="fw-bold text-secondary">วันขาดคงเหลือ:</p>
+                                    <p class="profile-value">3 วัน</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Button and Modal -->
+                    <button type="button" class="btn btn-danger float-end delete-button" data-bs-toggle="modal"
+                        data-bs-target="#deleteConfirmationModal">
+                        ลบพนักงาน
+                    </button>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1"
+                        aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteConfirmationModalLabel">ยืนยันการลบ</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    คุณต้องการลบพนักงานนี้ใช่หรือไม่?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDelete" data-employee-id="<%= employee.id %>">ลบ</button>
+                                    
+
+                                  </div>
+                                  
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br><br>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- end Content -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="/js/today.js" defer></script>
+  <script src="/delete_alert.js" defer></script>
+  <script src="/js/employee_record.js"></script> 
+
+
+
+</body>
+
+</html>

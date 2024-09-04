@@ -1,0 +1,19 @@
+#express
+npm install express mysql body-parser ejs
+npm install -g nodemon
+npm install express-session
+npm install bcrypt
+npm install multer --save
+
+nodemon index.js
+
+JN
+PB
+
+#bootstrap
+npm i bootstrap@5.3.3
+
+
+
+
+

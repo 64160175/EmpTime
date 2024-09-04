@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>ตั้งค่าร้าน</title>
+  <link href="/css/styles.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+  <!--font-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+  </script>
+</head>
+
+<body class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-md order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
+    <!-- ชิดริม-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Side Bar-->
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+              aria-expanded="false" aria-controls="collapseLayouts">
+              แดชบอร์ด
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="/dashboard_month">
+                  ปฏิทินรายเดือน</a>
+                <a class="nav-link" href="/dashboard_day">
+                  สรุปรายวัน</a>
+              </nav>
+            </div>
+
+            <a class="nav-link" href="/employee"> พนักงาน </a>
+            <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
+            <a class="nav-link" href="index.html"> คำร้องขอ </a>
+            <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
+            <a class="nav-link" href="index.html"> ข่าว</a>
+            <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
+
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Content -->
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="container-fluid px-4">
+          <h1 class="mt-4">ตั้งค่าร้าน</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">ตั้งค่าร้าน</li>
+          </ol>
+
+          <!--------แสดงตั้งค่า--------------------------------------------------------------------------------------------->
+
+          <div class="card mb-4">
+            <div class="card-header">
+              <i class="fas fa-cog"></i> ข้อมูลการตั้งค่าร้านล่าสุดเมื่อวันที่ <%= setting.formatted_log_history_time %>
+            </div>
+            <div class="card-body">
+              <% if (typeof setting !=='undefined' && setting) { %>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>ID:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.id %>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>ชื่อร้าน:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.n_res %>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>อัตราค่าจ้าง/ชั่วโมง:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.rate_hr %> บาท/ชั่วโมง
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>กำหนดวันลา:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.leave_part %> ครั้ง
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>กำหนดวันสาย:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.late_part %> ครั้ง
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>กำหนดวันขาด:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.absent_part %> ครั้ง
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>เวลาเปิดร้าน:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.open_time %> นาฬิกา
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>เวลาปิดร้าน:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <%= setting.close_time %> นาฬิกา
+                    </p>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label"><strong>วันร้านปิด:</strong></label>
+                  <div class="col-sm-3">
+                    <p class="form-control-plaintext">
+                      <% if (closedDays.length> 0) { %>
+                        <%=
+                          closedDays.join(', ') %> 
+                        <% } else { %>
+                          ร้านเปิดทุกวัน
+                        <% } %>
+                      </p>
+                    </div>
+                  </div>
+
+                  <br>
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"><strong>แก้ไขล่าสุด:</strong></label>
+                    <div class="col-sm-3">
+                      <p class="form-control-plaintext"><%= setting.formatted_log_history_time %></p>
+                    </div>
+                  </div>
+                  
+                <% } else { %>
+                  <p>ไม่พบข้อมูลการตั้งค่า</p>
+                <% } %>
+            </div>
+              
+          </div>
+  
+<!--------แก้ไขตั้งค่า--------------------------------------------------------------------------------------------->
+
+            <div class="card mb-4">
+              <div class="card-body">
+                <form action="/store_setting" method="POST">
+                  <input type="hidden" id="id" name="id" value="<%= setting ? setting.id : '' %>" /> 
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="storeName">ชื่อร้าน:</label>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="storeName" name="storeName" value="<%= setting ? setting.n_res : '' %>" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="hourlyWage">อัตราค่าจ้าง/ชั่วโมง:</label>
+                    <div class="col-sm-3">
+                      <input type="number" class="form-control" id="hourlyWage" name="hourlyWage" value="<%= setting ? setting.rate_hr : '' %>" required
+                        placeholder="ใส่แค่ตัวเลข">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="leaveDays">กำหนดวันลา:</label>
+                    <div class="col-sm-3">
+                      <input type="number" class="form-control" id="leaveDays" name="leaveDays" value="<%= setting ? setting.leave_part : '' %>" required
+                        placeholder="ใส่แค่ตัวเลข">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="lateDays">กำหนดวันสาย:</label>
+                    <div class="col-sm-3">
+                      <input type="number" class="form-control" id="lateDays" name="lateDays" value="<%= setting ? setting.late_part : '' %>" required
+                        placeholder="ใส่แค่ตัวเลข">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="absentDays">กำหนดวันขาด:</label>
+                    <div class="col-sm-3">
+                      <input type="number" class="form-control" id="absentDays" name="absentDays" value="<%= setting ? setting.absent_part : '' %>" required
+                        placeholder="ใส่แค่ตัวเลข">
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="openTime">เวลาเปิดร้าน:</label>
+                    <div class="col-sm-3">
+                      <input type="time" class="form-control" id="openTime" name="openTime" value="<%= setting ? setting.open_time : '' %>" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="closeTime">เวลาปิดร้าน:</label>
+                    <div class="col-sm-3">
+                      <input type="time" class="form-control" id="closeTime" name="closeTime" value="<%= setting ? setting.close_time : '' %>" required>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="openDays">วันที่เปิดร้าน:</label>
+                    <div class="col-sm-3">
+                      <% for (let i = 0; i < weekData.length; i++) { %> 
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="<%= weekData[i].day_close %>" id="<%= i + 1 %>" name="openDays[]" 
+                                <% if (weekData[i].close_res == 1) { %>checked<% } %>>
+                          <label class="form-check-label" for="<%= i + 1 %>">
+                            <%= weekData[i].day_close %>
+                          </label>
+                        </div>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <br><br>
+
+                  <button type="submit" class="btn btn-primary float-end">บันทึก</button>
+                </form>
+              </div>
+            </div>
+        </div>
+      </main>
+                </div>
+              </div>
+
+  <!-- end Content -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  <script src="/js/today.js" defer></script>
+</body>
+
+</html>

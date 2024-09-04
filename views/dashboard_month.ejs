@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Dashboard Month</title>
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/calendar.css" rel="stylesheet" />
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+  //font
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+  <style>
+    /* Basic calendar styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+  </style>
+
+</head>
+
+
+<!-- ฺBar ข้างบน -->
+
+<body class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-md order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
+      <i class="fas fa-bars"></i>
+    </button>
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3 text-dark " href="/login">EmpTime</a>
+    <!-- ชิดริม-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"></form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li><a class="dropdown-item" href="/logout">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+
+  <!-- Side Bar-->
+  <!-- ----------------------------------------------------------------------------------------------------- -->
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
+              aria-expanded="false" aria-controls="collapseLayouts">
+              แดชบอร์ด
+              <div class="sb-sidenav-collapse-arrow">
+                <i class="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+              <nav class="sb-sidenav-menu-nested nav">
+                <a class="nav-link" href="/dashboard_month">
+                  ปฏิทินรายเดือน</a>
+                <a class="nav-link" href="/dashboard_day">
+                  สรุปรายวัน</a>
+              </nav>
+            </div>
+
+            <a class="nav-link" href="/employee"> พนักงาน </a>
+            <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
+            <a class="nav-link" href="index.html"> คำร้องขอ </a>
+            <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
+            <a class="nav-link" href="index.html"> ข่าว</a>
+            <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
+
+          </div>
+        </div>
+      </nav>
+    </div>
+    <!-- ----------------------------------------------------------------------------------------------------------- -->
+
+    <!-- Content -->
+    <div id="layoutSidenav_content">
+
+      <main>
+        <div class="container-fluid px-4">
+
+          <!-- นำทาง link -->
+          <h1 class="mt-4">ปฏิทินรายเดือน</h1>
+          <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">
+              <a href="/dashboard_month">แดชบอร์ด</a>
+            </li>
+            <li class="breadcrumb-item active">ปฏิทินรายเดือน</li>
+          </ol>
+
+          <!-- real content ----------------------------------------------------------------------------------------------------------- -->
+
+          <div class="card mb-4">
+
+            <div class="card-header">
+              <i class="fas fa-table me-1"></i>
+              ปฏิทินรายเดือน
+            </div>
+            <div class="card-body">
+              <div id="calendar-container">
+                <div id="calendar-nav">
+                  <h2 id="month-year"></h2>
+                </div>
+                <!-- Navigation buttons -->
+                <table id="calendar"></table>
+
+                <!-- Event popup -->
+                <div id="eventPopup" class="modal">
+                  <div class="modal-content">
+                    <span class="close-btn" onclick="closePopup()">&times;</span>
+                    <h2 id="popupDate"></h2>
+
+                    <label for="nameUser">ชื่อ : </label>
+                    <label for="startTime">เวลาเข้า:</label>
+                    <input type="time" id="startTime" name="startTime" required>
+                    <label for="endTime">เวลาออก:</label>
+                    <input type="time" id="endTime" name="endTime" required>
+
+                    <img id="popupImage" src="" alt="Event Image" />
+                    <button id="saveButton" class="btn btn-primary" style="float: right;">บันทึก</button> <div style="clear: both;"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- end Content -->
+    <!-- ----------------------------------------------------------------------------------------------------------- -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/calendar.js"></script>
+
+
+</body>
+
+</html>
