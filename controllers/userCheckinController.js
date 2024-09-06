@@ -5,7 +5,6 @@ const checkinController = {
     const username = req.session.user.u_name; 
     const code = req.body.checkinCode; 
 
-
     checkinModel.verifyCodeAndUser(username, code, (err, result) => {
       if (err) {
         console.error('Error verifying code:', err);
@@ -23,7 +22,8 @@ const checkinController = {
         });
       } else {
         console.log('Invalid code or username');
-        res.status(400).send('Invalid check-in code'); 
+        // Redirect to error page if check-in failed
+        res.redirect('/error_chackin_out_page'); 
       }
     });
   }

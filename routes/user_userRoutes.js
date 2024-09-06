@@ -27,4 +27,9 @@ router.get('/user_home_checkout', checkPermission([2]), (req, res) => {
     res.render('user_home_checkout'); 
   });
 
+// เพิ่ม route สำหรับ error page
+router.get('/error_chackin_out_page', checkPermission([2]), (req, res) => {
+  res.render('error_chackin_out_page'); 
+});
+
 module.exports = router; 
