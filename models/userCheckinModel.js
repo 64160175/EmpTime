@@ -1,4 +1,4 @@
-const db = require('../config/database'); // Assuming you have a database connection setup
+const db = require('../config/database');
 
 const checkinModel = {
   verifyCodeAndUser: (username, code, callback) => {
@@ -9,12 +9,12 @@ const checkinModel = {
       WHERE u_name = ? 
       AND in_date = CURDATE()
     `;
-  
+
     db.query(checkExistingCheckinSql, [username], (checkErr, checkResult) => {
       if (checkErr) {
         return callback(checkErr, null);
       }
-  
+
       if (checkResult.length > 0) {
         // พบข้อมูลการเช็คอินในวันนี้แล้ว
         return callback(null, []); // ส่งผลลัพธ์เป็น array ว่างเพื่อให้เช็คอินไม่สำเร็จ
@@ -25,16 +25,10 @@ const checkinModel = {
           if (err) {
             return callback(err, null);
           }
-  
+
           if (result.length > 0) {
-            // ลบโค้ดที่ใช้แล้ว
-            const deleteSql = `DELETE FROM tbl_inout_code WHERE u_name_match = ? AND otp = ?`;
-            db.query(deleteSql, [username, code], (deleteErr, deleteResult) => {
-              if (deleteErr) {
-                console.error('Error deleting used code:', deleteErr);
-              } 
-            });
-  
+            // ไม่ต้องลบโค้ดที่ใช้แล้ว
+
             callback(null, result); // ดำเนินการเช็คอินต่อ
           } else {
             callback(null, []); // ไม่พบโค้ดที่ตรงกัน
@@ -45,13 +39,21 @@ const checkinModel = {
   },
 
   recordCheckin: (username, code, callback) => {
-    // แก้ไข SQL query เพื่อ insert ค่าตาม column ในตาราง tbl_checkin
-    const sql = `INSERT INTO tbl_checkin (u_name, in_date, in_time, in_code, in_status) VALUES (?, CURDATE(), CURTIME(), ?, '1')`;
-    db.query(sql, [username, code], (err, result) => {
+    // ดึง ID ล่าสุดจาก tbl_checkin
+    db.query('SELECT MAX(id) AS maxId FROM tbl_checkin', (err, result) => {
       if (err) {
         return callback(err, null);
       }
-      callback(null, result);
+      const newId = result[0].maxId + 1; // คำนวณ ID ใหม่
+
+      // แก้ไข SQL query เพื่อ insert ค่าตาม column ในตาราง tbl_checkin พร้อม ID ใหม่
+      const sql = `INSERT INTO tbl_checkin (id, u_name, in_date, in_time, in_code, in_status) VALUES (?, ?, CURDATE(), CURTIME(), ?, '1')`;
+      db.query(sql, [newId, username, code], (err, result) => {
+        if (err) {
+          return callback(err, null);
+        }
+        callback(null, result);
+      });
     });
   }
 };
