@@ -45,12 +45,13 @@
       <h2 class="text-center" style="font-weight: bold;">เวลาตอนนี้ <span id="current-time"></span></h2> 
     </div>
     
-    <div class="container mt-4 text-center" >
-      <input type="text" class="form-control form-control-lg" id="checkinCode" placeholder="Code Check-In" style="padding-top: 30px; padding-bottom: 30px; margin-top: 100px;">
-      <br>
-      <button type="button" class="btn btn-warning btn-lg btn-block mt-3" style="padding: 10px 30px 10px 30px;" >เช็คอิน</button> 
-      
+    <div class="container mt-4 text-center">
+      <form action="/user_home_checkin" method="POST"> <input type="text" class="form-control form-control-lg" id="checkinCode" name="checkinCode" placeholder="Code Check-In" style="padding-top: 30px; padding-bottom: 30px; margin-top: 100px;">
+        <br>
+        <button type="submit" class="btn btn-warning btn-lg btn-block mt-3" style="padding: 10px 30px 10px 30px;">เช็คอิน</button>
+      </form>
     </div>
+    
     
     
   </div>
