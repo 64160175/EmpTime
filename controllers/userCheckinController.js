@@ -30,21 +30,22 @@ const checkinController = {
 
   getCheckinTime: (req, res) => {
     const username = req.session.user.u_name;
-
+  
     checkinModel.getTodaysCheckinTime(username, (err, checkinTime) => {
       if (err) {
         console.error('Error fetching check-in time:', err);
         return res.status(500).send('Error fetching check-in time');
       }
-
-      // Format the check-in time or set a default message
-      const formattedCheckinTime = checkinTime 
+  
+      // Check if checkinTime is a valid Date object before formatting
+      const formattedCheckinTime = checkinTime instanceof Date
         ? checkinTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        : '--:-- (ยังไม่ได้เช็คอิน)';
-
+        : checkinTime; // If not a Date, assume it's already the default message
+  
       res.json({ checkinTime: formattedCheckinTime }); // Send the time as JSON
     });
   }
+  
 };
 
 module.exports = checkinController;
