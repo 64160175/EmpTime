@@ -93,6 +93,12 @@ app.get('/user_editprofile', checkPermission([2]), (req, res) => {
   res.render('user_editprofile');
 });
 
+app.get('/user_leave', checkPermission([2]), (req, res) => {
+  res.render('user_leave'); 
+});
+
+const userpasswordRoutes = require('./routes/userpasswordRoutes');
+app.use('/', userpasswordRoutes);
 
 const inoutRoutes = require('./routes/inoutRoute');
 app.use('/', inoutRoutes); 
