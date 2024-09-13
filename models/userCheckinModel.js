@@ -55,6 +55,21 @@ const checkinModel = {
         callback(null, result);
       });
     });
+  },
+
+  getTodaysCheckinTime: (username, callback) => {
+    const today = new Date().toISOString().slice(0, 10);
+    const sql = `SELECT in_time FROM tbl_checkin WHERE u_name = ? AND in_date = ?`;
+    db.query(sql, [username, today], (err, result) => {
+      if (err) {
+        return callback(err, null);
+      }
+      if (result.length > 0) {
+        callback(null, result[0].in_time); // Return the in_time
+      } else {
+        callback(null, null); // No check-in found for today
+      }
+    });
   }
 };
 

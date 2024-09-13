@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const UserModel = require('../models/user_userModel'); 
 const { checkPermission } = require('../controllers/permissionController'); 
+const checkinController = require('../controllers/userCheckinController');
 
 
 
@@ -18,6 +19,7 @@ router.get('/user_home', checkPermission([2]), async (req, res) => {
   }
 });
 
+router.get('/get-checkin-time', checkPermission([2]), checkinController.getCheckinTime);
 
 
 // เพิ่ม route  user_home_checkin 
