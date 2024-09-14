@@ -46,13 +46,13 @@
     </div>
     
     <div class="container mt-4 text-center" >
-      <input type="text" class="form-control form-control-lg" id="checkinCode" placeholder="Code Check-Out" style="padding-top: 30px; padding-bottom: 30px; margin-top: 100px;">
-      <br>
-      <button type="button" class="btn btn-warning btn-lg btn-block mt-3" style="padding: 10px 30px 10px 30px;">เช็คเอ้าท์</button> 
+      <form action="/user_home_checkout" method="POST">
+        <input type="text" class="form-control form-control-lg" id="checkoutCode" name="checkoutCode" placeholder="Code Check-Out" style="padding-top: 30px; padding-bottom: 30px; margin-top: 100px;">
+        <br>
+        <button type="submit" class="btn btn-warning btn-lg btn-block mt-3" style="padding: 10px 30px 10px 30px;">เช็คเอ้าท์</button> 
+      </form>
     </div>
     
-    
-  </div>
 </body>
 
 

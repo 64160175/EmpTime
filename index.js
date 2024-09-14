@@ -107,6 +107,9 @@ app.use('/', inoutRoutes);
 const userCheckinRoutes = require('./routes/userCheckinRoute');
 app.use('/', userCheckinRoutes);
 
+const userCheckoutRoutes = require('./routes/userCheckoutRoute');
+app.use('/', userCheckoutRoutes);
+
 // Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

@@ -27,7 +27,6 @@ const checkinModel = {
           }
 
           if (result.length > 0) {
-            // ไม่ต้องลบโค้ดที่ใช้แล้ว
 
             callback(null, result); // ดำเนินการเช็คอินต่อ
           } else {
