@@ -27,6 +27,23 @@ const checkoutController = {
     });
   },
 
+  getCheckoutTime: (req, res) => {
+    const username = req.session.user.u_name;
+  
+    checkoutModel.getTodaysCheckoutTime(username, (err, checkoutTime) => {
+      if (err) {
+        console.error('Error fetching check-out time:', err);
+        return res.status(500).send('Error fetching check-out time');
+      }
+  
+      const formattedCheckoutTime = checkoutTime instanceof Date
+      ? checkoutTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+      : checkoutTime; 
+
+      res.json({ checkoutTime: formattedCheckoutTime }); 
+    });
+  }
+
   
 };
 

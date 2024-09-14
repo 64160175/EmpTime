@@ -47,13 +47,13 @@ const checkoutModel = { // เปลี่ยนชื่อเป็น checkou
     });
   },
 
-  getTodaysCheckinTime: (username, callback) => {
+  getTodaysCheckoutTime: (username, callback) => {
     const today = new Date();
     today.setHours(today.getHours() + 7); // Adjust '7' to your time zone offset from UTC
     const formattedToday = today.toISOString().slice(0, 10); 
     
   
-    const sql = `SELECT in_time FROM tbl_checkout WHERE u_name = ? AND DATE(out_date) = ?`;
+    const sql = `SELECT out_time FROM tbl_checkout WHERE u_name = ? AND DATE(out_date) = ?`;
     db.query(sql, [username, formattedToday], (err, result) => {
       if (err) {
         return callback(err, null);
@@ -61,7 +61,7 @@ const checkoutModel = { // เปลี่ยนชื่อเป็น checkou
   
       // Check if a check-in record exists for today
       if (result.length > 0) {
-        callback(null, result[0].in_time); // Return the in_time
+        callback(null, result[0].out_time); // Return the in_time
       } else {
         // No check-in found for today, return the default message
         callback(null, '--:-- (ยังไม่ได้เช็คเอ้าท์)'); 
