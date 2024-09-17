@@ -21,7 +21,8 @@ const userEditProfileController = {
         return res.redirect('/error_page'); // หรือจัดการข้อผิดพลาดที่เหมาะสม
       }
 
-      res.render('user_editprofile', { user: user });
+      // ส่ง success: null ไปในกรณีที่เป็นการเรียกหน้าแก้ไขโปรไฟล์ปกติ
+      res.render('user_editprofile', { user: user, success: null });
     });
   },
 
@@ -55,9 +56,10 @@ const userEditProfileController = {
           l_name: userData.lastName,
         };
 
+        // ส่ง success ไปยัง view
         res.render('user_editprofile', { 
           user: req.session.user, 
-          message: 'Profile updated successfully!' 
+          success: 'บันทึกโปรไฟล์สำเร็จ!' 
         });
       });
     });
