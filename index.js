@@ -88,14 +88,12 @@ app.get('/user_schedule', checkPermission([2]), (req, res) => {
   res.render('user_schedule');
 });
 
-
-app.get('/user_editprofile', checkPermission([2]), (req, res) => {
-  res.render('user_editprofile');
-});
-
 app.get('/user_leave', checkPermission([2]), (req, res) => {
   res.render('user_leave'); 
 });
+
+const useredprofileRoutes = require('./routes/useredprofileRoutes');
+app.use('/', useredprofileRoutes);
 
 const userpasswordRoutes = require('./routes/userpasswordRoutes');
 app.use('/', userpasswordRoutes);

@@ -1,12 +1,12 @@
-// Example using Express.js
 const express = require('express');
-const app = express();
+const router = express.Router();
+const useredprofileController = require('../controllers/useredprofileController');
+const { checkPermission } = require('../controllers/permissionController');
 
-app.get('/user_editprofile', (req, res) => {
-    // Logic to render the edit profile form
-    res.render('user_editprofile', { user: req.user }); // Assuming you pass user data
-});
+// ใช้ useredprofileController.getEditProfile สำหรับ GET request
+router.get('/user_editprofile', checkPermission([2]), useredprofileController.getEditProfile);
 
-app.post('/user_editprofile', (req, res) => {
-    // Logic to handle form submission and update user data
-});
+// ใช้ useredprofileController.postEditProfile สำหรับ POST request
+router.post('/user_editprofile', checkPermission([2]), useredprofileController.postEditProfile);
+
+module.exports = router;
