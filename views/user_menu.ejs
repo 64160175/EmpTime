@@ -50,6 +50,7 @@
                 <a href="/user_leave" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="leaveButton"> ยื่นลา </button></a>
                 <button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="MoneyButton"> เงินเดือน </button>
                 <a href="/user_password" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="PasswordButton"> เปลี่ยนรหัสผ่าน </button></a>
+                <button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="logoutButton" onclick="logout()"> ออกจากระบบ </button>
             </div>
         </div>
     </div>
@@ -83,6 +84,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script src="/js/today.js" defer></script>
+    <script>
+        function logout() {
+          window.location.href = '/logout'; 
+        }
+      </script>
+      
 </body>
 
 </html>
