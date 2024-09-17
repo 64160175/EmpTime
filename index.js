@@ -80,9 +80,6 @@ app.use('/', settingRoutes);
 const userUserRoutes = require('./routes/user_userRoutes');
 app.use('/', userUserRoutes); 
 
-app.get('/user_menu', checkPermission([2]), (req, res) => {
-  res.render('user_menu');
-});
 
 app.get('/user_schedule', checkPermission([2]), (req, res) => {
   res.render('user_schedule');

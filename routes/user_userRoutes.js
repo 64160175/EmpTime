@@ -20,6 +20,17 @@ router.get('/user_home', checkPermission([2]), async (req, res) => {
   }
 });
 
+router.get('/user_menu', checkPermission([2]), async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const userData = await UserModel.getUserProfile(userId);
+    res.render('user_menu', { userData: userData }); 
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 router.get('/get-checkin-time', checkPermission([2]), checkinController.getCheckinTime);
 router.get('/get-checkout-time', checkPermission([2]), checkoutController.getCheckoutTime);
 

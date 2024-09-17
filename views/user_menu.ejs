@@ -26,10 +26,16 @@
         <div class="container"><br>
             <div class="row">
                 <div class="col-2 ">
-                    <img type="profile" src="/image/profile.jpg" alt="Profile">
-                </div>
-                <div class="col-6">
-                    <h2>Kitsana T</h2>
+                    <% if (userData && userData.profile_pic) { %>
+                        <img type="profile" src="<%= userData.profile_pic %>" alt="Profile">
+                      <% } else { %>
+                        <img type="profile" src="/image/profile.jpg" alt="Profile"> 
+                      <% } %>
+                    </div>
+                    
+                    <div class="col-6">
+                      <h2><%= userData ? userData.f_name + ' ' + userData.l_name : 'User' %></h2>
+                      
                     <p><a href="/user_editprofile">แก้ไขโปรไฟล์</a></p>
                 </div>
         </div>
