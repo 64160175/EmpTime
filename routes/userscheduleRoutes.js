@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const userscheduleController = require('../controllers/userscheduleController'); // กำหนด path ไปยังไฟล์ userscheduleController.js
+const CalendarController = require('../controllers/userscheduleController');
 
-// Assuming:
-// 0: Admin
-// 1: Owner
-// 2: Employee 
-router.put('/user_schedule/:id', checkPermission([2]), userscheduleController.updateUserSchedule); 
-router.get('/user_schedule', checkPermission([0, 1]), userscheduleController.getUserSchedule);
-
+router.get('/user_schedule', CalendarController.getCalendar);
+router.get('/getEvents', CalendarController.getEvents);
 
 module.exports = router;

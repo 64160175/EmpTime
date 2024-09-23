@@ -1,18 +1,21 @@
-const UserSchedule = require('../models/userscheduleModels'); // กำหนด path ไปยังไฟล์ userscheduleModels.js
+const CalendarModel = require('../models/userscheuleModel');
 
-const userscheduleController = {
-  getUserSchedule: (req, res) => {
-    const userId = req.session.user.id; // สมมติว่าคุณเก็บข้อมูล user ใน session
-    UserSchedule.getUserSchedule(userId, (err, schedule) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        res.render('user_schedule', { schedule }); // ส่งข้อมูล schedule ไปยัง view
-      }
-    });
+const CalendarController = {
+  getCalendar: (req, res) => {
+    res.render('user_schedule'); // Render the calendar view
   },
 
-  // เพิ่มฟังก์ชันอื่นๆ เช่น createUserSchedule, updateUserSchedule, deleteUserSchedule ตามต้องการ
+  getEvents: (req, res) => {
+    const year = parseInt(req.query.year);
+    const month = parseInt(req.query.month);
+
+    CalendarModel.getEventsForMonth(year, month, (err, events) => {
+      if (err) {
+        return res.status(500).json({ error: 'Failed to fetch events' });
+      }
+      res.json(events);
+    });
+  }
 };
 
-module.exports = userscheduleController;
+module.exports = CalendarController;

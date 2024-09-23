@@ -66,7 +66,7 @@ const employeeController = {
         console.error('Error updating employee status:', err);
         return res.status(500).json({ message: 'Error deleting employee' });
       } else {
-        console.log('Employee status updated successfully');
+        //console.log('Employee status updated successfully');
         return res.status(200).end(); // Send success response
       }
     });

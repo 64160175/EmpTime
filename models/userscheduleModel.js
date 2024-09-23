@@ -1,18 +1,24 @@
-const db = require('../config/database'); // กำหนด path ไปยังไฟล์ database config
+const db = require('../config/database'); // Assuming you have a database connection setup
 
-const UserSchedule = {
-  getUserSchedule: (userId, callback) => {
-    const query = 'SELECT * FROM tbl_user_schedule WHERE user_id = ?'; // เปลี่ยนชื่อตารางและ column ตาม database จริง
-    db.query(query, [userId], (error, results) => {
-      if (error) {
-        callback(error, null);
+const CalendarModel = {
+  getEventsForMonth: (year, month, callback) => {
+    // Construct your SQL query to fetch events for the given year and month
+    const sql = `
+      SELECT event_id, event_title, event_date 
+      FROM events 
+      WHERE YEAR(event_date) = ? AND MONTH(event_date) = ?
+    `;
+
+    // Execute the query
+    db.query(sql, [year, month], (err, results) => {
+      if (err) {
+        console.error("Error fetching events:", err);
+        callback(err, null); // Pass the error to the callback
       } else {
-        callback(null, results);
+        callback(null, results); // Pass the results to the callback
       }
     });
-  },
-
-  // เพิ่มฟังก์ชันอื่นๆ เช่น createUserSchedule, updateUserSchedule, deleteUserSchedule ตามต้องการ
+  }
 };
 
-module.exports = UserSchedule;
+module.exports = CalendarModel;
