@@ -1,24 +1,43 @@
-const db = require('../config/database'); // Assuming you have a database connection setup
+const db = require('../config/database');
 
 const CalendarModel = {
-  getEventsForMonth: (year, month, callback) => {
-    // Construct your SQL query to fetch events for the given year and month
-    const sql = `
-      SELECT event_id, event_title, event_date 
-      FROM events 
-      WHERE YEAR(event_date) = ? AND MONTH(event_date) = ?
-    `;
 
-    // Execute the query
-    db.query(sql, [year, month], (err, results) => {
+  getAllSchedules: (username, callback) => { 
+    const sql = 'SELECT * FROM tbl_schedule WHERE u_name = ?'; 
+    db.query(sql, [username], (err, results) => {
       if (err) {
-        console.error("Error fetching events:", err);
-        callback(err, null); // Pass the error to the callback
+        console.error("Error fetching schedules:", err);
+        callback(err, null);
       } else {
-        callback(null, results); // Pass the results to the callback
+        callback(null, results);
       }
     });
-  }
+  },
+
+  addSchedule: (scheduleData, callback) => {
+    const { u_name, s_date, s_time_in, s_time_out } = scheduleData; 
+
+    // Get the next available ID from the database
+    db.query('SELECT MAX(id) AS maxId FROM tbl_schedule', (err, result) => {
+      if (err) {
+        return callback(err, null);
+      }
+      const newId = result[0].maxId + 1;
+
+      const sql = 'INSERT INTO tbl_schedule (id, u_name, s_date, s_time_in, s_time_out) VALUES (?, ?, ?, ?, ?)'; 
+      const values = [newId, u_name, s_date, s_time_in, s_time_out];
+
+      db.query(sql, values, (err, result) => {
+        if (err) {
+          console.error("Error adding schedule:", err);
+          callback(err, null);
+        } else {
+          callback(null, result.insertId);
+        }
+      });
+    });
+  },
+
 };
 
 module.exports = CalendarModel;

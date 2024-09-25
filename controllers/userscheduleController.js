@@ -1,21 +1,36 @@
-const CalendarModel = require('../models/userscheuleModel');
+const CalendarModel = require('../models/userscheduleModel');
 
-const CalendarController = {
-  getCalendar: (req, res) => {
-    res.render('user_schedule'); // Render the calendar view
+const userscheduleController = {
+  showSchedulePage: (req, res) => {
+    const username = req.session.user.u_name; // Get username from session
+    res.render('user_schedule', { username: username }); // Pass username to the view
   },
 
-  getEvents: (req, res) => {
-    const year = parseInt(req.query.year);
-    const month = parseInt(req.query.month);
+  saveSchedule: async (req, res) => {
+    try {
+      const username = req.session.user.u_name; // Get username from session
+      const { investmentDate, startHour, startMinute, endHour, endMinute } = req.body;
 
-    CalendarModel.getEventsForMonth(year, month, (err, events) => {
-      if (err) {
-        return res.status(500).json({ error: 'Failed to fetch events' });
-      }
-      res.json(events);
-    });
-  }
+      const scheduleData = {
+        u_name: username, // Use u_name instead of user_id
+        s_date: investmentDate,
+        s_time_in: `${startHour}:${startMinute}`,
+        s_time_out: `${endHour}:${endMinute}`,
+      };
+
+/*      CalendarModel.addSchedule(scheduleData, (err, insertId) => {
+        if (err) {
+          console.error('Error adding schedule:', err);
+          return res.redirect('/user_schedule?error=เกิดข้อผิดพลาด');
+        }
+        console.log('New schedule added with ID:', insertId);
+        res.redirect('/user_schedule?success=บันทึกสำเร็จ');
+      }); */
+    } catch (error) {
+      console.error('Error saving schedule:', error);
+      res.redirect('/user_schedule?error=เกิดข้อผิดพลาด');
+    }
+  },
 };
 
-module.exports = CalendarController;
+module.exports = userscheduleController;

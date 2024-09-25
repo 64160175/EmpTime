@@ -75,15 +75,11 @@ app.use('/', employeeRoutes);
 const settingRoutes = require('./routes/settingRoutes');
 app.use('/', settingRoutes);
 
-// user_menu  user_schedule user_editprofile  ควรไปอยู่ที่ route เดียวกัน 
-// เช่น userRoutes  หรือ  สร้าง route ใหม่สำหรับ user โดยเฉพาะ
 const userUserRoutes = require('./routes/user_userRoutes');
 app.use('/', userUserRoutes); 
 
-
-app.get('/user_schedule', checkPermission([2]), (req, res) => {
-  res.render('user_schedule');
-});
+const userscheduleRoutes = require('./routes/userscheduleRoutes');
+app.use('/', userscheduleRoutes);
 
 app.get('/user_leave', checkPermission([2]), (req, res) => {
   res.render('user_leave'); 

@@ -1,8 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const CalendarController = require('../controllers/userscheduleController');
+const { checkPermission } = require('../controllers/permissionController');
+const userscheduleController = require('../controllers/userscheduleController'); 
 
-router.get('/user_schedule', CalendarController.getCalendar);
-router.get('/getEvents', CalendarController.getEvents);
+// Assuming you have a controller function to handle saving the schedule
+const { saveSchedule } = require('../controllers/userscheduleController'); 
+
+router.get('/user_schedule', checkPermission([2]), userscheduleController.showSchedulePage);
+router.post('/save-schedule', checkPermission([2]), saveSchedule);
 
 module.exports = router;
