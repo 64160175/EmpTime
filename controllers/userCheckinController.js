@@ -44,8 +44,11 @@ const checkinController = {
   
       res.json({ checkinTime: formattedCheckinTime }); // Send the time as JSON
     });
-  }
+  },
+
   
+  
+
 };
 
 module.exports = checkinController;
