@@ -1,13 +1,14 @@
-const db = require('../config/database');
+const db = require("../config/database");
 
-const checkoutModel = { // เปลี่ยนชื่อเป็น checkoutModel
+const checkoutModel = {
+  // เปลี่ยนชื่อเป็น checkoutModel
   verifyCodeAndUser: (username, code, callback) => {
     // 1. ตรวจสอบว่ามีการเช็คอินในวันนี้หรือยัง
     const checkExistingCheckinSql = `
       SELECT * 
       FROM tbl_checkin 
       WHERE u_name = ? 
-      AND in_date = CURDATE() AND in_status = 1
+      AND in_date = CURDATE() 
     `;
 
     db.query(checkExistingCheckinSql, [username], (checkErr, checkResult) => {
@@ -38,41 +39,93 @@ const checkoutModel = { // เปลี่ยนชื่อเป็น checkou
 
   recordCheckout: (username, code, callback) => {
     // ดึง ID ล่าสุดจาก tbl_checkout
-    db.query('SELECT MAX(id) AS maxId FROM tbl_checkout', (err, result) => {
+    db.query("SELECT MAX(id) AS maxId FROM tbl_checkout", (err, result) => {
       if (err) {
         return callback(err, null);
       }
       const newId = result[0].maxId + 1; // คำนวณ ID ใหม่
 
-      // แก้ไข SQL query เพื่อ insert ค่าตาม column ในตาราง tbl_checkout พร้อม ID ใหม่
-      const sql = `
-        INSERT INTO tbl_checkout (id, u_name, out_date, out_time, out_code, out_status) 
-        VALUES (?, ?, CURDATE(), CURTIME(), ?, '1')
-      `;
-      db.query(sql, [newId, username, code], (err, result) => {
-        if (err) {
-          return callback(err, null);
-        }
-
-        // After successful checkout, update in_status in tbl_checkin
-        const updateCheckinSql = `
-          UPDATE tbl_checkin 
-          SET in_status = 0 
-          WHERE u_name = ? 
-          AND in_date = CURDATE() 
-          AND in_status = 1
-        `;
-        db.query(updateCheckinSql, [username], (updateErr, updateResult) => {
-          if (updateErr) {
-            console.error('Error updating checkin status:', updateErr);
-            // Handle the error, maybe rollback the checkout?
-          } else {
-            console.log('Checkin status updated successfully');
+      // ดึงเวลาปิดร้านจาก tbl_setting
+      db.query(
+        "SELECT close_time FROM tbl_setting ORDER BY id DESC LIMIT 1",
+        (err, settingResult) => {
+          if (err) {
+            return callback(err, null);
           }
-          // Call the callback regardless of update success/failure
-          callback(null, result); 
-        });
-      });
+
+          const closeTime = settingResult[0].close_time;
+
+          // ดึงเวลาเช็คอินล่าสุดของวันนี้จาก tbl_checkin
+          const getCheckinTimeSql = `
+            SELECT in_time 
+            FROM tbl_checkin 
+            WHERE u_name = ? 
+            AND in_date = CURDATE()
+          `;
+          db.query(getCheckinTimeSql, [username], (err, checkinResult) => {
+            if (err) {
+              return callback(err, null);
+            }
+
+            if (checkinResult.length === 0) {
+              return callback(new Error("ไม่พบข้อมูลการเช็คอิน"), null);
+            }
+
+            const checkinTime = new Date(checkinResult[0].in_time);
+
+            // เปรียบเทียบเวลาเช็คอินกับเวลาปิดร้าน
+            let checkoutTime = new Date(); // ได้เวลาปัจจุบัน
+            const [closeHours, closeMinutes] = closeTime.split(":").map(Number);
+            const closeTimeDate = new Date();
+            closeTimeDate.setHours(closeHours, closeMinutes, 0, 0);
+
+            if (checkoutTime.getTime() > closeTimeDate.getTime()) {
+              checkoutTime = closeTimeDate; // ใช้เวลาปิดร้านเป็นเวลาเช็คเอาท์
+            }
+
+            // แก้ไข SQL query เพื่อ insert ค่าตาม column ในตาราง tbl_checkout พร้อม ID ใหม่
+            const sql = `
+              INSERT INTO tbl_checkout (id, u_name, out_date, out_time, out_code, out_status) 
+              VALUES (?, ?, CURDATE(), ?, ?, '1')
+            `;
+            db.query(
+              sql,
+              [newId, username, checkoutTime, code],
+              (err, result) => {
+                if (err) {
+                  return callback(err, null);
+                }
+
+                // After successful checkout, update in_status in tbl_checkin
+                const updateCheckinSql = `
+                UPDATE tbl_checkin 
+                SET in_status = 0 
+                WHERE u_name = ? 
+                AND in_date = CURDATE() 
+                AND in_status = 1
+              `;
+                db.query(
+                  updateCheckinSql,
+                  [username],
+                  (updateErr, updateResult) => {
+                    if (updateErr) {
+                      console.error(
+                        "Error updating checkin status:",
+                        updateErr
+                      );
+                      // Handle the error, maybe rollback the checkout?
+                    } else {
+                      console.log("Checkin status updated successfully");
+                    }
+                    // Call the callback regardless of update success/failure
+                    callback(null, result);
+                  }
+                );
+              }
+            );
+          });
+        }
+      );
     });
   },
 
@@ -80,7 +133,6 @@ const checkoutModel = { // เปลี่ยนชื่อเป็น checkou
     const today = new Date();
     today.setHours(today.getHours() + 7); // Adjust '7' to your time zone offset from UTC
     const formattedToday = today.toISOString().slice(0, 10);
-
 
     const sql = `SELECT out_time FROM tbl_checkout WHERE u_name = ? AND DATE(out_date) = ?`;
     db.query(sql, [username, formattedToday], (err, result) => {
@@ -93,12 +145,10 @@ const checkoutModel = { // เปลี่ยนชื่อเป็น checkou
         callback(null, result[0].out_time); // Return the in_time
       } else {
         // No check-in found for today, return the default message
-        callback(null, '--:-- (ยังไม่ได้เช็คเอ้าท์)');
+        callback(null, "--:-- (ยังไม่ได้เช็คเอ้าท์)");
       }
     });
-  }
-
+  },
 };
 
-
-module.exports = checkoutModel; 
+module.exports = checkoutModel;
