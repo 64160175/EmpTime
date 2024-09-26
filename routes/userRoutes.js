@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { checkPermission } = require('../controllers/permissionController'); 
 const employeeController = require('../controllers/employeeController');
+const dashboardController = require('../controllers/dashboardController');
 
 // ------------------- Admin & Shop Owner Routes ------------------- //
 
@@ -15,9 +16,8 @@ router.get('/dashboard_month', checkPermission([0, 1]), (req, res) => {
   res.render('dashboard_month');
 });
 
-router.get('/dashboard_day', checkPermission([0, 1]), (req, res) => {
-  res.render('dashboard_day');
-});
+router.get('/dashboard_day', checkPermission([0, 1]), dashboardController.getDashboardDay);
+
 
 
 

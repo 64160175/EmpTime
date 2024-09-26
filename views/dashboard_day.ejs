@@ -165,13 +165,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td><img src="/image/profile.jpg" alt="Profile" type=profile></td>
-          <td>John Doe</td>
-          <td>On Time</td>
-          <td>08:00 AM</td>
-          <td>05:00 PM</td>
-        </tr>
+        <% employees.forEach(employee => { %>
+          <tr>
+            <td><img src="/employee/profile-picture/<%= employee.id %>" alt="Profile" onerror="this.src='/image/profile.jpg'"></td>
+            <td><%= employee.f_name %> <%= employee.l_name %></td>
+            <!-- Display other employee details -->
+          </tr>
+        <% }); %>
+        
       </tbody>
     </table>
   </div>
