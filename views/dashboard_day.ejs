@@ -167,7 +167,7 @@
       <tbody>
         <% employees.forEach(employee => { %>
           <tr>
-            <td><img src="/employee/profile-picture/<%= employee.id %>" alt="Profile" onerror="this.src='/image/profile.jpg'"></td>
+            <td><img type="profile" src="/employee/profile-picture/<%= employee.id %>" alt="Profile" onerror="this.src='/image/profile.jpg'"></td>
             <td><%= employee.f_name %> <%= employee.l_name %></td>
             <!-- Display other employee details -->
           </tr>
