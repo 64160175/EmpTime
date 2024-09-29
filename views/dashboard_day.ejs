@@ -100,8 +100,11 @@
 <!-- real content ----------------------------------------------------------------------------------------------------------- -->
 
 
-        <h3>วันนี้วันที่  <span id="currentDate"></span></h3><br>
-          
+        <h3>วันนี้วันที่  <span id="currentDate_dash">
+          <%= new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+        </span></h3><br>
+
+        
 <!-- On time check ----------------------------->
           <div class="row">
             <div class="col-md-3">
@@ -151,7 +154,7 @@
 <div class="card mb-4">
   <div class="card-header">
     <i class="fas fa-table me-1"></i>
-    DataTable Example
+    สรุปรายวัน
   </div>
   <div class="card-body">
     <table id="getCheckin_out_table" class="table table-striped">
