@@ -154,10 +154,9 @@
     DataTable Example
   </div>
   <div class="card-body">
-    <table id="datatablesSimple" class="table table-striped">
+    <table id="getCheckin_out_table" class="table table-striped">
       <thead>
         <tr>
-          <th class="col-1">Profile</th>
           <th class="col-2">Name</th>
           <th class="col-2">Status</th>
           <th class="col-2">Checkin</th>
@@ -165,16 +164,21 @@
         </tr>
       </thead>
       <tbody>
-        <% employees.forEach(employee => { %>
+        <% checkInOutData.forEach(employee => { %>
           <tr>
-            <td><img type="profile" src="/employee/profile-picture/<%= employee.id %>" alt="Profile" onerror="this.src='/image/profile.jpg'"></td>
             <td><%= employee.f_name %> <%= employee.l_name %></td>
-            <!-- Display other employee details -->
+            <td 
+              class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>"
+            >
+              <%= employee.in_status === 1 ? 'On Time' : 'Late' %>
+            </td>
+            <td><%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %></td>
+            <td><%= employee.out_time ? employee.out_time.slice(0, 5) : '--:--' %></td>
           </tr>
         <% }); %>
-        
       </tbody>
     </table>
+    
   </div>
 </div>
 <!-- end employee ----------------------------->
