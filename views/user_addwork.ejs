@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>ลงงาน</title>
+    <link href="/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+    <!--font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
+
+    </script>
+</head>
+
+<body>
+    <header class="mt-5 sticky-top ">
+        <div class="container">
+            <br>
+            <div class="row">
+                <div class="col-2 ">
+                    <script>
+                        console.log("Image path:", "/icon/back_icon.svg");
+                    </script>
+                    <a href="/user_menu"> <img src="/icon/back_icon.svg" alt="Back"></a>
+                </div>
+                <div class="col-8 text-center">
+                    <h2>ลงงาน</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mt-5">
+        <form action="/user_addwork" method="POST">
+            <div class="mb-3">
+                <label for="s_date" class="form-label">วันลงงาน:</label>
+                <input type="date" class="form-control" id="s_date" name="s_date" required>
+            </div>
+            <div class="mb-3">
+                <label for="s_time_in" class="form-label">เวลาที่ลงเข้างาน:</label>
+                <div class="row align-items-center"> 
+                    <div class="col-5">
+                        <select id="startHour" name="startHour" class="form-select" required>
+                            <option value="">ชั่วโมง</option>
+                            <script>
+                                for (let i = 0; i <= 23; i++) {
+                                    document.write(`<option value="${i.toString().padStart(2, '0')}">${i.toString().padStart(2, '0')}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="col-2 text-center">
+                        : 
+                    </div>
+                    <div class="col-5">
+                        <select id="startMinute" name="startMinute" class="form-select" required>
+                            <option value="">นาที</option>
+                            <script>
+                                for (let i = 0; i <= 59; i++) {
+                                    document.write(`<option value="${i.toString().padStart(2, '0')}">${i.toString().padStart(2, '0')}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="s_time_out" class="form-label">เวลาที่ลงออกงาน:</label>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <select id="endHour" name="endHour" class="form-select" required>
+                            <option value="">ชั่วโมง</option>
+                            <script>
+                                for (let i = 0; i <= 23; i++) {
+                                    document.write(`<option value="${i.toString().padStart(2, '0')}">${i.toString().padStart(2, '0')}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="col-2 text-center">
+                        : 
+                    </div>
+                    <div class="col-5">
+                        <select id="endMinute" name="endMinute" class="form-select" required>
+                            <option value="">นาที</option>
+                            <script>
+                                for (let i = 0; i <= 59; i++) {
+                                    document.write(`<option value="${i.toString().padStart(2, '0')}">${i.toString().padStart(2, '0')}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="worktimeBtn" class="btn btn-warning">บันทึกการลงงาน</button>
+        </form>
+    </div>
+
+</body>
+
+<!-- end Content -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+</body>
+
+</html>
