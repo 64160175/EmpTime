@@ -24,46 +24,51 @@
         <div class="container">
             <br>
             <div class="row">
-                <div class="col-2 ">
-                    <script>
-                        console.log("Image path:", "/icon/back_icon.svg");
-                    </script>
-                    <a href="/user_menu"> <img src="/icon/back_icon.svg" alt="Back"></a>
+                <div class="container">
+                    <div class="row" style="background-color: white;">
+                        <div class="col-2 ">
+                            <script>
+                                console.log("Image path:", "/icon/back_icon.svg");
+                            </script>
+                            <a href="/user_menu"> <img src="/icon/back_icon.svg" alt="Back"></a>
+                        </div>
+                        <div class="col-8 text-center">
+                            <h2>วันทำงาน</h2>
+                            <a>วันที่ <%= username %> ได้ทำการลงงาน</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-8 text-center">
-                    <h2>วันทำงาน</h2>
-                    <a>วันที่ <%= username %> ได้ทำการลงงาน</a> 
-                </div>
-                <div class="col-2 text-end"> 
-                    <a href="/user_schedule" id="worktimesBtn" class="btn btn-warning">ลงงาน +</a> 
+
+                <div class="fixed-bottom d-flex justify-content-end p-3">
+                    <a href="/user_schedule" id="worktimesBtn" class="btn btn-warning">ลงงาน +</a>
                 </div>
             </div>
         </div>
     </header>
 
     <div class="container mt-5">
-        <% 
-        const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-        
-        const groupedData = workSchedule.reduce((acc, entry) => {
+        <% const months=['มกราคม', 'กุมภาพันธ์' , 'มีนาคม' , 'เมษายน' , 'พฤษภาคม' , 'มิถุนายน' , 'กรกฎาคม' , 'สิงหาคม'
+            , 'กันยายน' , 'ตุลาคม' , 'พฤศจิกายน' , 'ธันวาคม' ]; const groupedData=workSchedule.reduce((acc, entry)=> {
             const workDate = new Date(entry.work_date);
             const yearMonth = workDate.getFullYear() + '-' + ('0' + (workDate.getMonth() + 1)).slice(-2);
             if (!acc[yearMonth]) {
-                acc[yearMonth] = [];
+            acc[yearMonth] = [];
             }
             acc[yearMonth].push(entry);
             return acc;
-        }, {});
+            }, {});
 
-        const sortedMonths = Object.keys(groupedData).sort((a, b) => {
-            return new Date(b) - new Date(a); 
-        });
+            const sortedMonths = Object.keys(groupedData).sort((a, b) => {
+            return new Date(b) - new Date(a);
+            });
 
-        sortedMonths.forEach(yearMonth => {
+            sortedMonths.forEach(yearMonth => {
             const [year, monthIndex] = yearMonth.split('-').map(Number);
-            const monthName = months[monthIndex - 1]; 
-        %>
-            <h3>เดือน <%= monthName %> <%= year %></h3> 
+            const monthName = months[monthIndex - 1];
+            %>
+            <h3>เดือน <%= monthName %>
+                    <%= year %>
+            </h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -74,17 +79,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% groupedData[yearMonth].forEach(entry => { %>
+                    <% groupedData[yearMonth].forEach(entry=> { %>
                         <tr>
-                            <td><%= entry.work_date %></td>
-                            <td><%= entry.start_time %></td>
-                            <td><%= entry.end_time %></td>
-                            <td><%= entry.date_his %></td> 
+                            <td>
+                                <%= entry.work_date %>
+                            </td>
+                            <td>
+                                <%= entry.start_time %>
+                            </td>
+                            <td>
+                                <%= entry.end_time %>
+                            </td>
+                            <td>
+                                <%= entry.date_his %>
+                            </td>
                         </tr>
-                    <% }); %>
+                        <% }); %>
                 </tbody>
             </table>
-        <% }); %>
+            <% }); %>
     </div>
 
 

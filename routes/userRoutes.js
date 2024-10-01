@@ -16,7 +16,7 @@ router.get('/dashboard_month', checkPermission([0, 1]), (req, res) => {
   res.render('dashboard_month');
 });
 
-router.get('/dashboard_day', checkPermission([0, 1]), dashboardController.getDashboardDay);
+router.get('/dashboard_day', dashboardController.getDashboardDay);
 
 
 

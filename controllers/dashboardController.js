@@ -1,19 +1,30 @@
 const dashboardModel = require('../models/dashboardModel');
 
 const dashboardController = {
-  getDashboardDay: (req, res) => {
+  getDashboardDay: async (req, res) => {
     try {
-      dashboardModel.getTodayCheckInOut((error, checkInOutData) => { 
-        if (error) {
-          console.error('Error fetching check-in/out data:', error);
-          res.status(500).send('Internal Server Error'); // Send error response to client
-        } else {
-          res.render('dashboard_day', { checkInOutData });
-        }
+      // Fetch check-in/out data and check-in count concurrently
+      const [checkInOutData, checkCount] = await Promise.all([
+        new Promise((resolve, reject) => {
+          dashboardModel.getTodayCheckInOut((error, data) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(data);
+            }
+          });
+        }),
+        dashboardModel.getTodaysBookSchedule(),
+        
+      ]);
+
+      res.render('dashboard_day', { 
+        checkInOutData: checkInOutData,
+        check_Count: checkCount  
       });
     } catch (error) {
-      console.error('Error rendering dashboard_day:', error);
-      res.status(500).send('Internal Server Error'); // Send error response to client
+      console.error('Error fetching data:', error);
+      res.status(500).send('Internal Server Error'); 
     }
   }
 };

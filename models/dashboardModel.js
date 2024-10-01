@@ -1,10 +1,15 @@
-const db = require('../config/database'); 
+const db = require("../config/database");
 
 const dashboardModel = {
-  getTodayCheckInOut: (callback) => { // Add callback parameter
+  getTodayCheckInOut: (callback) => {
     try {
-      const today = new Date().toISOString().slice(0, 10); 
-      db.query(`
+      const today = new Date(new Date().getTime() + 7 * 60 * 60 * 1000)
+        .toISOString()
+        .slice(0, 10);
+
+      console.log(today);
+      db.query(
+        `
         SELECT 
           ci.u_name, 
           u.f_name, 
@@ -17,22 +22,47 @@ const dashboardModel = {
         LEFT JOIN 
           tbl_user u ON ci.u_name = u.u_name
         LEFT JOIN 
-          tbl_checkout co ON ci.u_name = co.u_name AND DATE(co.out_date) = ?
+          tbl_checkout co ON ci.u_name = co.u_name AND DATE(ci.in_date) = DATE(co.out_date)
         WHERE 
           DATE(ci.in_date) = ?
-      `, [today, today], (error, results) => { // Callback to handle results
-        if (error) {
-          console.error('Error fetching check-in/out data:', error);
-          callback(error, null); // Pass error to callback
-        } else {
-          callback(null, results); // Pass results to callback
+      `,
+        [today],
+        (error, results) => {
+          if (error) {
+            console.error("Error fetching check-in/out data:", error);
+            callback(error, null);
+          } else {
+            callback(null, results);
+          }
         }
-      });
-    } catch (error) { 
-      console.error('Error fetching check-in/out data:', error);
-      callback(error, null); // Pass error to callback
-    } 
-  }
+      );
+    } catch (error) {
+      console.error("Error fetching check-in/out data:", error);
+      callback(error, null);
+    }
+  },
+
+  getTodaysBookSchedule: async () => {
+    try {
+      const result = await db.query(
+        "SELECT COUNT(DISTINCT id) AS checkCount FROM tbl_schedule WHERE DATE(s_date) = CURDATE();"
+      );
+  
+      
+      const checkCount = result.length > 0 ? result[0].checkCount : 0;
+  
+      console.log("checkCount:", checkCount);
+  
+      return checkCount; 
+  
+    } catch (error) {
+      console.error("Error fetching today's book schedule:", error);
+      throw error;
+    }
+  },
+
+  
+  
 };
 
 module.exports = dashboardModel;
