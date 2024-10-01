@@ -42,28 +42,51 @@
     </header>
 
     <div class="container mt-5">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>วันงานที่</th>
-                    <th>เวลาลงเพื่อเข้างาน</th>
-                    <th>เวลาเพื่อออกงาน</th>
-                    <th>วันที่ทำการลงเวลางาน</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% workSchedule.forEach(entry => { %>
-                  <tr>
-                    <td><%= entry.work_date %></td>
-                    <td><%= entry.start_time %></td>
-                    <td><%= entry.end_time %></td>
-                    <td><%= entry.date_his %></td> 
-                  </tr>
-                <% }); %>
-              </tbody>
+        <% 
+        const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+        
+        const groupedData = workSchedule.reduce((acc, entry) => {
+            const workDate = new Date(entry.work_date);
+            const yearMonth = workDate.getFullYear() + '-' + ('0' + (workDate.getMonth() + 1)).slice(-2);
+            if (!acc[yearMonth]) {
+                acc[yearMonth] = [];
+            }
+            acc[yearMonth].push(entry);
+            return acc;
+        }, {});
 
-        </table>
+        const sortedMonths = Object.keys(groupedData).sort((a, b) => {
+            return new Date(b) - new Date(a); 
+        });
+
+        sortedMonths.forEach(yearMonth => {
+            const [year, monthIndex] = yearMonth.split('-').map(Number);
+            const monthName = months[monthIndex - 1]; 
+        %>
+            <h3>เดือน <%= monthName %> <%= year %></h3> 
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>วันลงงานที่</th>
+                        <th>เวลาลงเพื่อเข้างาน</th>
+                        <th>เวลาเพื่อออกงาน</th>
+                        <th>วันที่ทำการลงเวลางาน</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% groupedData[yearMonth].forEach(entry => { %>
+                        <tr>
+                            <td><%= entry.work_date %></td>
+                            <td><%= entry.start_time %></td>
+                            <td><%= entry.end_time %></td>
+                            <td><%= entry.date_his %></td> 
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% }); %>
     </div>
+
 
 </body>
 

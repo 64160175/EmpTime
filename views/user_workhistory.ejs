@@ -38,8 +38,30 @@
     </header>
 
     <div class="container mt-4">
-        <div class="card rounded-3">
-            <div class="form-group">
+        <% 
+        const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+        
+        const userWorkHistory = workHistoryData.filter(entry => entry.user_id === userData.u_name);
+
+        const groupedData = userWorkHistory.reduce((acc, entry) => {
+            const workDate = new Date(entry.work_date);
+            const yearMonth = workDate.getFullYear() + '-' + ('0' + (workDate.getMonth() + 1)).slice(-2);
+            if (!acc[yearMonth]) {
+                acc[yearMonth] = [];
+            }
+            acc[yearMonth].push(entry);
+            return acc;
+        }, {});
+
+        const sortedMonths = Object.keys(groupedData).sort((a, b) => {
+            return new Date(b) - new Date(a); 
+        });
+
+        sortedMonths.forEach(yearMonth => {
+            const [year, monthIndex] = yearMonth.split('-').map(Number);
+            const monthName = months[monthIndex - 1]; 
+        %>
+            <div class="form-group"> <h3>เดือน <%= monthName %> <%= year %></h3> 
                 <table class="table">
                     <thead>
                         <tr>
@@ -49,20 +71,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% workHistoryData.forEach(entry => { %>
-                            <% if (entry.user_id === userData.u_name) { %> 
-                                <tr>
-                                    <td><%= entry.work_date %></td>
-                                    <td><%= entry.actual_in_time %></td>
-                                    <td><%= entry.actual_out_time %></td> 
-                                </tr>
-                            <% } %> 
+                        <% groupedData[yearMonth].forEach(entry => { %>
+                            <tr>
+                                <td><%= entry.work_date %></td>
+                                <td><%= entry.actual_in_time %></td>
+                                <td><%= entry.actual_out_time %></td> 
+                            </tr>
                         <% }); %>
                     </tbody>
-                    
                 </table>
-              </div>
-        </div>
+            </div>
+        <% }); %>
     </div>
 
 
