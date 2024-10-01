@@ -84,9 +84,6 @@ app.use('/', userscheduleRoutes);
 const userworkRoutes = require('./routes/userworkRoutes');
 app.use('/', userworkRoutes);
 
-const useraddworkRoutes = require('./routes/useraddworkRoutes');
-app.use('/', useraddworkRoutes);
-
 app.get('/user_leave', checkPermission([2]), (req, res) => {
   res.render('user_leave'); 
 });
