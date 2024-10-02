@@ -42,9 +42,8 @@ const checkinModel = {
       if (err) {
         return callback(err, null);
       }
-      const newId = result[0].maxId + 1;
+      const newId = (result[0].maxId || 0) + 1;
   
-      // ดึงข้อมูลตารางงานของวันนี้จาก tbl_schedule
       const todayDate = new Date().toISOString().split('T')[0]; // รูปแบบ YYYY-MM-DD
       const scheduleQuery = `
         SELECT s_date, s_time_in 
@@ -59,29 +58,23 @@ const checkinModel = {
           return callback(err, null);
         }
   
+        let inStatus = '1'; // Default: มาตรงเวลา
+        let scheduledTimeIn = null;
+  
         if (scheduleResult.length === 0) {
-          return callback(new Error('ไม่พบตารางงานสำหรับวันนี้'), null);
-        }
+          // ไม่พบตารางงานสำหรับวันนี้
+          inStatus = '3'; // สถานะพิเศษ: ไม่มีตารางงาน
+          console.log(`ไม่พบตารางงานสำหรับผู้ใช้ ${username} ในวันที่ ${todayDate}`);
+        } else {
+          scheduledTimeIn = scheduleResult[0].s_time_in;
+          const [hours, minutes] = scheduledTimeIn.split(':').map(Number);
+          const scheduledDateTime = new Date(todayDate);
+          scheduledDateTime.setHours(hours, minutes, 0, 0);
   
-        const scheduledDate = new Date(scheduleResult[0].s_date);
-        const scheduledTimeIn = scheduleResult[0].s_time_in;
-        const currentTime = new Date();
-  
-        // แยกชั่วโมงและนาทีจาก s_time_in
-        const [hours, minutes] = scheduledTimeIn.split(':').map(Number);
-  
-        // สร้าง Date object สำหรับเวลาที่กำหนดในตาราง
-        const scheduledDateTime = new Date(
-          scheduledDate.getFullYear(),
-          scheduledDate.getMonth(),
-          scheduledDate.getDate(),
-          hours,
-          minutes
-        );
-  
-        let inStatus = "1"; // Default: มาตรงเวลา
-        if (currentTime > scheduledDateTime) {
-          inStatus = "2"; // มาสาย
+          const currentTime = new Date();
+          if (currentTime > scheduledDateTime) {
+            inStatus = '2'; // มาสาย
+          }
         }
   
         // บันทึกการเช็คอิน
@@ -90,7 +83,11 @@ const checkinModel = {
           if (err) {
             return callback(err, null);
           }
-          callback(null, insertResult);
+          callback(null, { 
+            message: 'บันทึกการเช็คอินสำเร็จ',
+            inStatus: inStatus,
+            scheduledTimeIn: scheduledTimeIn
+          });
         });
       });
     });

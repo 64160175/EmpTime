@@ -1,5 +1,6 @@
 #express
 npm install express mysql body-parser ejs
+npm install express-flash
 npm install -g nodemon
 npm install express-session
 npm install bcrypt

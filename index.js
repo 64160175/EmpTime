@@ -2,6 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const flash = require('express-flash');
 const ejs = require('ejs');
 
 const { logoutView } = require('./controllers/loginController'); 
@@ -43,6 +44,9 @@ app.use(session({
   saveUninitialized: false, 
   cookie: { secure: false } 
 }));
+
+// ตั้งค่า express-flash
+app.use(flash());
 
 app.set('view engine', 'ejs');
 
@@ -102,7 +106,7 @@ const userCheckinRoutes = require('./routes/userCheckinRoute');
 app.use('/', userCheckinRoutes);
 
 const userCheckoutRoutes = require('./routes/userCheckoutRoute');
-app.use('/', userCheckoutRoutes);
+app.use(userCheckoutRoutes);
 
 const userworkhistoryRoutes = require('./routes/userworkhistoryRoutes');
 app.use('/', userworkhistoryRoutes);
