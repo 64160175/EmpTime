@@ -1,3 +1,5 @@
+
+
 const dashboardModel = require('../models/dashboardModel');
 
 const dashboardController = {
@@ -14,8 +16,7 @@ const dashboardController = {
             }
           });
         }),
-        dashboardModel.getTodaysBookSchedule(),
-        
+        dashboardModel.getTodaysBookSchedule()
       ]);
 
       res.render('dashboard_day', { 
@@ -30,3 +31,5 @@ const dashboardController = {
 };
 
 module.exports = dashboardController;
+
+
