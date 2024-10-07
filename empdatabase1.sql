@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 25, 2024 at 07:39 PM
+-- Generation Time: Oct 07, 2024 at 06:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -49,9 +49,15 @@ INSERT INTO `tbl_checkin` (`id`, `u_name`, `in_date`, `in_time`, `in_code`, `in_
 (6, 'User', '2024-09-13', '01:14:46', 505893, 1),
 (7, 'User', '2024-09-14', '01:17:52', 323501, 1),
 (8, 'Jeno', '2024-09-24', '23:52:48', 723266, 1),
-(9, 'Jeno', '2024-09-25', '00:25:47', 429919, 2),
+(9, 'Jeno', '2024-09-29', '00:25:47', 429919, 2),
 (10, 'User1', '2024-09-25', '22:23:10', 735360, 2),
-(11, 'User2', '2024-09-25', '22:52:18', 427743, 2);
+(11, 'User2', '2024-09-25', '22:52:18', 427743, 2),
+(12, 'User1', '2024-09-30', '00:17:34', 951436, 1),
+(13, 'User2', '2024-09-29', '22:57:08', 729572, 2),
+(14, 'Make', '2024-09-30', '00:24:20', 565845, 1),
+(15, 'User1', '2024-10-01', '19:54:58', 792326, 1),
+(16, 'Jeno', '2024-10-02', '23:44:26', 846412, 2),
+(17, 'Jeno', '2024-10-03', '00:34:03', 692855, 3);
 
 -- --------------------------------------------------------
 
@@ -74,7 +80,9 @@ CREATE TABLE `tbl_checkout` (
 
 INSERT INTO `tbl_checkout` (`id`, `u_name`, `out_date`, `out_time`, `out_code`, `out_status`) VALUES
 (0, 'Jeno', '2024-09-24', '23:54:51', 829941, 1),
-(1, 'User1', '2024-09-25', '23:40:00', 382347, 1);
+(1, 'User1', '2024-09-25', '23:40:00', 382347, 1),
+(2, 'User1', '2024-09-29', '21:18:05', 468402, 1),
+(3, 'Jeno', '2024-10-03', '00:38:00', 781199, 1);
 
 -- --------------------------------------------------------
 
@@ -114,11 +122,51 @@ INSERT INTO `tbl_inout_code` (`id`, `u_name_match`, `otp`) VALUES
 (2, 'Kris1', 360557),
 (3, 'Admin', 427423),
 (4, 'june', 251028),
-(6, 'Make', 304410),
+(6, 'Make', 565845),
 (7, 'User', 323501),
-(8, 'Jeno', 549716),
-(9, 'User1', 382347),
-(10, 'User2', 871342);
+(8, 'Jeno', 781199),
+(9, 'User1', 531902),
+(10, 'User2', 729572);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_leave_request`
+--
+
+CREATE TABLE `tbl_leave_request` (
+  `id` int(11) NOT NULL,
+  `u_name` varchar(255) NOT NULL,
+  `q_leave_part_used` int(45) NOT NULL,
+  `l_startdate` date NOT NULL,
+  `l_enddate` date NOT NULL,
+  `l_reason` text NOT NULL,
+  `l_status` int(1) DEFAULT NULL,
+  `l_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_month_quota`
+--
+
+CREATE TABLE `tbl_month_quota` (
+  `id` int(11) NOT NULL,
+  `u_name` varchar(255) NOT NULL,
+  `q_leave_part` int(45) NOT NULL,
+  `q_late_part` int(45) NOT NULL,
+  `q_absent_part` int(45) NOT NULL,
+  `q_date_stamp` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `tbl_month_quota`
+--
+
+INSERT INTO `tbl_month_quota` (`id`, `u_name`, `q_leave_part`, `q_late_part`, `q_absent_part`, `q_date_stamp`) VALUES
+(0, 'User1', 5, 5, 5, '2024-10-07'),
+(1, 'Jeno', 7, 8, 9, '2024-10-07');
 
 -- --------------------------------------------------------
 
@@ -141,8 +189,8 @@ CREATE TABLE `tbl_schedule` (
 
 INSERT INTO `tbl_schedule` (`id`, `u_name`, `s_date`, `s_time_in`, `s_time_out`, `date_his`) VALUES
 (1, 'Jeno', '2024-09-24', '08:30:00', '16:30:00', '2024-09-23 18:30:51'),
-(2, 'User1', '2024-09-24', '08:30:00', '16:30:00', '2024-09-23 18:30:51'),
-(3, 'User2', '2024-09-25', '08:30:00', '16:30:00', '2024-09-23 18:32:29'),
+(2, 'User1', '2024-10-02', '08:30:00', '16:30:00', '2024-09-23 18:30:51'),
+(3, 'User2', '2024-10-02', '08:30:00', '16:30:00', '2024-09-23 18:32:29'),
 (4, 'User3', '2024-09-25', '09:30:00', '16:30:00', '2024-09-23 18:32:29'),
 (5, 'User4', '2024-09-26', '08:30:00', '16:30:00', '2024-09-23 18:34:19'),
 (6, 'User5', '2024-09-25', '09:30:00', '17:30:00', '2024-09-23 18:34:19'),
@@ -150,7 +198,8 @@ INSERT INTO `tbl_schedule` (`id`, `u_name`, `s_date`, `s_time_in`, `s_time_out`,
 (8, 'User5', '2024-09-26', '09:30:00', '17:30:00', '2024-09-23 18:38:19'),
 (9, 'Jeno', '2024-09-26', '09:00:00', '16:00:00', '2024-09-25 16:48:17'),
 (10, 'Jeno', '2024-09-27', '13:00:00', '16:00:00', '2024-09-25 16:51:04'),
-(11, 'Jeno', '2024-09-28', '11:00:00', '17:00:00', '2024-09-25 17:27:40');
+(11, 'Jeno', '2024-09-28', '11:00:00', '17:00:00', '2024-09-25 17:27:40'),
+(12, 'Jeno', '2024-10-03', '00:25:00', '00:38:00', '2024-10-02 17:26:09');
 
 -- --------------------------------------------------------
 
@@ -184,7 +233,8 @@ INSERT INTO `tbl_setting` (`id`, `n_res`, `rate_hr`, `leave_part`, `late_part`, 
 (6, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '22:30:00', '23:59:00', '2024-09-25 15:22:18'),
 (7, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '22:30:00', '22:35:00', '2024-09-25 15:39:57'),
 (8, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '22:30:00', '23:45:00', '2024-09-25 16:38:33'),
-(9, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '22:30:00', '23:40:00', '2024-09-25 16:44:20');
+(9, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '22:30:00', '23:40:00', '2024-09-25 16:44:20'),
+(10, 'ร้านป้าจูนบัวลอย ซอยสดใส', 49, 7, 8, 9, '08:30:00', '23:40:00', '2024-10-02 13:38:44');
 
 -- --------------------------------------------------------
 
@@ -292,6 +342,20 @@ ALTER TABLE `tbl_inout_code`
   ADD KEY `u_name_match` (`u_name_match`);
 
 --
+-- Indexes for table `tbl_leave_request`
+--
+ALTER TABLE `tbl_leave_request`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tbl_leave_request_u_name` (`u_name`);
+
+--
+-- Indexes for table `tbl_month_quota`
+--
+ALTER TABLE `tbl_month_quota`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tbl_month_quota_u_name` (`u_name`);
+
+--
 -- Indexes for table `tbl_schedule`
 --
 ALTER TABLE `tbl_schedule`
@@ -337,6 +401,18 @@ ALTER TABLE `tbl_checkout`
 --
 ALTER TABLE `tbl_inout_code`
   ADD CONSTRAINT `u_name_match` FOREIGN KEY (`u_name_match`) REFERENCES `tbl_user` (`u_name`);
+
+--
+-- Constraints for table `tbl_leave_request`
+--
+ALTER TABLE `tbl_leave_request`
+  ADD CONSTRAINT `tbl_leave_request_u_name` FOREIGN KEY (`u_name`) REFERENCES `tbl_user` (`u_name`);
+
+--
+-- Constraints for table `tbl_month_quota`
+--
+ALTER TABLE `tbl_month_quota`
+  ADD CONSTRAINT `tbl_month_quota_u_name` FOREIGN KEY (`u_name`) REFERENCES `tbl_user` (`u_name`);
 
 --
 -- Constraints for table `tbl_schedule`
