@@ -1,6 +1,6 @@
 const express = require('express');
-const LoginModel = require('../models/loginModels'); 
-
+const LoginModel = require('../models/loginModels');
+const UserModel = require('../models/user_userModel'); 
 
 // ------------------------- Function ------------------------- //
 
@@ -8,6 +8,7 @@ const LoginModel = require('../models/loginModels');
 exports.loginView = (req, res) => {
   res.render('login', { message: '' });
 };
+
 
 // controllers/loginController.js
 exports.logoutView = (req, res) => {
@@ -26,24 +27,33 @@ exports.loginStage = (req, res) => {
   const password = req.body.password;
 
   // Call the login function from the model
-  LoginModel.login(username, password, (err, user) => {
+  LoginModel.login(username, password, async (err, user) => {
     if (err) {
       // Handle login errors 
       console.error('Login error:', err);
-      res.render('login', { message: err.message }); // Or redirect to an error page
+      res.render('login', { message: err.message });
     } else {
       // Login successful
       req.session.user = user; // Store user data in the session
 
       // Redirect based on user type
       if (user.u_type_name_id === 0 || user.u_type_name_id === 1) {
-        res.redirect('/dashboard_month'); 
+        res.redirect('/dashboard_month');
       } else if (user.u_type_name_id === 2) {
-        res.redirect('/user_home');
+        try {
+          // เรียกใช้ checkAndUpdateMonthlyQuota ก่อนที่จะ redirect
+          await UserModel.checkAndUpdateMonthlyQuota(username);
+          console.log('Monthly quota checked and updated if necessary for user:', username);
+          res.redirect('/user_home');
+        } catch (error) {
+          console.error('Error checking/updating monthly quota:', error);
+          // ถ้าเกิดข้อผิดพลาด เราจะยัง redirect ไปที่ user_home แต่จะ log ข้อผิดพลาด
+          res.redirect('/user_home');
+        }
       } else if (user.u_type_name_id === 3) {
-        res.redirect('/gen_code'); 
-      }else {
-        res.redirect('/login'); 
+        res.redirect('/gen_code');
+      } else {
+        res.redirect('/login');
       }
     }
   });

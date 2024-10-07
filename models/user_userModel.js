@@ -28,6 +28,70 @@ const UserModel = {
       });
     });
   },
+
+  
+
+  checkAndUpdateMonthlyQuota: (username) => {
+    return new Promise((resolve, reject) => {
+      const checkExistingSql = 'SELECT * FROM tbl_month_quota WHERE u_name = ?';
+      db.query(checkExistingSql, [username], (err, result) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const getCurrentQuotaSql = 'SELECT leave_part, late_part, absent_part FROM tbl_setting ORDER BY id DESC LIMIT 1';
+        db.query(getCurrentQuotaSql, (err, quotaResult) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          const { leave_part, late_part, absent_part } = quotaResult[0];
+          const currentDate = new Date();
+
+          if (result.length === 0) {
+            // User doesn't exist in tbl_month_quota, insert new record
+            const insertSql = `
+              INSERT INTO tbl_month_quota (u_name, q_leave_part, q_late_part, q_absent_part, q_date_stamp)
+              VALUES (?, ?, ?, ?, ?)
+            `;
+            db.query(insertSql, [username, leave_part, late_part, absent_part, currentDate], (err, insertResult) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(insertResult);
+              }
+            });
+          } else {
+            // User exists, check if it's the current month
+            const existingRecord = result[0];
+            const existingDate = new Date(existingRecord.q_date_stamp);
+
+            if (existingDate.getMonth() !== currentDate.getMonth() || existingDate.getFullYear() !== currentDate.getFullYear()) {
+              // Not current month, update the record
+              const updateSql = `
+                UPDATE tbl_month_quota
+                SET q_leave_part = ?, q_late_part = ?, q_absent_part = ?, q_date_stamp = ?
+                WHERE u_name = ?
+              `;
+              db.query(updateSql, [leave_part, late_part, absent_part, currentDate, username], (err, updateResult) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(updateResult);
+                }
+              });
+            } else {
+              // Current month, no action needed
+              resolve(null);
+            }
+          }
+        });
+      });
+    });
+  },
+  
 };
 
 module.exports = UserModel;

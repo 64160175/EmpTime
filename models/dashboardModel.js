@@ -54,7 +54,6 @@ const dashboardModel = {
             reject(error);
           } else {
             const checkCount = results[0].checkCount || 0;
-            console.log("checkCount:", checkCount);
             resolve(checkCount);
           }
         }
