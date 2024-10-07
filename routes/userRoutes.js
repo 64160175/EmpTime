@@ -25,10 +25,6 @@ router.get('/employee_record', checkPermission([0, 1]), (req, res) => {
   res.render('employee_record');
 });
 
-router.get('/recipt', checkPermission([0, 1]), (req, res) => {
-  res.render('recipt');
-});
-
 
 
 
