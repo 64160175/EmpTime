@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const userLeaveController = require('../controllers/userleaveController');
+const UserLeaveController = require('../controllers/userLeaveController');
 const { checkPermission } = require('../controllers/permissionController');
 
-// แสดงหน้า user_leave.ejs
-router.get('/user_leave', checkPermission([2]), userLeaveController.showLeavePage);
-
-// รับคำร้องขอลา
-router.post('/user_leave', checkPermission([2]), userLeaveController.submitLeaveRequest);
+router.get('/user_leave', checkPermission([2]), UserLeaveController.showLeavePage);
+router.post('/user_leave', checkPermission([2]), UserLeaveController.submitLeaveRequest);
 
 module.exports = router;

@@ -1,44 +1,46 @@
-const UserLeaveModel = require('../models/userLeaveModel.js');
+const UserLeaveModel = require('../models/userLeaveModel');
 
-const userLeaveController = {
-  // แสดงหน้า user_leave.ejs
+const UserLeaveController = {
   showLeavePage: (req, res) => {
-    const userId = req.session.user.id;
-
-    // ดึงข้อมูลประเภทการลา
-    UserLeaveModel.getLeaveTypes((err, leaveTypes) => {
+    const username = req.session.user.u_name; // Make sure this matches your session structure
+    UserLeaveModel.getRemainingLeaveDays(username, (err, remainingDays) => {
       if (err) {
-        console.error('Error fetching leave types:', err);
-        return res.status(500).send('Error fetching leave types');
+        console.error('Error fetching remaining leave days:', err);
+        return res.status(500).send('Error fetching leave data');
       }
-
-      // ดึงประวัติการลาของพนักงาน
-      UserLeaveModel.getLeaveHistory(userId, (err, leaveHistory) => {
-        if (err) {
-          console.error('Error fetching leave history:', err);
-          return res.status(500).send('Error fetching leave history');
-        }
-
-        res.render('user_leave', { leaveTypes, leaveHistory });
-      });
+      res.render('user_leave', { remainingDays });
     });
   },
 
-  //  จัดการคำร้องขอลา
   submitLeaveRequest: (req, res) => {
-    const userId = req.session.user.id;
-    const leaveData = req.body;
+    const { startDate, endDate, reason } = req.body;
+    const username = req.session.user.u_name; // Make sure this matches your session structure
 
-    UserLeaveModel.submitLeaveRequest(userId, leaveData, (err, requestId) => {
+    if (!username) {
+      console.error('Username is missing from the session');
+      return res.status(400).send('User information is missing');
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const daysUsed = (end - start) / (1000 * 60 * 60 * 24) + 1;
+
+    const leaveData = {
+      username,
+      startDate,
+      endDate,
+      reason,
+      daysUsed
+    };
+
+    UserLeaveModel.submitLeaveRequest(leaveData, (err, requestId) => {
       if (err) {
         console.error('Error submitting leave request:', err);
         return res.status(500).send('Error submitting leave request');
       }
-
-      console.log('Leave request submitted successfully. Request ID:', requestId);
-      res.redirect('/user_leave'); // Redirect back to the leave page
+      res.redirect('/user_leave?success=true');
     });
-  },
+  }
 };
 
-module.exports = userLeaveController;
+module.exports = UserLeaveController;

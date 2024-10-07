@@ -20,15 +20,14 @@
 </head>
 
 <body>
-    <header class="mt-5 sticky-top ">
+    <header class="mt-5 sticky-top">
         <div class="container">
             <br>
             <div class="row">
-                <div class="col-2 ">
-                    <script>
-                        console.log("Image path:", "/icon/back_icon.svg");
-                    </script>
-                    <a href="/user_menu"> <img src="/icon/back_icon.svg" alt="Back"></a>
+                <div class="col-2">
+                    <a href="/user_menu">
+                        <img src="/icon/back_icon.svg" alt="Back">
+                    </a>
                 </div>
                 <div class="col-8 text-center">
                     <h2>ยื่นลา</h2>
@@ -55,17 +54,16 @@
             <div class="col-md-5">
                 <div class="leave-box">
                     <h3>วันลาคงเหลือ</h3>
-                    <p class="lead">10 วัน</p>
+                    <p class="lead"><%= remainingDays %> วัน</p>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container mt-5">
+    
         <div class="row justify-content-center">
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form action="/user_leave" method="POST">
                             <div class="form-group">
                                 <label for="startDate">วันที่เริ่มลา:</label>
                                 <input type="date" class="form-control" id="startDate" name="startDate" required>
@@ -78,23 +76,16 @@
                                 <label for="reason">เหตุผลที่ลา:</label>
                                 <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-warning btn-block">บันทึก</button>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="btn btn-warning">บันทึกคำร้องขอ</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    </form>
-    </div>
-    </div>
-    </div>
-
-    </div>
-    </div>
-    </div>
-
+    <br>
 </body>
 
 <!-- end Content -->

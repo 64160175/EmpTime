@@ -68,7 +68,7 @@ app.get('/logout', isLoggedIn, logoutView);
 app.get('/error_page', isLoggedIn, (req, res) => {res.render('error_page');});
 
 // ------------------- Import userRoutes ------------------- //
-const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/userRoutes'); 
 app.use('/', userRoutes);
 
 
@@ -88,9 +88,8 @@ app.use('/', userscheduleRoutes);
 const userworkRoutes = require('./routes/userworkRoutes');
 app.use('/', userworkRoutes);
 
-app.get('/user_leave', checkPermission([2]), (req, res) => {
-  res.render('user_leave'); 
-});
+const userLeaveRoutes = require('./routes/userLeaveRoutes');
+app.use('/', userLeaveRoutes);
 
 const useredprofileRoutes = require('./routes/useredprofileRoutes');
 app.use('/', useredprofileRoutes);
