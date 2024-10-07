@@ -38,7 +38,7 @@ const UserLeaveController = {
         console.error('Error submitting leave request:', err);
         return res.status(500).send('Error submitting leave request');
       }
-      res.redirect('/user_leave?success=true');
+      res.redirect('/user_menu');
     });
   }
 };

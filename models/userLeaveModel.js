@@ -10,18 +10,26 @@ const UserLeaveModel = {
   },
 
   submitLeaveRequest: (leaveData, callback) => {
-    const sql = `INSERT INTO tbl_leave_request 
-                 (u_name, q_leave_part_used, l_startdate, l_enddate, l_reason, l_status) 
-                 VALUES (?, ?, ?, ?, ?, 'pending')`;
-    db.query(sql, [
-      leaveData.username,
-      leaveData.daysUsed,
-      leaveData.startDate,
-      leaveData.endDate,
-      leaveData.reason
-    ], (err, result) => {
+    // ดึงค่า id ล่าสุด
+    db.query('SELECT MAX(id) as maxId FROM tbl_leave_request', (err, result) => {
       if (err) return callback(err);
-      callback(null, result.insertId);
+  
+      const newId = (result[0].maxId || 0) + 1;
+  
+      const sql = `INSERT INTO tbl_leave_request 
+                   (id, u_name, q_leave_part_used, l_startdate, l_enddate, l_reason, l_status) 
+                   VALUES (?, ?, ?, ?, ?, ?, 0)`;
+      db.query(sql, [
+        newId,
+        leaveData.username,
+        leaveData.daysUsed,
+        leaveData.startDate,
+        leaveData.endDate,
+        leaveData.reason
+      ], (err, result) => {
+        if (err) return callback(err);
+        callback(null, newId);
+      });
     });
   }
 };
