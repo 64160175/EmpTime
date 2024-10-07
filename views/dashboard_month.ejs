@@ -55,6 +55,15 @@
       font-size: 12px;
       margin: 2px 0;
     }
+    
+    .schedule-box {
+    background-color: #FFFDE7; /* สีเหลืองอ่อน */
+    border: 1px solid #FFF59D; /* เส้นขอบสีเหลืองเข้มกว่าเล็กน้อย */
+    border-radius: 4px; /* มุมโค้ง */
+    padding: 2px 4px; /* ระยะห่างภายใน */
+    margin: 2px 0; /* ระยะห่างด้านบนและล่าง */
+    display: inline-block; /* ให้กล่องมีขนาดพอดีกับเนื้อหา */
+  }
   </style>
 
 </head>
@@ -143,6 +152,11 @@
                 <i class="fas fa-table me-1"></i>
                 ปฏิทินรายเดือน <%= monthName %>
                   <%= year %>
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <a href="/dashboard_month?year=<%= prevYear %>&month=<%= prevMonth %>" class="btn btn-warning">&lt; เดือนก่อนหน้า</a>
+                    <h2><%= monthName %> <%= year %></h2>
+                    <a href="/dashboard_month?year=<%= nextYear %>&month=<%= nextMonth %>" class="btn btn-warning">เดือนถัดไป &gt;</a>
+                  </div>
               </div>
               <div class="card-body">
                 <table class="calendar">
@@ -167,11 +181,10 @@
                                 <% if (day && day.schedules && day.schedules.length> 0) { %>
                                   <% day.schedules.forEach(schedule=> { %>
                                     <div class="employee-schedule">
-                                      <% function formatTime(time) { if (time) { return time.slice(0, 5); } return '' ;
-                                        } %>
-
-                                        <%= schedule.f_name %> <%= formatTime(schedule.s_time_in) %> - <%=
-                                              formatTime(schedule.s_time_out) %>
+                                      <% function formatTime(time) { if (time) { return time.slice(0, 5); } return '' ;} %>
+                                      <div class="employee-schedule schedule-box">
+                                        <%= schedule.f_name %> <%= formatTime(schedule.s_time_in) %> - <%= formatTime(schedule.s_time_out) %>
+                                      </div>
                                     </div>
                                     <% }); %>
                                       <% } else if (day && day.date) { %>

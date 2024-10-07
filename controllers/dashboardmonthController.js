@@ -57,17 +57,34 @@ const getDashboardMonth = async (req, res) => {
         calendar.push(currentWeek);
       }
 
-      console.log('Calendar data:', JSON.stringify(calendar, null, 2)); // For debugging
-
       const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
         "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
       ];
+
+      // Calculate previous and next month/year
+      let prevMonth = month - 1;
+      let prevYear = year;
+      if (prevMonth === 0) {
+        prevMonth = 12;
+        prevYear--;
+      }
+
+      let nextMonth = month + 1;
+      let nextYear = year;
+      if (nextMonth === 13) {
+        nextMonth = 1;
+        nextYear++;
+      }
 
       res.render('dashboard_month', {
         calendar,
         year,
         month,
-        monthName: monthNames[month - 1]
+        monthName: monthNames[month - 1],
+        prevMonth,
+        prevYear,
+        nextMonth,
+        nextYear
       });
     });
   } catch (error) {
