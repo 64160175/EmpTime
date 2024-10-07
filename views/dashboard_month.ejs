@@ -34,6 +34,27 @@
     th {
       background-color: #f0f0f0;
     }
+
+    .calendar {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .calendar th,
+    .calendar td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .calendar th {
+      background-color: #f0f0f0;
+    }
+
+    .calendar .employee-schedule {
+      font-size: 12px;
+      margin: 2px 0;
+    }
   </style>
 
 </head>
@@ -116,41 +137,59 @@
           </ol>
 
           <!-- real content ----------------------------------------------------------------------------------------------------------- -->
+          <main>
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                ปฏิทินรายเดือน <%= monthName %>
+                  <%= year %>
+              </div>
+              <div class="card-body">
+                <table class="calendar">
+                  <thead>
+                    <tr>
+                      <th>อาทิตย์</th>
+                      <th>จันทร์</th>
+                      <th>อังคาร</th>
+                      <th>พุธ</th>
+                      <th>พฤหัสบดี</th>
+                      <th>ศุกร์</th>
+                      <th>เสาร์</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (calendar && calendar.length> 0) { %>
+                      <% for(let week of calendar) { %>
+                        <tr>
+                          <% for(let day of week) { %>
+                            <td>
+                              <%= day && day.date ? day.date : '' %>
+                                <% if (day && day.schedules && day.schedules.length> 0) { %>
+                                  <% day.schedules.forEach(schedule=> { %>
+                                    <div class="employee-schedule">
+                                      <% function formatTime(time) { if (time) { return time.slice(0, 5); } return '' ;
+                                        } %>
 
-          <div class="card mb-4">
-
-            <div class="card-header">
-              <i class="fas fa-table me-1"></i>
-              ปฏิทินรายเดือน
-            </div>
-            <div class="card-body">
-              <div id="calendar-container">
-                <div id="calendar-nav">
-                  <h2 id="month-year"></h2>
-                </div>
-                <!-- Navigation buttons -->
-                <table id="calendar"></table>
-
-                <!-- Event popup -->
-                <div id="eventPopup" class="modal">
-                  <div class="modal-content">
-                    <span class="close-btn" onclick="closePopup()">&times;</span>
-                    <h2 id="popupDate"></h2>
-
-                    <label for="nameUser">ชื่อ : </label>
-                    <label for="startTime">เวลาเข้า:</label>
-                    <input type="time" id="startTime" name="startTime" required>
-                    <label for="endTime">เวลาออก:</label>
-                    <input type="time" id="endTime" name="endTime" required>
-
-                    <img id="popupImage" src="" alt="Event Image" />
-                    <button id="saveButton" class="btn btn-primary" style="float: right;">บันทึก</button> <div style="clear: both;"></div>
-                  </div>
-                </div>
-
+                                        <%= schedule.f_name %> <%= formatTime(schedule.s_time_in) %> - <%=
+                                              formatTime(schedule.s_time_out) %>
+                                    </div>
+                                    <% }); %>
+                                      <% } else if (day && day.date) { %>
+                                        <div class="employee-schedule">ไม่มีคนลงงาน</div>
+                                        <% } %>
+                            </td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                          <% } else { %>
+                            <tr>
+                              <td colspan="7">ไม่มีข้อมูลปฏิทิน</td>
+                            </tr>
+                            <% } %>
+                  </tbody>
+                </table>
               </div>
             </div>
-          </div>
         </div>
       </main>
     </div>
@@ -160,7 +199,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
-    <script src="js/calendar.js"></script>
 
 
 </body>
