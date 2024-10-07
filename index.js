@@ -88,17 +88,11 @@ app.use('/', userscheduleRoutes);
 const userworkRoutes = require('./routes/userworkRoutes');
 app.use('/', userworkRoutes);
 
-<<<<<<< HEAD
 const userLeaveRoutes = require('./routes/userLeaveRoutes');
 app.use('/', userLeaveRoutes);
-=======
+
 const receiptRoutes = require('./routes/receiptRoutes');
 app.use('/', receiptRoutes);
-
-app.get('/user_leave', checkPermission([2]), (req, res) => {
-  res.render('user_leave'); 
-});
->>>>>>> 4ba234653238fdc3e25efa3ec915a53a9b75a4cf
 
 const useredprofileRoutes = require('./routes/useredprofileRoutes');
 app.use('/', useredprofileRoutes);
