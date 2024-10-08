@@ -113,6 +113,8 @@ app.use(userCheckoutRoutes);
 const userworkhistoryRoutes = require('./routes/userworkhistoryRoutes');
 app.use('/', userworkhistoryRoutes);
 
+const shiftscheduleRoutes = require('./routes/shiftscheduleRoutes');
+app.use('/', shiftscheduleRoutes);
 
 // Start the server 
 app.listen(port, () => {
