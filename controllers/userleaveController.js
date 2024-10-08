@@ -40,6 +40,17 @@ const UserLeaveController = {
       }
       res.redirect('/user_menu');
     });
+  },
+
+  getUserStatus: (req, res) => {
+    const username = req.session.user.u_name; // Assuming you store username in session
+    UserLeaveModel.getUserLeaveRequests(username, (err, leaveRequests) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Internal Server Error');
+      }
+      res.render('user_status', { leaveRequests });
+    });
   }
 };
 

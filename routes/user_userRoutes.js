@@ -6,6 +6,7 @@ const UserModel = require('../models/user_userModel');
 const { checkPermission } = require('../controllers/permissionController'); 
 const checkinController = require('../controllers/userCheckinController');
 const checkoutController = require('../controllers/userCheckoutController');
+const userLeaveController = require('../controllers/userleaveController');
 
 
 
@@ -43,6 +44,10 @@ router.get('/user_home_checkin', checkPermission([2]), (req, res) => {
 router.get('/user_home_checkout', checkPermission([2]), (req, res) => {
     res.render('user_home_checkout'); 
   });
+
+
+// เพิ่ม route สำหรับ user_status
+router.get('/user_status', checkPermission([2]), userLeaveController.getUserStatus);
 
 // เพิ่ม route สำหรับ error page
 router.get('/error_chackin_out_page', checkPermission([2]), (req, res) => {

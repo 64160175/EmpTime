@@ -51,17 +51,28 @@ const UserModel = {
           const currentDate = new Date();
 
           if (result.length === 0) {
-            // User doesn't exist in tbl_month_quota, insert new record
-            const insertSql = `
-              INSERT INTO tbl_month_quota (u_name, q_leave_part, q_late_part, q_absent_part, q_date_stamp)
-              VALUES (?, ?, ?, ?, ?)
-            `;
-            db.query(insertSql, [username, leave_part, late_part, absent_part, currentDate], (err, insertResult) => {
+            // หา ID ล่าสุดก่อน
+            const getLastIdSql = 'SELECT MAX(id) as lastId FROM tbl_month_quota';
+            db.query(getLastIdSql, (err, idResult) => {
               if (err) {
                 reject(err);
-              } else {
-                resolve(insertResult);
+                return;
               }
+              
+              const newId = (idResult[0].lastId || 0) + 1; // ถ้าไม่มี ID ให้เริ่มที่ 1
+          
+              // User doesn't exist in tbl_month_quota, insert new record
+              const insertSql = `
+                INSERT INTO tbl_month_quota (id, u_name, q_leave_part, q_late_part, q_absent_part, q_date_stamp)
+                VALUES (?, ?, ?, ?, ?, ?)
+              `;
+              db.query(insertSql, [newId, username, leave_part, late_part, absent_part, currentDate], (err, insertResult) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(insertResult);
+                }
+              });
             });
           } else {
             // User exists, check if it's the current month

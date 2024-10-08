@@ -31,7 +31,21 @@ const UserLeaveModel = {
         callback(null, newId);
       });
     });
+  },
+
+  getUserLeaveRequests: (username, callback) => {
+    const sql = `
+      SELECT id, q_leave_part_used, l_startdate, l_enddate, l_reason, l_status, l_timestamp
+      FROM tbl_leave_request
+      WHERE u_name = ?
+      ORDER BY id DESC
+    `;
+    db.query(sql, [username], (err, results) => {
+      if (err) return callback(err);
+      callback(null, results);
+    });
   }
+
 };
 
 module.exports = UserLeaveModel;
