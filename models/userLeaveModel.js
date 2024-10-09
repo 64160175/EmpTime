@@ -44,7 +44,28 @@ const UserLeaveModel = {
       if (err) return callback(err);
       callback(null, results);
     });
-  }
+  },
+
+  getPendingLeaveRequests: (callback) => {
+    const sql = `
+      SELECT id, u_name, q_leave_part_used, l_startdate, l_enddate, l_reason, l_timestamp
+      FROM tbl_leave_request
+      WHERE l_status = 0
+      ORDER BY l_timestamp DESC
+    `;
+    db.query(sql, (err, results) => {
+      if (err) return callback(err);
+      callback(null, results);
+    });
+  },
+
+  updateLeaveRequestStatus: (id, status, callback) => {
+    const sql = 'UPDATE tbl_leave_request SET l_status = ? WHERE id = ?';
+    db.query(sql, [status, id], (err, result) => {
+      if (err) return callback(err);
+      callback(null, result);
+    });
+  },
 
 };
 

@@ -116,6 +116,10 @@ app.use('/', userworkhistoryRoutes);
 const shiftscheduleRoutes = require('./routes/shiftscheduleRoutes');
 app.use('/', shiftscheduleRoutes);
 
+const requestRoutes = require('./routes/requestRoutes');
+app.use('/', requestRoutes);
+
+
 // Start the server 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
