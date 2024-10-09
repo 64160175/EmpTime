@@ -106,6 +106,18 @@
                                         <hr>
                                         <p>ชื่อผู้ใช้: <%= request.u_name %>
                                         </p>
+                                        <p>ชื่อ-นามสกุล: 
+                                            <% if (request.f_name && request.l_name) { %>
+                                                <%= request.f_name %> <%= request.l_name %>
+                                            <% } else if (request.f_name) { %>
+                                                <%= request.f_name %>
+                                            <% } else if (request.l_name) { %>
+                                                <%= request.l_name %>
+                                            <% } else { %>
+                                                ไม่มีข้อมูล
+                                            <% } %>
+                                        </p>
+                                        
                                         <p>ลาจำนวน <%= request.q_leave_part_used %> วัน</p>
                                         <p>วันที่ลา: <%= new Date(request.l_startdate).toLocaleDateString('th-TH') %>
                                                 ถึง <%= new Date(request.l_enddate).toLocaleDateString('th-TH') %>
