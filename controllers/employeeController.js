@@ -45,8 +45,8 @@ const employeeController = {
 
   showEmployeeRecord: (req, res) => {
     const employeeId = req.params.id;
-
-    Employee.getEmployeeById(employeeId, (error, employee) => {
+  
+    Employee.getEmployeeRecordWithQuota(employeeId, (error, employee) => {
       if (error) {
         console.error(error);
         res.status(500).send('Error fetching employee data');

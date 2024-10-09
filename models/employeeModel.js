@@ -146,6 +146,27 @@ const Employee = {
   },
 
 
+  //นับจำนวนคนที่ มา ลา ขาด
+  getEmployeeRecordWithQuota: (employeeId, callback) => {
+    const sql = `
+      SELECT e.*, q.q_leave_part, q.q_late_part, q.q_absent_part
+      FROM tbl_user e
+      LEFT JOIN tbl_month_quota q ON e.u_name = q.u_name
+      WHERE e.id = ?
+    `;
+  
+    db.query(sql, [employeeId], (err, result) => {
+      if (err) {
+        return callback(err, null);
+      }
+      if (result.length === 0) {
+        return callback(null, null);
+      }
+      callback(null, result[0]);
+    });
+  },
+
+
 
 };
 
