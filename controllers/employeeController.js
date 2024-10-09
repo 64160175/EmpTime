@@ -43,19 +43,25 @@ const employeeController = {
     });
   },
 
-  showEmployeeRecord: (req, res) => {
+  showEmployeeRecord: async (req, res) => {
     const employeeId = req.params.id;
   
-    Employee.getEmployeeRecordWithQuota(employeeId, (error, employee) => {
-      if (error) {
-        console.error(error);
-        res.status(500).send('Error fetching employee data');
-      } else if (employee) {
-        res.render('employee_record', { employee: employee });
-      } else {
-        res.status(404).send('Employee not found');
+    try {
+      const employee = await Employee.getEmployeeById(employeeId);
+      if (!employee) {
+        return res.status(404).send('Employee not found');
       }
-    });
+  
+      const monthQuota = await Employee.getMonthQuota(employee.u_name);
+      
+      res.render('employee_record', { 
+        employee: employee,
+        monthQuota: monthQuota
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error fetching employee data');
+    }
   },
 
   deleteEmployee: (req, res) => {
@@ -106,7 +112,15 @@ const employeeController = {
     });
   },
 
-
+  getMonthQuota: async (username) => {
+    try {
+      const quota = await Employee.getMonthQuota(username);
+      return quota;
+    } catch (error) {
+      console.error('Error fetching month quota:', error);
+      throw error;
+    }
+  }
 
 
   

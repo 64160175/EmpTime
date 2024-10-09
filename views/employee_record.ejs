@@ -69,7 +69,7 @@
                         </div>
 
                         <a class="nav-link" href="/employee"> พนักงาน </a>
-                        <a class="nav-link" href="index.html"> ตารางลงงานพนักงาน </a>
+                        <a class="nav-link" href="/shift_schedule"> ตารางลงงานพนักงาน </a>
                         <a class="nav-link" href="index.html"> คำร้องขอ </a>
                         <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
                         <a class="nav-link" href="index.html"> ข่าว</a>
@@ -147,19 +147,18 @@
 
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title">โควต้าประจำเดือน</h5>
                             <div class="row">
                                 <div class="col-md-4">
                                     <p class="fw-bold text-success">วันลาคงเหลือ:</p>
-                                    <p class="profile-value"><%= employee.q_leave_part || 0 %> วัน</p>
+                                    <p class="profile-value"><%= monthQuota.q_leave_part %> วัน</p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="fw-bold text-warning">วันเลทคงเหลือ:</p>
-                                    <p class="profile-value"><%= employee.q_late_part || 0 %> วัน</p>
+                                    <p class="profile-value"><%= monthQuota.q_late_part %> วัน</p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="fw-bold text-secondary">วันขาดคงเหลือ:</p>
-                                    <p class="profile-value"><%= employee.q_absent_part || 0 %> วัน</p>
+                                    <p class="profile-value"><%= monthQuota.q_absent_part %> วัน</p>
                                 </div>
                             </div>
                         </div>

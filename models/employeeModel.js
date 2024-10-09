@@ -46,14 +46,12 @@ const Employee = {
   },
 
 
-  getEmployeeById: (employeeId, callback) => {
-    const query = 'SELECT * FROM tbl_user WHERE id = ?';
-    db.query(query, [employeeId], (error, results) => {
-      if (error) {
-        callback(error, null);
-      } else {
-        callback(null, results[0]); // Assuming you want the first result
-      }
+  getEmployeeById: (employeeId) => {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM tbl_user WHERE id = ?', [employeeId], (error, results) => {
+        if (error) reject(error);
+        else resolve(results[0]);
+      });
     });
   },
 
@@ -147,25 +145,14 @@ const Employee = {
 
 
   //นับจำนวนคนที่ มา ลา ขาด
-  getEmployeeRecordWithQuota: (employeeId, callback) => {
-    const sql = `
-      SELECT e.*, q.q_leave_part, q.q_late_part, q.q_absent_part
-      FROM tbl_user e
-      LEFT JOIN tbl_month_quota q ON e.u_name = q.u_name
-      WHERE e.id = ?
-    `;
-  
-    db.query(sql, [employeeId], (err, result) => {
-      if (err) {
-        return callback(err, null);
-      }
-      if (result.length === 0) {
-        return callback(null, null);
-      }
-      callback(null, result[0]);
+  getMonthQuota: (username) => {
+    return new Promise((resolve, reject) => {
+      db.query('SELECT * FROM tbl_month_quota WHERE u_name = ?', [username], (error, results) => {
+        if (error) reject(error);
+        else resolve(results[0]);
+      });
     });
-  },
-
+  }
 
 
 };
