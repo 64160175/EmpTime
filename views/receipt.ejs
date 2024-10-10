@@ -17,6 +17,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
 </head>
 
+<style>
+  .profile-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+</style>
+
 <body class="sb-nav-fixed">
   <!-- ฺBar ข้างบน -->
   <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
@@ -100,7 +109,9 @@
                 <tbody>
                   <% users.forEach(user => { %>
                     <tr onclick="window.location.href='/receipt/<%= user.id %>'">
-                      <td><img type="profile" src="/user/profile-picture/<%= user.id %>" alt="Profile"></td> 
+                      <td>
+                        <img class="profile-image" src="<%= user.profile_pic %>" alt="Profile" onerror="this.onerror=null; this.src='/image/profile.jpg';">
+                      </td>
                       <td><%= user.f_name %> <%= user.l_name %></td>
                       <td><img src="/icon/ChevronRight.svg" alt="ChevronRight" class="float-end"></td>
                     </tr>
