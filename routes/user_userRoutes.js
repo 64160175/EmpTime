@@ -7,15 +7,25 @@ const { checkPermission } = require('../controllers/permissionController');
 const checkinController = require('../controllers/userCheckinController');
 const checkoutController = require('../controllers/userCheckoutController');
 const userLeaveController = require('../controllers/userleaveController');
+const CalendarModel = require('../models/userscheduleModel');
 
 
 
-router.get('/user_home', checkPermission([2]), async (req, res) => {
-    try {
-      const userId = req.session.user.id;
-      const userData = await UserModel.getUserProfile(userId); 
-      res.render('user_home', { userData: userData }); // Only userData is passed here
-    } catch (err) {
+router.get('/user_home', async (req, res) => {
+  try {
+    const userId = req.session.user.id;
+    const username = req.session.user.u_name;
+    const userData = await UserModel.getUserProfile(userId);
+    
+    // ตรวจสอบตารางงานสำหรับวันนี้
+    const today = new Date().toISOString().split('T')[0]; // รูปแบบ 'YYYY-MM-DD'
+    const hasScheduleToday = await CalendarModel.checkUserSchedule(username, today);
+
+    res.render('user_home', { 
+      userData: userData,
+      hasScheduleToday: hasScheduleToday
+    });
+  } catch (err) {
     console.error(err);
     res.status(500).send('Internal Server Error');
   }

@@ -58,7 +58,14 @@
 <br><br>
 <h2 class="text-center font-weight-bold">ลงเวลาเข้า - ออก</h2>
 
-
+<% if (!hasScheduleToday) { %>
+  <div class="container mt-4">
+    <div class="alert alert-warning" role="alert">
+      คุณไม่มีตารางงานในวันนี้ ไม่สามารถลงเวลาเข้า-ออกได้
+      หากต้องการทำงาน โปรด <a href="/user_schedule">ลงงาน</a>
+    </div>
+  </div>
+<% } %>
 
 <div class="container mt-4">
   <div class="card rounded-3">
@@ -68,14 +75,16 @@
         <p id="checkin-time"></p>
       </div>
 
-      <a class="mt-4" href="/user_home_checkin">
-        <button type="button" class="btn btn-success btn-lg align-self-center" id="checkInButton"> เช็คอิน </button>
-      </a>
-      
+      <% if (hasScheduleToday) { %>
+        <a class="mt-4" href="/user_home_checkin">
+          <button type="button" class="btn btn-success btn-lg align-self-center" id="checkInButton">เช็คอิน</button>
+        </a>
+      <% } else { %>
+        <button type="button" class="btn btn-secondary btn-lg align-self-center" disabled>เช็คอิน</button>
+      <% } %>
     </div>
   </div>
 </div>
-
 
 
 <div class="container mt-4">
@@ -85,12 +94,20 @@
         <h5 class="card-title">เวลาออกงาน</h5>
         <p id="checkout-time"></p>
       </div>
-      <a class="mt-4" href="/user_home_checkout">
-      <button type="button" class="btn btn-danger btn-lg align-self-center" id="checkOutButton">เช็คเอ้าท์</button>
-      </a>
+      <% if (hasScheduleToday) { %>
+        <a class="mt-4" href="/user_home_checkout">
+          <button type="button" class="btn btn-danger btn-lg align-self-center" id="checkOutButton">เช็คเอ้าท์</button>
+        </a>
+      <% } else { %>
+        <button type="button" class="btn btn-secondary btn-lg align-self-center" disabled>เช็คเอ้าท์</button>
+      <% } %>
     </div>
   </div>
 </div>
+
+<br><br><br><br>.
+
+
 
 
 

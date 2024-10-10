@@ -102,6 +102,22 @@ const UserModel = {
       });
     });
   },
+
+  checkUserSchedule: (username, callback) => {
+    const today = new Date().toISOString().split('T')[0]; // รูปแบบ YYYY-MM-DD
+    const sql = `
+      SELECT * FROM tbl_schedule 
+      WHERE u_name = ? AND s_date = ?
+    `;
+
+    db.query(sql, [username, today], (err, result) => {
+      if (err) {
+        return callback(err, null);
+      }
+      const hasScheduleToday = result.length > 0;
+      callback(null, hasScheduleToday);
+    });
+  },
   
 };
 

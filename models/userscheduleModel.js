@@ -67,6 +67,20 @@ const CalendarModel = {
       }
     });
   },
+
+  checkUserSchedule: (username, date) => {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM tbl_schedule WHERE u_name = ? AND s_date = ?';
+      db.query(query, [username, date], (err, results) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results.length > 0);
+        }
+      });
+    });
+  },
+
 };
 
 module.exports = CalendarModel;

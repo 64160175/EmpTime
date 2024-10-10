@@ -47,7 +47,8 @@
   </nav>
 
 
-  <!-- Side Bar--> <!-- ----------------------------------------------------------------------------------------------------- -->
+  <!-- Side Bar-->
+  <!-- ----------------------------------------------------------------------------------------------------- -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -79,7 +80,7 @@
         </div>
       </nav>
     </div>
-<!-- ----------------------------------------------------------------------------------------------------------- -->
+    <!-- ----------------------------------------------------------------------------------------------------------- -->
 
     <!-- Content -->
     <div id="layoutSidenav_content">
@@ -96,15 +97,15 @@
             <li class="breadcrumb-item active">สรุปรายวัน</li>
           </ol>
 
-<!-- real content ----------------------------------------------------------------------------------------------------------- -->
+          <!-- real content ----------------------------------------------------------------------------------------------------------- -->
 
 
-        <h3>วันนี้วันที่  <span id="currentDate_dash">
-          <%= new Date().toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) %>
-        </span></h3><br>
+          <h3>วันนี้วันที่ <span id="currentDate_dash">
+              <%= new Date().toLocaleDateString('th-TH', { year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+            </span></h3><br>
 
-        
-<!-- On time check ----------------------------->
+
+          <!-- On time check ----------------------------->
           <div class="row">
             <div class="row">
               <div class="col-md-3">
@@ -114,82 +115,78 @@
                   </div>
                   <div class="card-body">
                     <p class="text-center">
-                      <%= typeof check_Count !== 'undefined' ? check_Count : 0 %>
-                    </p> 
+                      <%= typeof check_Count !=='undefined' ? check_Count : 0 %>
+                    </p>
                   </div>
                 </div>
               </div>
-            
-            <div class="col-md-3">
-              <div class="card mb-4  bg-green">
-                <div class="card-header">
-                  On Time
+
+              <div class="col-md-3">
+                <div class="card mb-4  bg-green">
+                  <div class="card-header">
+                    On Time
+                  </div>
+                  <div class="card-body">
+                    <p class="text-center">Content 2</p>
+                  </div>
                 </div>
-                <div class="card-body">
-                  <p class="text-center">Content 2</p>
+              </div>
+              
+              <div class="col-md-3">
+                <div class="card mb-4  bg-warning">
+                  <div class="card-header">
+                    Late
+                  </div>
+                  <div class="card-body">
+                    <p class="text-center">Content 3</p>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="card mb-4  bg-warning">
-                <div class="card-header">
-                  Late
-                </div>
-                <div class="card-body">
-                  <p class="text-center">Content 3</p>
-                </div>
+            <!-- end On time check ----------------------------->
+
+            <!-- employee ----------------------------->
+            <div class="card mb-4">
+              <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                สรุปรายวัน
+              </div>
+              <div class="card-body">
+                <table id="getCheckin_out_table" class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="col-2">Name</th>
+                      <th class="col-2">Status</th>
+                      <th class="col-2">Checkin</th>
+                      <th class="col-2">Checkout</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% checkInOutData.forEach(employee=> { %>
+                      <tr>
+                        <td>
+                          <%= employee.f_name %>
+                            <%= employee.l_name %>
+                        </td>
+                        <td class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>">
+                          <%= employee.in_status===1 ? 'On Time' : 'Late' %>
+                        </td>
+                        <td>
+                          <%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %>
+                        </td>
+                        <td>
+                          <%= employee.out_time ? employee.out_time.slice(0, 5) : '--:--' %>
+                        </td>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+                </table>
+
               </div>
             </div>
-            <div class="col-md-3">
-              <div class="card mb-4  bg-gray">
-                <div class="card-header">
-                  Leave
-                </div>
-                <div class="card-body">
-                  <p class="text-center">Content 4</p>
-                </div>
-              </div>
-            </div>
+            <!-- end employee ----------------------------->
+
           </div>
-<!-- end On time check ----------------------------->
-
-<!-- employee ----------------------------->
-<div class="card mb-4">
-  <div class="card-header">
-    <i class="fas fa-table me-1"></i>
-    สรุปรายวัน
-  </div>
-  <div class="card-body">
-    <table id="getCheckin_out_table" class="table table-striped">
-      <thead>
-        <tr>
-          <th class="col-2">Name</th>
-          <th class="col-2">Status</th>
-          <th class="col-2">Checkin</th>
-          <th class="col-2">Checkout</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% checkInOutData.forEach(employee => { %>
-          <tr>
-            <td><%= employee.f_name %> <%= employee.l_name %></td>
-            <td 
-              class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>"
-            >
-              <%= employee.in_status === 1 ? 'On Time' : 'Late' %>
-            </td>
-            <td><%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %></td>
-            <td><%= employee.out_time ? employee.out_time.slice(0, 5) : '--:--' %></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-    
-  </div>
-</div>
-<!-- end employee ----------------------------->
-
-        </div>
       </main>
 
     </div>
@@ -197,7 +194,8 @@
 
   <!-- end Content -->
   <!-- ----------------------------------------------------------------------------------------------------------- -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
   <script src="/js/today.js" defer></script>
 </body>
