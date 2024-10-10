@@ -151,19 +151,19 @@
                                 <div class="col-md-4">
                                     <p class="fw-bold text-success">วันลาคงเหลือ:</p>
                                     <p class="profile-value">
-                                        <%= monthQuota.q_leave_part %> วัน
+                                        <%= monthQuota && monthQuota.q_leave_part ? monthQuota.q_leave_part : '-' %> วัน
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="fw-bold text-warning">วันเลทคงเหลือ:</p>
                                     <p class="profile-value">
-                                        <%= monthQuota.q_late_part %> วัน
+                                        <%= monthQuota && monthQuota.q_late_part ? monthQuota.q_late_part : '-' %> วัน
                                     </p>
                                 </div>
                                 <div class="col-md-4">
                                     <p class="fw-bold text-secondary">วันขาดคงเหลือ:</p>
                                     <p class="profile-value">
-                                        <%= monthQuota.q_absent_part %> วัน
+                                        <%= monthQuota && monthQuota.q_absent_part ? monthQuota.q_absent_part : '-' %> วัน
                                     </p>
                                 </div>
                             </div>
