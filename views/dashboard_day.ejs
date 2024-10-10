@@ -8,22 +8,19 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
   <title>Dashboard Day</title>
+  <link rel="icon" type="image" href="/image/logo_web.png">
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-  //font
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
 
   </script>
-
-
 </head>
 
 
 <!-- ฺBar ข้างบน -->
-
 <body class="sb-nav-fixed">
   <nav class="sb-topnav navbar navbar-expand navbar-black bg-warning">
     <!-- Sidebar Toggle-->
@@ -45,9 +42,8 @@
       </li>
     </ul>
   </nav>
-
-
   <!-- Side Bar-->
+
   <!-- ----------------------------------------------------------------------------------------------------- -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
@@ -128,11 +124,13 @@
                     มาตรงเวลา/คน
                   </div>
                   <div class="card-body">
-                    <p class="text-center"><%= typeof onTimeCount !== 'undefined' ? onTimeCount : 0 %></p>
+                    <p class="text-center">
+                      <%= typeof onTimeCount !=='undefined' ? onTimeCount : 0 %>
+                    </p>
                   </div>
                 </div>
               </div>
-              
+
               <!-- แก้ไขส่วนที่แสดงจำนวนคนมาสาย -->
               <div class="col-md-3">
                 <div class="card mb-4  bg-warning">
@@ -140,54 +138,56 @@
                     มาสาย/คน
                   </div>
                   <div class="card-body">
-                    <p class="text-center"><%= typeof lateCount !== 'undefined' ? lateCount : 0 %></p>
+                    <p class="text-center">
+                      <%= typeof lateCount !=='undefined' ? lateCount : 0 %>
+                    </p>
                   </div>
                 </div>
               </div>
-            <!-- end On time check ----------------------------->
+              <!-- end On time check ----------------------------->
 
-            <!-- employee ----------------------------->
-            <div class="card mb-4">
-              <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                สรุปรายวัน
-              </div>
-              <div class="card-body">
-                <table id="getCheckin_out_table" class="table table-striped">
-                  <thead>
-                    <tr>
-                      <th class="col-2">Name</th>
-                      <th class="col-2">Status</th>
-                      <th class="col-2">Checkin</th>
-                      <th class="col-2">Checkout</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% checkInOutData.forEach(employee=> { %>
+              <!-- employee ----------------------------->
+              <div class="card mb-4">
+                <div class="card-header">
+                  <i class="fas fa-table me-1"></i>
+                  สรุปรายวัน
+                </div>
+                <div class="card-body">
+                  <table id="getCheckin_out_table" class="table table-striped">
+                    <thead>
                       <tr>
-                        <td>
-                          <%= employee.f_name %>
-                            <%= employee.l_name %>
-                        </td>
-                        <td class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>">
-                          <%= employee.in_status===1 ? 'มาตรงเวลา' : 'มาสาย' %>
-                        </td>
-                        <td>
-                          <%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %>
-                        </td>
-                        <td>
-                          <%= employee.out_time ? employee.out_time.slice(0, 5) : '--:--' %>
-                        </td>
+                        <th class="col-2">Name</th>
+                        <th class="col-2">Status</th>
+                        <th class="col-2">Checkin</th>
+                        <th class="col-2">Checkout</th>
                       </tr>
-                      <% }); %>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <% checkInOutData.forEach(employee=> { %>
+                        <tr>
+                          <td>
+                            <%= employee.f_name %>
+                              <%= employee.l_name %>
+                          </td>
+                          <td class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>">
+                            <%= employee.in_status===1 ? 'มาตรงเวลา' : 'มาสาย' %>
+                          </td>
+                          <td>
+                            <%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %>
+                          </td>
+                          <td>
+                            <%= employee.out_time ? employee.out_time.slice(0, 5) : '--:--' %>
+                          </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                  </table>
 
+                </div>
               </div>
-            </div>
-            <!-- end employee ----------------------------->
+              <!-- end employee ----------------------------->
 
-          </div>
+            </div>
       </main>
 
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>employee</title>
+    <title>คำร้องขอ</title>
+    <link rel="icon" type="image" href="/image/logo_web.png">
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
-    //font
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
@@ -106,18 +106,19 @@
                                         <hr>
                                         <p>ชื่อผู้ใช้: <%= request.u_name %>
                                         </p>
-                                        <p>ชื่อ-นามสกุล: 
+                                        <p>ชื่อ-นามสกุล:
                                             <% if (request.f_name && request.l_name) { %>
-                                                <%= request.f_name %> <%= request.l_name %>
-                                            <% } else if (request.f_name) { %>
                                                 <%= request.f_name %>
-                                            <% } else if (request.l_name) { %>
-                                                <%= request.l_name %>
-                                            <% } else { %>
-                                                ไม่มีข้อมูล
-                                            <% } %>
+                                                    <%= request.l_name %>
+                                                        <% } else if (request.f_name) { %>
+                                                            <%= request.f_name %>
+                                                                <% } else if (request.l_name) { %>
+                                                                    <%= request.l_name %>
+                                                                        <% } else { %>
+                                                                            ไม่มีข้อมูล
+                                                                            <% } %>
                                         </p>
-                                        
+
                                         <p>ลาจำนวน <%= request.q_leave_part_used %> วัน</p>
                                         <p>วันที่ลา: <%= new Date(request.l_startdate).toLocaleDateString('th-TH') %>
                                                 ถึง <%= new Date(request.l_enddate).toLocaleDateString('th-TH') %>

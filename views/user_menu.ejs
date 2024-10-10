@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Home</title>
+    <title>เมนู</title>
+    <link rel="icon" type="image" href="/image/logo_web.png">
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -28,29 +29,36 @@
                 <div class="col-2 ">
                     <% if (userData && userData.profile_pic) { %>
                         <img type="profile" src="<%= userData.profile_pic %>" alt="Profile">
-                      <% } else { %>
-                        <img type="profile" src="/image/profile.jpg" alt="Profile"> 
-                      <% } %>
-                    </div>
-                    
-                    <div class="col-6">
-                      <h2><%= userData ? userData.f_name + ' ' + userData.l_name : 'User' %></h2>
-                      
+                        <% } else { %>
+                            <img type="profile" src="/image/profile.jpg" alt="Profile">
+                            <% } %>
+                </div>
+
+                <div class="col-6">
+                    <h2>
+                        <%= userData ? userData.f_name + ' ' + userData.l_name : 'User' %>
+                    </h2>
+
                     <p><a href="/user_editprofile">แก้ไขโปรไฟล์</a></p>
                 </div>
-        </div>
+            </div>
         </div>
     </header>
 
     <div class="container mt-4">
         <div class="card rounded-3">
             <div class="card-body d-flex flex-column align-items-center">
-                <a href="/user_work" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="WorkButton"> วันลงงาน </button></a>
-                <a href="/user_workhistory" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="HisoryButton"> ประวัติการทำงาน</button></a>
-                <a href="/user_leave" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="leaveButton"> ยื่นลา </button></a>
+                <a href="/user_work" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="WorkButton">
+                    วันลงงาน </button></a>
+                <a href="/user_workhistory" button type="button" class="btn btn-warning btn-lg  mb-3 w-100"
+                    id="HisoryButton"> ประวัติการทำงาน</button></a>
+                <a href="/user_leave" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="leaveButton">
+                    ยื่นลา </button></a>
                 <button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="MoneyButton"> เงินเดือน </button>
-                <a href="/user_password" button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="PasswordButton"> เปลี่ยนรหัสผ่าน </button></a>
-                <button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="logoutButton" onclick="logout()"> ออกจากระบบ </button>
+                <a href="/user_password" button type="button" class="btn btn-warning btn-lg  mb-3 w-100"
+                    id="PasswordButton"> เปลี่ยนรหัสผ่าน </button></a>
+                <button type="button" class="btn btn-warning btn-lg  mb-3 w-100" id="logoutButton" onclick="logout()">
+                    ออกจากระบบ </button>
             </div>
         </div>
     </div>
@@ -86,10 +94,10 @@
     <script src="/js/today.js" defer></script>
     <script>
         function logout() {
-          window.location.href = '/logout'; 
+            window.location.href = '/logout';
         }
-      </script>
-      
+    </script>
+
 </body>
 
 </html>

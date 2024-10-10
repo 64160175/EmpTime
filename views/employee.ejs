@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="" />
   <meta name="author" content="" />
-  <title>employee</title>
+  <title>พนักงาน</title>
+  <link rel="icon" type="image" href="/image/logo_web.png">
   <link href="/css/styles.css" rel="stylesheet" />
   <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -48,7 +49,6 @@
 
 
   <!-- Side Bar-->
-  <!-- ----------------------------------------------------------------------------------------------------- -->
   <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
       <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
@@ -80,7 +80,6 @@
         </div>
       </nav>
     </div>
-    <!-- ----------------------------------------------------------------------------------------------------------- -->
 
     <!-- Content -->
     <div id="layoutSidenav_content">
@@ -118,12 +117,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% employees.forEach(employee => { %>
+                  <% employees.forEach(employee=> { %>
                     <tr onclick="window.location.href='/employee_record/<%= employee.id %>'">
-                      <td><img type="profile" src="/employee/profile-picture/<%= employee.id %>" alt="Profile"></td> 
-                      <td><%= employee.f_name %> <%= employee.l_name %></td>
+                      <td><img type="profile" src="/employee/profile-picture/<%= employee.id %>" alt="Profile"></td>
+                      <td>
+                        <%= employee.f_name %>
+                          <%= employee.l_name %>
+                      </td>
                     </tr>
-                  <% }); %>
+                    <% }); %>
                 </tbody>
               </table>
             </div>

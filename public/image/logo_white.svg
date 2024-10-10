@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 251.38 139.5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke-width: 5px;
+      }
+
+      .cls-1, .cls-2 {
+        stroke: #fff;
+      }
+
+      .cls-3, .cls-2 {
+        isolation: isolate;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-family: PlantagenetCherokee, 'Plantagenet Cherokee';
+        font-size: 48px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer_1">
+    <g>
+      <polyline class="cls-1" points="145.35 95.5 145.35 137 2.5 137 2.5 2.5 145.35 2.5 145.35 37.5"/>
+      <line class="cls-1" x1="145.35" y1="94.65" x2="145.35" y2="95.5"/>
+      <line class="cls-1" x1="145.35" y1="37.5" x2="145.35" y2="37.82"/>
+    </g>
+  </g>
+  <g id="Dimensions">
+    <g class="cls-3">
+      <text class="cls-2" transform="translate(30.33 83.46)"><tspan x="0" y="0">EMPTIME</tspan></text>
+    </g>
+  </g>
+</svg>

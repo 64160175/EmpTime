@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Home</title>
+    <title>สถานะ</title>
+    <link rel="icon" type="image" href="/image/logo_web.png">
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -45,23 +46,27 @@
             <% leaveRequests.forEach(function(leave) { %>
                 <div class="card rounded-3 mb-3">
                     <div class="card-body">
-                        <p>วันที่ทำรายการ <%= new Date(leave.l_timestamp).toLocaleString('th-TH') %></p>
+                        <p>วันที่ทำรายการ <%= new Date(leave.l_timestamp).toLocaleString('th-TH') %>
+                        </p>
                         <hr>
                         <p>ลาจำนวน <%= leave.q_leave_part_used %> วัน</p>
-                        <p>วันที่ลา <%= new Date(leave.l_startdate).toLocaleDateString('th-TH') %> ถึง <%= new Date(leave.l_enddate).toLocaleDateString('th-TH') %></p>
-                        <p>เหตุผล: <%= leave.l_reason %></p>
-                        <p>สถานะการลา: 
-                            <% if(leave.l_status === 0) { %>
+                        <p>วันที่ลา <%= new Date(leave.l_startdate).toLocaleDateString('th-TH') %> ถึง <%= new
+                                    Date(leave.l_enddate).toLocaleDateString('th-TH') %>
+                        </p>
+                        <p>เหตุผล: <%= leave.l_reason %>
+                        </p>
+                        <p>สถานะการลา:
+                            <% if(leave.l_status===0) { %>
                                 <span class="text-warning">รออนุมัติ</span>
-                            <% } else if(leave.l_status === 1) { %>
-                                <span class="text-success">อนุมัติ</span>
-                            <% } else if(leave.l_status === 2) { %>
-                                <span class="text-danger">ไม่อนุมัติ</span>
-                            <% } %>
+                                <% } else if(leave.l_status===1) { %>
+                                    <span class="text-success">อนุมัติ</span>
+                                    <% } else if(leave.l_status===2) { %>
+                                        <span class="text-danger">ไม่อนุมัติ</span>
+                                        <% } %>
                         </p>
                     </div>
                 </div>
-            <% }); %>
+                <% }); %>
         </div>
     </div>
 </body>

@@ -17,8 +17,6 @@ const receiptModel = {
       }
     });
   },
-
-  // เพิ่มฟังก์ชันอื่นๆ ที่เกี่ยวข้องกับการดึงข้อมูลใบเสร็จที่นี่
 };
 
 module.exports = receiptModel;

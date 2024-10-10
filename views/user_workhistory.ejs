@@ -8,6 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>ประวัติการทำงาน</title>
+    <link rel="icon" type="image" href="/image/logo_web.png">
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -22,8 +23,8 @@
 <body>
     <header class="mt-5 sticky-top " style="background-color: white;">
         <div class="container">
-            
-            <div class="row" >
+
+            <div class="row">
                 <div class="col-2 ">
                     <script>
                         console.log("Image path:", "/icon/back_icon.svg");
@@ -38,30 +39,32 @@
     </header>
 
     <div class="container mt-4">
-        <% 
-        const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-        
-        const userWorkHistory = workHistoryData.filter(entry => entry.user_id === userData.u_name);
+        <% const months=['มกราคม', 'กุมภาพันธ์' , 'มีนาคม' , 'เมษายน' , 'พฤษภาคม' , 'มิถุนายน' , 'กรกฎาคม' , 'สิงหาคม'
+            , 'กันยายน' , 'ตุลาคม' , 'พฤศจิกายน' , 'ธันวาคม' ]; const userWorkHistory=workHistoryData.filter(entry=>
+            entry.user_id === userData.u_name);
 
-        const groupedData = userWorkHistory.reduce((acc, entry) => {
+            const groupedData = userWorkHistory.reduce((acc, entry) => {
             const workDate = new Date(entry.work_date);
             const yearMonth = workDate.getFullYear() + '-' + ('0' + (workDate.getMonth() + 1)).slice(-2);
             if (!acc[yearMonth]) {
-                acc[yearMonth] = [];
+            acc[yearMonth] = [];
             }
             acc[yearMonth].push(entry);
             return acc;
-        }, {});
+            }, {});
 
-        const sortedMonths = Object.keys(groupedData).sort((a, b) => {
-            return new Date(b) - new Date(a); 
-        });
+            const sortedMonths = Object.keys(groupedData).sort((a, b) => {
+            return new Date(b) - new Date(a);
+            });
 
-        sortedMonths.forEach(yearMonth => {
+            sortedMonths.forEach(yearMonth => {
             const [year, monthIndex] = yearMonth.split('-').map(Number);
-            const monthName = months[monthIndex - 1]; 
-        %>
-            <div class="form-group"> <h3>เดือน <%= monthName %> <%= year %></h3> 
+            const monthName = months[monthIndex - 1];
+            %>
+            <div class="form-group">
+                <h3>เดือน <%= monthName %>
+                        <%= year %>
+                </h3>
                 <table class="table">
                     <thead>
                         <tr>
@@ -71,17 +74,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% groupedData[yearMonth].forEach(entry => { %>
+                        <% groupedData[yearMonth].forEach(entry=> { %>
                             <tr>
-                                <td><%= entry.work_date %></td>
-                                <td><%= entry.actual_in_time %></td>
-                                <td><%= entry.actual_out_time %></td> 
+                                <td>
+                                    <%= entry.work_date %>
+                                </td>
+                                <td>
+                                    <%= entry.actual_in_time %>
+                                </td>
+                                <td>
+                                    <%= entry.actual_out_time %>
+                                </td>
                             </tr>
-                        <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>
-        <% }); %>
+            <% }); %>
     </div>
 
 
