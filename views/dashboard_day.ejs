@@ -121,28 +121,29 @@
                 </div>
               </div>
 
+              <!-- แก้ไขส่วนที่แสดงจำนวนคนมาตรงเวลา -->
               <div class="col-md-3">
                 <div class="card mb-4  bg-green">
                   <div class="card-header">
-                    On Time
+                    มาตรงเวลา/คน
                   </div>
                   <div class="card-body">
-                    <p class="text-center">Content 2</p>
+                    <p class="text-center"><%= typeof onTimeCount !== 'undefined' ? onTimeCount : 0 %></p>
                   </div>
                 </div>
               </div>
               
+              <!-- แก้ไขส่วนที่แสดงจำนวนคนมาสาย -->
               <div class="col-md-3">
                 <div class="card mb-4  bg-warning">
                   <div class="card-header">
-                    Late
+                    มาสาย/คน
                   </div>
                   <div class="card-body">
-                    <p class="text-center">Content 3</p>
+                    <p class="text-center"><%= typeof lateCount !== 'undefined' ? lateCount : 0 %></p>
                   </div>
                 </div>
               </div>
-            </div>
             <!-- end On time check ----------------------------->
 
             <!-- employee ----------------------------->
@@ -169,7 +170,7 @@
                             <%= employee.l_name %>
                         </td>
                         <td class="<%= employee.in_status === 1 ? 'text-success' : 'text-warning' %>">
-                          <%= employee.in_status===1 ? 'On Time' : 'Late' %>
+                          <%= employee.in_status===1 ? 'มาตรงเวลา' : 'มาสาย' %>
                         </td>
                         <td>
                           <%= employee.in_time ? employee.in_time.slice(0, 5) : '--:--' %>

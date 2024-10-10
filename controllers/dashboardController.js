@@ -1,35 +1,34 @@
-
-
 const dashboardModel = require('../models/dashboardModel');
 
 const dashboardController = {
-  getDashboardDay: async (req, res) => {
-    try {
-      // Fetch check-in/out data and check-in count concurrently
-      const [checkInOutData, checkCount] = await Promise.all([
-        new Promise((resolve, reject) => {
-          dashboardModel.getTodayCheckInOut((error, data) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(data);
-            }
-          });
-        }),
-        dashboardModel.getTodaysBookSchedule()
-      ]);
+  getDashboardDay: function(req, res) {
+    dashboardModel.getTodayCheckInOut((err, checkInOutData) => {
+      if (err) {
+        console.error('Error fetching check-in/out data:', err);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
 
-      res.render('dashboard_day', { 
-        checkInOutData: checkInOutData,
-        check_Count: checkCount  
+      dashboardModel.getOnTimeAndLateCount((err, countData) => {
+        if (err) {
+          console.error('Error fetching on-time and late counts:', err);
+          res.status(500).send('Internal Server Error');
+          return;
+        }
+
+        const check_Count = checkInOutData.length;
+        const onTimeCount = countData.on_time_count;
+        const lateCount = countData.late_count;
+
+        res.render('dashboard_day', {
+          checkInOutData: checkInOutData,
+          check_Count: check_Count,
+          onTimeCount: onTimeCount,
+          lateCount: lateCount
+        });
       });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      res.status(500).send('Internal Server Error'); 
-    }
+    });
   }
 };
 
 module.exports = dashboardController;
-
-

@@ -61,6 +61,23 @@ const dashboardModel = {
     });
   },
 
+  getOnTimeAndLateCount: function(callback) {
+    const query = `
+      SELECT 
+        SUM(CASE WHEN in_status = '1' THEN 1 ELSE 0 END) as on_time_count,
+        SUM(CASE WHEN in_status = '2' THEN 1 ELSE 0 END) as late_count
+      FROM tbl_checkin
+      WHERE DATE(in_date) = CURDATE()
+    `;
+    db.query(query, (error, results) => {
+      if (error) {
+        console.error("Error fetching on-time and late counts:", error);
+        callback(error, null);
+      } else {
+        callback(null, results[0]);
+      }
+    });
+  },
   
   
 };
