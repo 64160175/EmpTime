@@ -24,8 +24,7 @@
       border-collapse: collapse;
     }
 
-    th,
-    td {
+    th, td {
       border: 1px solid #ddd;
       padding: 10px;
       text-align: center;
@@ -43,8 +42,9 @@
     .calendar th,
     .calendar td {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 8px;
       text-align: center;
+      vertical-align: top;
     }
 
     .calendar th {
@@ -55,15 +55,39 @@
       font-size: 12px;
       margin: 2px 0;
     }
-    
+
     .schedule-box {
-    background-color: #FFFDE7; /* สีเหลืองอ่อน */
-    border: 1px solid #FFF59D; /* เส้นขอบสีเหลืองเข้มกว่าเล็กน้อย */
-    border-radius: 4px; /* มุมโค้ง */
-    padding: 2px 4px; /* ระยะห่างภายใน */
-    margin: 2px 0; /* ระยะห่างด้านบนและล่าง */
-    display: inline-block; /* ให้กล่องมีขนาดพอดีกับเนื้อหา */
-  }
+      font-size: 0.8em;
+      margin-bottom: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: #FFFDE7;
+      /* สีเหลืองอ่อน */
+      border: 1px solid #FFF59D;
+      /* เส้นขอบสีเหลืองเข้มกว่าเล็กน้อย */
+      border-radius: 3px;
+      /* มุมโค้ง */
+      padding: 2px 4px;
+      /* ระยะห่างภายใน */
+      display: block;
+      /* ระยะห่างด้านบนและล่าง */
+    }
+
+    .status-1 {
+        background-color: #aeeeb4;
+        border: 1px solid #3e9443;
+    }
+
+    .status-2 {
+        background-color: #ffb5c0;
+        border: 1px solid #e65757;
+    }
+
+    .status-default {
+        background-color: #FFFDE7;
+        border: 1px solid #FFF59D;
+    }
+
   </style>
 
 </head>
@@ -146,18 +170,33 @@
 
           <!-- real content ----------------------------------------------------------------------------------------------------------- -->
           <main>
+            <div class="d-flex justify-content-end mb-2">
+              <div class="me-3">
+                <span class="status-box status-1">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="ms-1">ตรงเวลา</span>
+              </div>
+              <div>
+                <span class="status-box status-2">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span class="ms-1">สาย</span>
+              </div>
+            </div>
+
             <div class="card mb-4">
               <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 ปฏิทินรายเดือน <%= monthName %>
                   <%= year %>
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <a href="/dashboard_month?year=<%= prevYear %>&month=<%= prevMonth %>" class="btn btn-warning">&lt; เดือนก่อนหน้า</a>
-                    <h2><%= monthName %> <%= year %></h2>
-                    <a href="/dashboard_month?year=<%= nextYear %>&month=<%= nextMonth %>" class="btn btn-warning">เดือนถัดไป &gt;</a>
-                  </div>
               </div>
               <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <a href="/dashboard_month?year=<%= prevYear %>&month=<%= prevMonth %>" class="btn btn-warning">&lt;
+                    เดือนก่อนหน้า</a>
+                  <h2>
+                    <%= monthName %> <%= year %>
+                  </h2>
+                  <a href="/dashboard_month?year=<%= nextYear %>&month=<%= nextMonth %>"
+                    class="btn btn-warning">เดือนถัดไป &gt;</a>
+                </div>
                 <table class="calendar">
                   <thead>
                     <tr>
@@ -171,34 +210,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% if (calendar && calendar.length> 0) { %>
-                      <% for(let week of calendar) { %>
+                    <% calendar.forEach(week => { %>
                         <tr>
-                          <% for(let day of week) { %>
-                            <td>
-                              <%= day && day.date ? day.date : '' %>
-                                <% if (day && day.schedules && day.schedules.length> 0) { %>
-                                  <% day.schedules.forEach(schedule=> { %>
-                                    <div class="employee-schedule">
-                                      <% function formatTime(time) { if (time) { return time.slice(0, 5); } return '' ;} %>
-                                      <div class="employee-schedule schedule-box">
-                                        <%= schedule.f_name %> <%= formatTime(schedule.s_time_in) %> - <%= formatTime(schedule.s_time_out) %>
-                                      </div>
-                                    </div>
-                                    <% }); %>
-                                      <% } else if (day && day.date) { %>
-                                        <div class="employee-schedule">ไม่มีคนลงงาน</div>
-                                        <% } %>
-                            </td>
-                            <% } %>
+                            <% week.forEach(day => { %>
+                                <td class="<%= day.date ? 'day' : 'empty' %>">
+                                    <% if (day.date) { %>
+                                        <div class="date"><%= day.date %></div>
+                                        <% day.schedules.forEach(schedule => { %>
+                                            <div class="schedule-box <%= schedule.in_status == 1 ? 'status-1' : (schedule.in_status == 2 ? 'status-2' : 'status-default') %>">
+                                                <%= schedule.f_name %>
+                                                <%= schedule.in_time.slice(0, 5) %> - <%= schedule.out_time ? schedule.out_time.slice(0, 5) : 'N/A' %>
+                                            </div>
+                                        <% }) %>
+                                    <% } %>
+                                </td>
+                            <% }) %>
                         </tr>
-                        <% } %>
-                          <% } else { %>
-                            <tr>
-                              <td colspan="7">ไม่มีข้อมูลปฏิทิน</td>
-                            </tr>
-                            <% } %>
-                  </tbody>
+                    <% }) %>
+                </tbody>
                 </table>
               </div>
             </div>

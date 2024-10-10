@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const dashboardmonthModel = require('../models/dashboardmonthModel');
 
 const getDashboardMonth = async (req, res) => {
   try {
@@ -10,15 +10,7 @@ const getDashboardMonth = async (req, res) => {
     const lastDayOfMonth = new Date(year, month, 0);
     const daysInMonth = lastDayOfMonth.getDate();
 
-    // Query to get all schedules for the month
-    const query = `
-      SELECT s.s_date, s.s_time_in, s.s_time_out, u.f_name
-      FROM tbl_schedule s
-      JOIN tbl_user u ON s.u_name = u.u_name
-      WHERE YEAR(s.s_date) = ? AND MONTH(s.s_date) = ?
-    `;
-    
-    db.query(query, [year, month], (error, schedules) => {
+    dashboardmonthModel.getMonthlyCheckinCheckout(year, month, (error, schedules) => {
       if (error) {
         console.error('Error fetching schedules:', error);
         return res.status(500).send('Internal Server Error');
@@ -35,7 +27,7 @@ const getDashboardMonth = async (req, res) => {
 
       for (let day = 1; day <= daysInMonth; day++) {
         let date = new Date(year, month - 1, day);
-        let daySchedules = schedules.filter(s => new Date(s.s_date).getDate() === day);
+        let daySchedules = schedules.filter(s => new Date(s.in_date).getDate() === day);
         
         currentWeek.push({
           date: day,
@@ -93,6 +85,4 @@ const getDashboardMonth = async (req, res) => {
   }
 };
 
-module.exports = {
-  getDashboardMonth
-};
+module.exports = {getDashboardMonth};
