@@ -69,6 +69,69 @@ const UserLeaveModel = {
     });
   },
 
+  updateLeaveRequestStatus: (id, status, callback) => {
+    db.beginTransaction((err) => {
+      if (err) {
+        return callback(err);
+      }
+
+      // 1. อัพเดทสถานะคำร้องขอ
+      const updateStatusSql = 'UPDATE tbl_leave_request SET l_status = ? WHERE id = ?';
+      db.query(updateStatusSql, [status, id], (err, result) => {
+        if (err) {
+          return db.rollback(() => callback(err));
+        }
+
+        if (status === 1) { // ถ้าอนุมัติ
+          // 2. ดึงข้อมูลคำร้องขอลา
+          const getRequestSql = 'SELECT u_name, q_leave_part_used, l_startdate, l_enddate FROM tbl_leave_request WHERE id = ?';
+          db.query(getRequestSql, [id], (err, requests) => {
+            if (err) {
+              return db.rollback(() => callback(err));
+            }
+
+            if (requests.length === 0) {
+              return db.rollback(() => callback(new Error('Leave request not found')));
+            }
+
+            const request = requests[0];
+
+            // 3. อัพเดท tbl_month_quota
+            const updateQuotaSql = 'UPDATE tbl_month_quota SET q_leave_part = q_leave_part - ? WHERE u_name = ?';
+            db.query(updateQuotaSql, [request.q_leave_part_used, request.u_name], (err, result) => {
+              if (err) {
+                return db.rollback(() => callback(err));
+              }
+
+              // 4. ลบข้อมูลจาก tbl_schedule
+              const deleteScheduleSql = 'DELETE FROM tbl_schedule WHERE u_name = ? AND s_date BETWEEN ? AND ?';
+              db.query(deleteScheduleSql, [request.u_name, request.l_startdate, request.l_enddate], (err, result) => {
+                if (err) {
+                  return db.rollback(() => callback(err));
+                }
+
+                db.commit((err) => {
+                  if (err) {
+                    return db.rollback(() => callback(err));
+                  }
+                  callback(null, result);
+                });
+              });
+            });
+          });
+        } else {
+          // ถ้าไม่อนุมัติ เพียงแค่ commit transaction
+          db.commit((err) => {
+            if (err) {
+              return db.rollback(() => callback(err));
+            }
+            callback(null, result);
+          });
+        }
+      });
+    });
+  },
+
 };
 
 module.exports = UserLeaveModel;

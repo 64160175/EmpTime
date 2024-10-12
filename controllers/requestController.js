@@ -15,10 +15,10 @@ const RequestController = {
     const { id, status } = req.body;
     UserLeaveModel.updateLeaveRequestStatus(id, status, (err, result) => {
       if (err) {
-        console.error('Error updating leave request status:', err);
-        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+        console.error('Error updating request status:', err);
+        return res.status(500).json({ success: false, message: 'An error occurred while updating the request status' });
       }
-      res.json({ success: true });
+      res.json({ success: true, message: 'Request status updated successfully' });
     });
   }
 };

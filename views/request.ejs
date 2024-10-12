@@ -144,36 +144,38 @@
 
         <!-- Add this script before the closing body tag -->
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const buttons = document.querySelectorAll('.approve-btn, .reject-btn');
-                buttons.forEach(button => {
-                    button.addEventListener('click', function () {
-                        const id = this.getAttribute('data-id');
-                        const status = this.classList.contains('approve-btn') ? 1 : 2;
-                        updateRequestStatus(id, status, this);
-                    });
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.approve-btn, .reject-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+                    const status = this.classList.contains('approve-btn') ? 1 : 2;
+                    updateRequestStatus(id, status, this);
                 });
             });
-
-            function updateRequestStatus(id, status, button) {
-                fetch('/update-request-status', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ id, status }),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            const buttonGroup = button.closest('.btn-group');
-                            buttonGroup.style.display = 'none';
-                            const statusText = button.closest('.card-body').querySelector('.status-text');
-                            statusText.style.display = 'block';
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
+        });
+        
+        function updateRequestStatus(id, status, button) {
+            fetch('/update-request-status', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id, status }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const card = button.closest('.card');
+                    card.style.display = 'none';
+                    // หรือคุณอาจต้องการแสดงข้อความยืนยันแทน:
+                    // card.innerHTML = '<div class="card-body"><p>คำร้องขอได้รับการอัปเดตแล้ว</p></div>';
+                } else {
+                    alert('เกิดข้อผิดพลาดในการอัปเดตสถานะ: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
         </script>
 
 </body>
