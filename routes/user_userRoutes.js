@@ -17,16 +17,19 @@ router.get('/user_home', async (req, res) => {
     const username = req.session.user.u_name;
     const userData = await UserModel.getUserProfile(userId);
     
-    // ตรวจสอบตารางงานสำหรับวันนี้
-    const today = new Date().toISOString().split('T')[0]; // รูปแบบ 'YYYY-MM-DD'
+    // ปรับการคำนวณวันที่ให้ตรงกับเขตเวลาของประเทศไทย
+    const today = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().split('T')[0];
     const hasScheduleToday = await CalendarModel.checkUserSchedule(username, today);
+
+    console.log('Today\'s date:', today);
+    console.log('Has schedule today:', hasScheduleToday);
 
     res.render('user_home', { 
       userData: userData,
       hasScheduleToday: hasScheduleToday
     });
   } catch (err) {
-    console.error(err);
+    console.error('Error in /user_home route:', err);
     res.status(500).send('Internal Server Error');
   }
 });

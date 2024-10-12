@@ -44,7 +44,9 @@ const checkinModel = {
       }
       const newId = (result[0].maxId || 0) + 1;
   
-      const todayDate = new Date().toISOString().split('T')[0]; // รูปแบบ YYYY-MM-DD
+      
+      const todayDate = new Date(new Date().getTime() + (7 * 60 * 60 * 1000)).toISOString().split('T')[0];
+      
       const scheduleQuery = `
         SELECT s_date, s_time_in 
         FROM tbl_schedule 
