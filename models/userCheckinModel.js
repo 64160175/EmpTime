@@ -76,6 +76,24 @@ const checkinModel = {
           const currentTime = new Date();
           if (currentTime > scheduledDateTime) {
             inStatus = '2'; // มาสาย
+            
+            // อัปเดต q_late_part ในตาราง tbl_month_quota
+            const updateQuotaSQL = `
+              UPDATE tbl_month_quota
+              SET q_late_part = q_late_part - 1
+              WHERE u_name = ?
+            `;
+            
+            db.query(updateQuotaSQL, [username], (quotaErr, quotaResult) => {
+              if (quotaErr) {
+                console.error('Error updating q_late_part:', quotaErr);
+                // ไม่ต้อง return callback ที่นี่ เพราะเราต้องการให้การบันทึกการเช็คอินดำเนินต่อไป
+              } else if (quotaResult.affectedRows === 0) {
+                console.warn(`No quota record found for user ${username} for today's date`);
+              } else {
+                console.log(`Updated q_late_part for user ${username}`);
+              }
+            });
           }
         }
   
