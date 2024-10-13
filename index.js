@@ -69,53 +69,53 @@ app.get("/error_page", isLoggedIn, (req, res) => {
 });
 
 // ------------------- Routes ------------------- //
-const userRoutes = require("./routes/userRoutes");
-app.use("/", userRoutes);
-
 const employeeRoutes = require("./routes/employeeRoutes");
 app.use("/", employeeRoutes);
 
-const settingRoutes = require("./routes/settingRoutes");
-app.use("/", settingRoutes);
-
-const userUserRoutes = require("./routes/user_userRoutes");
-app.use("/", userUserRoutes);
-
-const userscheduleRoutes = require("./routes/userscheduleRoutes");
-app.use("/", userscheduleRoutes);
-
-const userworkRoutes = require("./routes/userworkRoutes");
-app.use("/", userworkRoutes);
-
-const userLeaveRoutes = require("./routes/userLeaveRoutes");
-app.use("/", userLeaveRoutes);
+const inoutRoutes = require("./routes/inoutRoute");
+app.use("/", inoutRoutes);
 
 const receiptRoutes = require("./routes/receiptRoutes");
 app.use("/", receiptRoutes);
 
-const useredprofileRoutes = require("./routes/useredprofileRoutes");
-app.use("/", useredprofileRoutes);
+const requestRoutes = require("./routes/requestRoutes");
+app.use("/", requestRoutes);
 
-const userpasswordRoutes = require("./routes/userpasswordRoutes");
-app.use("/", userpasswordRoutes);
+const settingRoutes = require("./routes/settingRoutes");
+app.use("/", settingRoutes);
 
-const inoutRoutes = require("./routes/inoutRoute");
-app.use("/", inoutRoutes);
+const shiftscheduleRoutes = require("./routes/shiftscheduleRoutes");
+app.use("/", shiftscheduleRoutes);
 
 const userCheckinRoutes = require("./routes/userCheckinRoute");
 app.use("/", userCheckinRoutes);
 
 const userCheckoutRoutes = require("./routes/userCheckoutRoute");
-app.use(userCheckoutRoutes);
+app.use("/", userCheckoutRoutes);
+
+const useredprofileRoutes = require("./routes/useredprofileRoutes");
+app.use("/", useredprofileRoutes);
+
+const userLeaveRoutes = require("./routes/userLeaveRoutes");
+app.use("/", userLeaveRoutes);
+
+const userpasswordRoutes = require("./routes/userpasswordRoutes");
+app.use("/", userpasswordRoutes);
+
+const userRoutes = require("./routes/userRoutes");
+app.use("/", userRoutes);
+
+const userscheduleRoutes = require("./routes/userscheduleRoutes");
+app.use("/", userscheduleRoutes);
+
+const userUserRoutes = require("./routes/user_userRoutes");
+app.use("/", userUserRoutes);
 
 const userworkhistoryRoutes = require("./routes/userworkhistoryRoutes");
 app.use("/", userworkhistoryRoutes);
 
-const shiftscheduleRoutes = require("./routes/shiftscheduleRoutes");
-app.use("/", shiftscheduleRoutes);
-
-const requestRoutes = require("./routes/requestRoutes");
-app.use("/", requestRoutes);
+const userworkRoutes = require("./routes/userworkRoutes");
+app.use("/", userworkRoutes);
 
 // Start the server
 app.listen(port, () => {

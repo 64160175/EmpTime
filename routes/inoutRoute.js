@@ -5,9 +5,8 @@ const { checkPermission } = require('../controllers/permissionController');
 
 router.get('/gen_code', checkPermission([3]), (req, res) => {
     res.render('gen_code');
-  });
-  
+});
 
-router.post('/checkin_outcode',checkPermission([3]), inoutCodeController.generateCode);
+router.post('/checkin_outcode', checkPermission([3]), inoutCodeController.generateCode);
 
 module.exports = router;

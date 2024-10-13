@@ -3,7 +3,7 @@ const router = express.Router();
 const { checkPermission } = require('../controllers/permissionController');
 const userscheduleController = require('../controllers/userscheduleController'); 
 
-// Assuming you have a controller function to handle saving the schedule
+
 const { saveSchedule } = require('../controllers/userscheduleController'); 
 
 router.get('/user_schedule', checkPermission([2]), userscheduleController.showSchedulePage);
