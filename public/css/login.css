@@ -112,8 +112,11 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #3e8e41; /* Darker green on hover */
-  }
+    background-color: #f5bc00; 
+    transition: background-color 0.3s ease; 
+    cursor: pointer;
+
+}
 
 .forgot-password {
     text-align: center;
