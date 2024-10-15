@@ -84,9 +84,6 @@ const receiptModel = {
         user.total_hours = user.salary_data.reduce((sum, day) => sum + day.day_hr, 0);
         user.total_hours = Math.round(user.total_hours * 100) / 100;
         user.total_salary = Math.round(user.total_hours * user.rate_hr * 100) / 100;
-
-        // console.log(`User ${user.f_name} total hours: ${user.total_hours}, total salary: ${user.total_salary}`);
-        // console.log(`User ${user.f_name} salary data:`, JSON.stringify(user.salary_data, null, 2));
       });
 
       callback(null, Object.values(groupedResults));
