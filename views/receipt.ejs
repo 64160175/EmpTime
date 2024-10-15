@@ -93,7 +93,6 @@
           <!--loop users-->
           <div class="row">
             <% users.forEach(user=> { %>
-
               <div class="col-12 mb-4">
                 <div class="card employee-card h-100">
                   <div class="card-body d-flex flex-column">
@@ -102,13 +101,12 @@
                         onerror="this.onerror=null; this.src='/image/profile.jpg';">
                       <div>
                         <h6 class="card-title mb-1">
-                          <%= user.f_name %>
-                            <%= user.l_name %>
+                          <%= user.f_name %> <%= user.l_name %>
                         </h6>
                         <p class="card-text small mb-1">
-                          ชั่วโมงการทำงานรวม: <%= user.total_hours %> ชั่วโมง <br>
+                          ชั่วโมงการทำงานรวม: <%= user.current_month_hours %> ชั่วโมง <br>
                           อัตราค่าจ้างต่อชั่วโมง: <%= user.rate_hr %> บาท <br>
-                          สรุปเงินค่าจ้างทั้งหมด: <%= (user.total_hours * user.rate_hr).toFixed(2) %> บาท
+                          สรุปเงินค่าจ้างทั้งหมด: <%= user.current_month_salary.toFixed(2) %> บาท
                         </p>
                       </div>
                     </div>
@@ -123,8 +121,7 @@
                   </div>
                 </div>
               </div>
-
-              <% }); %>
+            <% }); %>
           </div>
 
         </div>

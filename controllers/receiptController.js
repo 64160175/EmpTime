@@ -4,52 +4,50 @@ const receiptController = {
   getUsersForReceipt: (req, res) => {
     receiptModel.getUsersForReceipt((err, users) => {
       if (err) {
-        return res.status(500).json({ error: err.message });
+        console.error('Error fetching users for receipt:', err);
+        return res.status(500).json({ error: 'Internal server error' });
       }
-      
-      const usersWithProfilePics = users.map(user => {
-        // จัดการรูปโปรไฟล์
+
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+      const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const currentMonthKey = `${currentYear}-${currentMonth}`;
+
+      const usersWithCurrentMonthData = users.map(user => {
+        // Find current month's data
+        const currentMonthData = user.monthly_hours.find(month => month.month === currentMonthKey);
+
+        // Add current month's hours and salary to user object
+        user.current_month_hours = currentMonthData ? currentMonthData.hours : 0;
+        user.current_month_salary = currentMonthData ? currentMonthData.salary : 0;
+
+        // Process profile picture
         if (user.u_profile) {
           if (Buffer.isBuffer(user.u_profile)) {
+            // If it's a Buffer, convert to Base64
             user.profile_pic = `data:image/jpeg;base64,${user.u_profile.toString('base64')}`;
           } else if (typeof user.u_profile === 'string') {
+            // If it's a string (path), use it directly
             user.profile_pic = user.u_profile;
           }
         } else {
-          user.profile_pic = '/image/profile.jpg';
+          user.profile_pic = '/image/profile.jpg'; // Default image
         }
-
-        // จัดการข้อมูลเงินเดือน
-        user.monthly_salary = user.monthly_hours.map(month => ({
-          ...month,
-          salary: Math.round(month.hours * user.rate_hr * 100) / 100
-        }));
-
-        // คำนวณเงินเดือนรวม
-        user.total_salary = Math.round(user.total_hours * user.rate_hr * 100) / 100;
-
-        // แปลงวันที่ให้อยู่ในรูปแบบที่อ่านง่ายขึ้น
-        user.salary_data = user.salary_data.map(day => ({
-          ...day,
-          formatted_date: new Date(day.work_date).toLocaleDateString('th-TH', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })
-        }));
 
         return user;
       });
 
-      // เรียงลำดับผู้ใช้ตามชื่อ
-      usersWithProfilePics.sort((a, b) => a.f_name.localeCompare(b.f_name));
-
       res.render('receipt', { 
-        users: usersWithProfilePics,
-        formatNumber: (num) => num.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+        users: usersWithCurrentMonthData,
+        currentMonth: `${currentYear}-${currentMonth}`
       });
     });
   },
+
+  // You can add more methods here for handling other receipt-related operations
+  // For example:
+  // generatePDF: (req, res) => { ... },
+  // sendReceiptByEmail: (req, res) => { ... },
 };
 
 module.exports = receiptController;
