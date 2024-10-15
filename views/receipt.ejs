@@ -107,7 +107,8 @@
                         </h6>
                         <p class="card-text small mb-1">
                           ชั่วโมงการทำงานรวม: <%= user.total_hours %> ชั่วโมง <br>
-                          สรุปเงินค่าจ้างทั้งหมด: <%= user.total_hours %> X <%= user.rate_hr %> = บาท
+                          อัตราค่าจ้างต่อชั่วโมง: <%= user.rate_hr %> บาท <br>
+                          สรุปเงินค่าจ้างทั้งหมด: <%= (user.total_hours * user.rate_hr).toFixed(2) %> บาท
                         </p>
                       </div>
                     </div>

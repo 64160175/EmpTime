@@ -8,6 +8,7 @@ const receiptController = {
       }
       
       const usersWithProfilePics = users.map(user => {
+        // จัดการรูปโปรไฟล์
         if (user.u_profile) {
           if (Buffer.isBuffer(user.u_profile)) {
             user.profile_pic = `data:image/jpeg;base64,${user.u_profile.toString('base64')}`;
@@ -18,17 +19,35 @@ const receiptController = {
           user.profile_pic = '/image/profile.jpg';
         }
 
-        // คำนวณชั่วโมงรวมจาก salary_data
-        user.total_hours = user.salary_data.reduce((sum, day) => sum + parseFloat(day.day_hr), 0);
-        user.total_hours = Math.round(user.total_hours * 100) / 100; // ปัดเศษทศนิยมให้เหลือ 2 ตำแหน่ง
+        // จัดการข้อมูลเงินเดือน
+        user.monthly_salary = user.monthly_hours.map(month => ({
+          ...month,
+          salary: Math.round(month.hours * user.rate_hr * 100) / 100
+        }));
 
-        //console.log(`User ${user.f_name} total hours: ${user.total_hours}`);
-        //console.log(`User ${user.f_name} salary data:`, JSON.stringify(user.salary_data, null, 2));
+        // คำนวณเงินเดือนรวม
+        user.total_salary = Math.round(user.total_hours * user.rate_hr * 100) / 100;
+
+        // แปลงวันที่ให้อยู่ในรูปแบบที่อ่านง่ายขึ้น
+        user.salary_data = user.salary_data.map(day => ({
+          ...day,
+          formatted_date: new Date(day.work_date).toLocaleDateString('th-TH', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        }));
 
         return user;
       });
 
-      res.render('receipt', { users: usersWithProfilePics });
+      // เรียงลำดับผู้ใช้ตามชื่อ
+      usersWithProfilePics.sort((a, b) => a.f_name.localeCompare(b.f_name));
+
+      res.render('receipt', { 
+        users: usersWithProfilePics,
+        formatNumber: (num) => num.toLocaleString('th-TH', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+      });
     });
   },
 };
