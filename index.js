@@ -74,6 +74,7 @@ app.use("/", employeeRoutes);
 
 const inoutRoutes = require("./routes/inoutRoute");
 app.use("/", inoutRoutes);
+app.use('/uploads', express.static('uploads'));
 
 const receiptRoutes = require("./routes/receiptRoutes");
 app.use("/", receiptRoutes);

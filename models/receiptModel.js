@@ -15,11 +15,10 @@ const receiptModel = {
         ds.in_time,
         ds.out_time,
         ds.day_hr,
-        s.rate_hr
+        (SELECT rate_hr FROM tbl_setting ORDER BY id DESC LIMIT 1) AS latest_rate_hr
       FROM tbl_user u
       LEFT JOIN tbl_default_pic d ON 1=1
       LEFT JOIN tbl_day_salary ds ON u.u_name = ds.u_name
-      CROSS JOIN tbl_setting s
       WHERE u.u_type_name_id = 2 AND u.u_status = 1
       ORDER BY u.u_name, ds.work_date
     `;
@@ -29,8 +28,14 @@ const receiptModel = {
         return callback(error, null);
       }
 
+      let latestRateHr = null;
+
       // Group results by user
       const groupedResults = results.reduce((acc, row) => {
+        if (latestRateHr === null) {
+          latestRateHr = parseFloat(row.latest_rate_hr);
+        }
+
         if (!acc[row.u_name]) {
           acc[row.u_name] = {
             id: row.id,
@@ -40,7 +45,7 @@ const receiptModel = {
             u_namebank: row.u_namebank,
             u_idbook: row.u_idbook,
             u_profile: row.u_profile,
-            rate_hr: parseFloat(row.rate_hr),
+            rate_hr: latestRateHr,
             salary_data: [],
             monthly_hours: {}
           };

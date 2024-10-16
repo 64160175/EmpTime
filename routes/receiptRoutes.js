@@ -3,5 +3,6 @@ const router = express.Router();
 const receiptController = require('../controllers/receiptController');
 
 router.get('/receipt', receiptController.getUsersForReceipt);
+router.post('/upload-slip', receiptController.uploadSlip);
 
 module.exports = router;

@@ -1,4 +1,10 @@
 const receiptModel = require('../models/receiptModel');
+const multer = require('multer');
+const path = require('path');
+const db = require('../config/database'); // ต้องแน่ใจว่ามีการ import db จาก database configuration
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const receiptController = {
   getUsersForReceipt: (req, res) => {
@@ -44,6 +50,25 @@ const receiptController = {
       });
     });
   },
+
+  uploadSlip: [
+    upload.single('slip'), // 'slip' คือชื่อของ input field
+    (req, res) => {
+      const { u_name, current_month_hours, current_month_salary } = req.body;
+      const s_pic = req.file ? req.file.buffer : null; // เก็บข้อมูลไฟล์เป็น buffer
+
+      const sql = `INSERT INTO tbl_slip (u_name, s_pic, hr_month, money_month) VALUES (?, ?, ?, ?)`;
+      
+      db.query(sql, [u_name, s_pic, current_month_hours, current_month_salary], (err, result) => {
+        if (err) {
+          console.error('Error inserting slip data:', err);
+          res.status(500).send('Error uploading slip');
+        } else {
+          res.redirect('/receipt?message=Upload successful');
+        }
+      });
+    }
+  ]
 };
 
 module.exports = receiptController;
