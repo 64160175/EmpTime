@@ -82,6 +82,9 @@ app.use("/", receiptRoutes);
 const requestRoutes = require("./routes/requestRoutes");
 app.use("/", requestRoutes);
 
+const userReceiptRoutes = require('./routes/userreceiptRoutes');
+app.use('/', userReceiptRoutes);
+
 const settingRoutes = require("./routes/settingRoutes");
 app.use("/", settingRoutes);
 
@@ -99,6 +102,8 @@ app.use("/", useredprofileRoutes);
 
 const userLeaveRoutes = require("./routes/userLeaveRoutes");
 app.use("/", userLeaveRoutes);
+
+
 
 const userpasswordRoutes = require("./routes/userpasswordRoutes");
 app.use("/", userpasswordRoutes);
