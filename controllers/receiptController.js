@@ -1,10 +1,7 @@
 const receiptModel = require('../models/receiptModel');
+const db = require('../config/database');
 const multer = require('multer');
-const path = require('path');
-const db = require('../config/database'); // ต้องแน่ใจว่ามีการ import db จาก database configuration
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multer.memoryStorage() });
 
 const receiptController = {
   getUsersForReceipt: (req, res) => {
@@ -20,44 +17,69 @@ const receiptController = {
         return res.status(500).json({ error: 'Internal server error' });
       }
 
-      const usersWithCurrentMonthData = users.map(user => {
-        // Find current month's data
-        const currentMonthData = user.monthly_hours.find(month => month.month === currentMonthKey);
+      // Fetch s_status for all users
+      const userNames = users.map(user => user.u_name);
+      const slipStatusQuery = `
+        SELECT u_name, s_status
+        FROM tbl_slip
+        WHERE u_name IN (?)
+        AND DATE_FORMAT(day_slip, '%Y-%m') = ?
+      `;
 
-        // Add current month's hours and salary to user object
-        user.current_month_hours = currentMonthData ? currentMonthData.hours : 0;
-        user.current_month_salary = currentMonthData ? currentMonthData.salary : 0;
-
-        // Process profile picture
-        if (user.u_profile) {
-          if (Buffer.isBuffer(user.u_profile)) {
-            user.profile_pic = `data:image/jpeg;base64,${user.u_profile.toString('base64')}`;
-          } else if (typeof user.u_profile === 'string') {
-            user.profile_pic = user.u_profile;
-          }
-        } else {
-          user.profile_pic = '/image/profile.jpg'; // Default image
+      db.query(slipStatusQuery, [userNames, currentMonthKey], (slipErr, slipResults) => {
+        if (slipErr) {
+          console.error('Error fetching slip status:', slipErr);
+          return res.status(500).json({ error: 'Internal server error' });
         }
 
-        return user;
-      });
+        // Create a map of u_name to s_status
+        const slipStatusMap = slipResults.reduce((acc, row) => {
+          acc[row.u_name] = row.s_status;
+          return acc;
+        }, {});
 
-      res.render('receipt', { 
-        users: usersWithCurrentMonthData,
-        currentMonth: currentMonthKey,
-        selectedYear,
-        selectedMonth
+        const usersWithCurrentMonthData = users.map(user => {
+          // Find current month's data
+          const currentMonthData = user.monthly_hours.find(month => month.month === currentMonthKey);
+
+          // Add current month's hours and salary to user object
+          user.current_month_hours = currentMonthData ? currentMonthData.hours : 0;
+          user.current_month_salary = currentMonthData ? currentMonthData.salary : 0;
+
+          // Add s_status to user object
+          user.s_status = slipStatusMap[user.u_name] || null;
+
+          // Process profile picture
+          if (user.u_profile) {
+            if (Buffer.isBuffer(user.u_profile)) {
+              user.profile_pic = `data:image/jpeg;base64,${user.u_profile.toString('base64')}`;
+            } else if (typeof user.u_profile === 'string') {
+              user.profile_pic = user.u_profile;
+            }
+          } else {
+            user.profile_pic = '/image/profile.jpg'; // Default image
+          }
+
+          return user;
+        });
+
+        res.render('receipt', { 
+          users: usersWithCurrentMonthData,
+          currentMonth: currentMonthKey,
+          selectedYear,
+          selectedMonth
+        });
       });
     });
   },
 
   uploadSlip: [
-    upload.single('slip'), // 'slip' คือชื่อของ input field
+    upload.single('slip'),
     (req, res) => {
       const { u_name, current_month_hours, current_month_salary } = req.body;
-      const s_pic = req.file ? req.file.buffer : null; // เก็บข้อมูลไฟล์เป็น buffer
+      const s_pic = req.file ? req.file.buffer : null;
 
-      const sql = `INSERT INTO tbl_slip (u_name, s_pic, hr_month, money_month) VALUES (?, ?, ?, ?)`;
+      const sql = `INSERT INTO tbl_slip (u_name, s_pic, hr_month, money_month, s_status, day_slip) VALUES (?, ?, ?, ?, 1, NOW())`;
       
       db.query(sql, [u_name, s_pic, current_month_hours, current_month_salary], (err, result) => {
         if (err) {

@@ -177,8 +177,15 @@
                         บาท
                     </td>
                     <td>
-                      <a href="/receipt/<%= user.u_name %>?month=<%= currentMonth %>"
-                        class="btn btn-info btn-sm">ดูรายละเอียด</a>
+                      <% if (user.s_status !== undefined) { %>
+                        <% if (user.s_status === 1) { %>
+                          <span class="text-success">โอนแล้ว</span>
+                        <% } else { %>
+                          <span class="text-danger">ยังไม่โอน</span>
+                        <% } %>
+                      <% } else { %>
+                        <span class="text-warning">ไม่มีข้อมูล</span>
+                      <% } %>
                     </td>
                     <td>
                       <form action="/upload-slip" method="POST" enctype="multipart/form-data">
@@ -189,7 +196,7 @@
                           id="slip-<%= user.u_name %>">
                         <label for="slip-<%= user.u_name %>" class="btn btn-warning btn-sm file-label"
                           data-default-text="เลือกไฟล์">เลือกไฟล์</label>
-                        <button type="submit" class="btn btn-success btn-sm">อัพโหลด</button>
+                        <button type="submit" class="btn btn-success btn-sm" disabled>อัพโหลด</button>
                       </form>
                     </td>
                   </tr>
@@ -209,13 +216,23 @@
 
   <script>
     document.querySelectorAll('input[type="file"]').forEach(function (input) {
-      input.addEventListener('change', function (e) {
-        var fileName = e.target.files[0] ? e.target.files[0].name : 'เลือกไฟล์';
-        var label = document.querySelector('label[for="' + e.target.id + '"]');
-        label.textContent = fileName;
-        label.classList.add('file-selected');
-      });
+    var form = input.closest('form');
+    var uploadButton = form.querySelector('button[type="submit"]');
+    
+    // ปิดปุ่มอัพโหลดเมื่อเริ่มต้น
+    uploadButton.disabled = true;
+
+    input.addEventListener('change', function (e) {
+      var fileName = e.target.files[0] ? e.target.files[0].name : 'เลือกไฟล์';
+      var label = document.querySelector('label[for="' + e.target.id + '"]');
+      label.textContent = fileName;
+      label.classList.add('file-selected');
+
+      // เปิดใช้งานปุ่มอัพโหลดเมื่อมีการเลือกไฟล์
+      uploadButton.disabled = !e.target.files[0];
     });
+  });
+
   </script>
 
 </body>
