@@ -7,7 +7,7 @@ const receiptController = {
   getUsersForReceipt: (req, res) => {
     const { month, year } = req.query;
     const currentDate = new Date();
-    const selectedYear = year || currentDate.getFullYear();
+    const selectedYear = year || currentDate.getFullYear().toString();
     const selectedMonth = month || String(currentDate.getMonth() + 1).padStart(2, '0');
     const currentMonthKey = `${selectedYear}-${selectedMonth}`;
 
@@ -76,21 +76,46 @@ const receiptController = {
   uploadSlip: [
     upload.single('slip'),
     (req, res) => {
-      const { u_name, current_month_hours, current_month_salary } = req.body;
+      const { u_name, current_month_hours, current_month_salary, selectedMonth, selectedYear } = req.body;
       const s_pic = req.file ? req.file.buffer : null;
 
-      const sql = `INSERT INTO tbl_slip (u_name, s_pic, hr_month, money_month, s_status, day_slip) VALUES (?, ?, ?, ?, 1, NOW())`;
-      
-      db.query(sql, [u_name, s_pic, current_month_hours, current_month_salary], (err, result) => {
+      const slipData = {
+        u_name,
+        hr_month: current_month_hours,
+        money_month: current_month_salary,
+        s_pic,
+        selectedMonth,
+        selectedYear
+      };
+
+      receiptModel.uploadSlip(slipData, (err, result) => {
         if (err) {
-          console.error('Error inserting slip data:', err);
-          res.status(500).send('Error uploading slip');
+          console.error('Error saving slip:', err);
+          res.status(500).send('Error uploading slip: ' + err.message);
         } else {
           res.redirect('/receipt?message=Upload successful');
         }
       });
     }
-  ]
+  ],
+
+  updateSlipStatus: (req, res) => {
+    const { u_name, month, year, status } = req.body;
+    const updateStatusSQL = `
+      UPDATE tbl_slip 
+      SET s_status = ?
+      WHERE u_name = ? AND DATE_FORMAT(day_slip, '%Y-%m') = ?
+    `;
+
+    db.query(updateStatusSQL, [status, u_name, `${year}-${month}`], (err, result) => {
+      if (err) {
+        console.error('Error updating slip status:', err);
+        res.status(500).json({ error: 'Error updating slip status' });
+      } else {
+        res.json({ message: 'Status updated successfully' });
+      }
+    });
+  }
 };
 
 module.exports = receiptController;

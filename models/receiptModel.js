@@ -94,6 +94,90 @@ const receiptModel = {
       callback(null, Object.values(groupedResults));
     });
   },
+
+  uploadSlip: (slipData, callback) => {
+    // ตรวจสอบข้อมูลก่อนที่จะทำการ insert
+    if (!slipData.u_name || !slipData.hr_month || !slipData.money_month || !slipData.selectedMonth || !slipData.selectedYear) {
+      return callback(new Error('Missing required fields'), null);
+    }
+  
+    // สร้างวันที่แรกของเดือนจากข้อมูลที่ได้รับ
+    const day_slip = new Date(slipData.selectedYear, parseInt(slipData.selectedMonth) - 1, 1);
+  
+    const query = `
+      INSERT INTO tbl_slip 
+      (u_name, hr_month, money_month, s_pic, day_slip, s_status, stamp_day) 
+      VALUES (?, ?, ?, ?, ?, ?, NOW())
+    `;
+    const values = [
+      slipData.u_name,
+      slipData.hr_month,
+      slipData.money_month,
+      slipData.s_pic || null,  // ถ้าไม่มีรูปภาพให้เป็น null
+      day_slip,
+      slipData.s_status || 1,  // ใช้ค่าเริ่มต้นเป็น 1 ถ้าไม่มีการกำหนด
+    ];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error("Error uploading slip:", err);
+        console.error("Query:", query);
+        console.error("Values:", values.map(v => v === slipData.s_pic ? 'BLOB_DATA' : v));
+        
+        // ตรวจสอบข้อผิดพลาดเฉพาะ
+        if (err.code === 'ER_DUP_ENTRY') {
+          return callback(new Error('Duplicate entry. This slip may already exist.'), null);
+        } else if (err.code === 'ER_DATA_TOO_LONG') {
+          return callback(new Error('File size is too large.'), null);
+        }
+        
+        callback(new Error(`Database error: ${err.message}`), null);
+      } else {
+        console.log("Slip uploaded successfully:", result);
+        callback(null, result);
+      }
+    });
+  },
+  
+  updateSlipStatus: (u_name, month, year, status, callback) => {
+    const query = `
+      UPDATE tbl_slip 
+      SET s_status = ?
+      WHERE u_name = ? AND YEAR(day_slip) = ? AND MONTH(day_slip) = ?
+    `;
+    const values = [status, u_name, year, month];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error("Error updating slip status:", err);
+        callback(new Error(`Database error: ${err.message}`), null);
+      } else {
+        console.log("Slip status updated successfully:", result);
+        callback(null, result);
+      }
+    });
+  },
+
+  getSlipStatus: (u_name, month, year, callback) => {
+    const query = `
+      SELECT s_status
+      FROM tbl_slip
+      WHERE u_name = ? AND YEAR(day_slip) = ? AND MONTH(day_slip) = ?
+      LIMIT 1
+    `;
+    const values = [u_name, year, month];
+  
+    db.query(query, values, (err, result) => {
+      if (err) {
+        console.error("Error fetching slip status:", err);
+        callback(new Error(`Database error: ${err.message}`), null);
+      } else {
+        const status = result.length > 0 ? result[0].s_status : null;
+        console.log("Slip status fetched successfully:", status);
+        callback(null, status);
+      }
+    });
+  }
 };
 
 module.exports = receiptModel;
