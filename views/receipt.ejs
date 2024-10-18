@@ -40,6 +40,49 @@
     border-color: #28a745 !important;
     color: white !important;
   }
+
+  .slip-image-thumbnail {
+    max-width: 50px;
+    max-height: 50px;
+    cursor: pointer;
+  }
+
+  .lightbox {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+  }
+
+  .close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+  }
 </style>
 
 <body class="sb-nav-fixed">
@@ -149,6 +192,7 @@
                   <th>เงินเดือน</th>
                   <th>การดำเนินการ</th>
                   <th>สลิปเงิน</th>
+                  <th>รูป</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,15 +221,15 @@
                         บาท
                     </td>
                     <td>
-                      <% if (user.s_status !== undefined) { %>
-                        <% if (user.s_status === 1) { %>
+                      <% if (user.s_status !==undefined) { %>
+                        <% if (user.s_status===1) { %>
                           <span class="text-success">โอนแล้ว</span>
-                        <% } else { %>
-                          <span class="text-danger">ยังไม่โอน</span>
-                        <% } %>
-                      <% } else { %>
-                        <span class="text-warning">ไม่มีข้อมูล</span>
-                      <% } %>
+                          <% } else { %>
+                            <span class="text-danger">ยังไม่โอน</span>
+                            <% } %>
+                              <% } else { %>
+                                <span class="text-warning">ไม่มีข้อมูล</span>
+                                <% } %>
                     </td>
                     <td>
                       <form action="/upload-slip" method="POST" enctype="multipart/form-data">
@@ -201,6 +245,14 @@
                         <button type="submit" class="btn btn-success btn-sm" disabled>อัพโหลด</button>
                       </form>
                     </td>
+                    <td>
+                      <% if (user.s_pic) { %>
+                        <img src="<%= user.s_pic %>" alt="Slip" class="slip-image-thumbnail"
+                          onclick="openLightbox(this.src)">
+                        <% } else { %>
+                          ไม่มีรูป
+                          <% } %>
+                    </td>
                   </tr>
                   <% }); %>
               </tbody>
@@ -211,6 +263,11 @@
     </div>
   </div>
 
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="close cursor" onclick="closeLightbox()">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
     crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
@@ -218,22 +275,49 @@
 
   <script>
     document.querySelectorAll('input[type="file"]').forEach(function (input) {
-    var form = input.closest('form');
-    var uploadButton = form.querySelector('button[type="submit"]');
-    
-    // ปิดปุ่มอัพโหลดเมื่อเริ่มต้น
-    uploadButton.disabled = true;
+      var form = input.closest('form');
+      var uploadButton = form.querySelector('button[type="submit"]');
 
-    input.addEventListener('change', function (e) {
-      var fileName = e.target.files[0] ? e.target.files[0].name : 'เลือกไฟล์';
-      var label = document.querySelector('label[for="' + e.target.id + '"]');
-      label.textContent = fileName;
-      label.classList.add('file-selected');
+      // ปิดปุ่มอัพโหลดเมื่อเริ่มต้น
+      uploadButton.disabled = true;
 
-      // เปิดใช้งานปุ่มอัพโหลดเมื่อมีการเลือกไฟล์
-      uploadButton.disabled = !e.target.files[0];
+      input.addEventListener('change', function (e) {
+        var fileName = e.target.files[0] ? e.target.files[0].name : 'เลือกไฟล์';
+        var label = document.querySelector('label[for="' + e.target.id + '"]');
+        label.textContent = fileName;
+        label.classList.add('file-selected');
+
+        // เปิดใช้งานปุ่มอัพโหลดเมื่อมีการเลือกไฟล์
+        uploadButton.disabled = !e.target.files[0];
+      });
     });
-  });
+
+    function openLightbox(imgSrc) {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightbox-img');
+      lightboxImg.src = imgSrc;
+      lightbox.style.display = 'block';
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.style.display = 'none';
+    }
+
+    // Close lightbox when clicking outside the image
+    window.onclick = function (event) {
+      const lightbox = document.getElementById('lightbox');
+      if (event.target == lightbox) {
+        closeLightbox();
+      }
+    }
+
+    // Close lightbox when pressing ESC key
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+    });
 
   </script>
 
