@@ -88,7 +88,14 @@
 
           <div class="card mb-4">
             <div class="card-header">
-              <i class="fas fa-cog"></i> ข้อมูลการตั้งค่าร้านล่าสุดเมื่อวันที่ <%= setting.formatted_log_history_time %>
+              <i class="fas fa-cog"></i> ข้อมูลการตั้งค่าร้านล่าสุดเมื่อวันที่ 
+              <%= 
+                (() => {
+                  const date = new Date(setting.formatted_log_history_time);
+                  const thaiYear = date.getFullYear() + 543;
+                  return `${date.getDate()}/${date.getMonth() + 1}/${thaiYear}`;
+                })()
+              %>
             </div>
             <div class="card-body">
               <% if (typeof setting !=='undefined' && setting) { %>
