@@ -218,7 +218,7 @@
                                         <div class="date"><%= day.date %></div>
                                         <% day.schedules.forEach(schedule => { %>
                                             <div class="schedule-box <%= schedule.in_status == 1 ? 'status-1' : (schedule.in_status == 2 ? 'status-2' : 'status-default') %>">
-                                                <%= schedule.f_name %>
+                                                <%= schedule.u_name %>
                                                 <%= schedule.in_time.slice(0, 5) %> - <%= schedule.out_time ? schedule.out_time.slice(0, 5) : '--:--' %>
                                             </div>
                                         <% }) %>
