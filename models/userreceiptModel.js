@@ -15,7 +15,17 @@ const userreceiptModel = {
       }
       callback(null, results);
     });
-  }
+  },
+
+  getHourlyRate: (callback) => {
+    const query = 'SELECT rate_hr FROM tbl_setting ORDER BY id DESC LIMIT 1';
+    db.query(query, (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results[0] ? results[0].rate_hr : null);
+    });
+  },
 };
 
 module.exports = userreceiptModel;
