@@ -71,20 +71,16 @@
                             <th>วันที่ทำงาน</th>
                             <th>เวลาเข้างาน</th>
                             <th>เวลาออกงาน</th>
+                            <th>ชม.ทำงาน</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% groupedData[yearMonth].forEach(entry=> { %>
                             <tr>
-                                <td>
-                                    <%= entry.work_date %>
-                                </td>
-                                <td>
-                                    <%= entry.actual_in_time %>
-                                </td>
-                                <td>
-                                    <%= entry.actual_out_time %>
-                                </td>
+                                <td> <%= entry.work_date %> </td>
+                                <td> <%= entry.actual_in_time %> </td>
+                                <td> <%= entry.actual_out_time %> </td>
+                                <td><%= entry.day_hr ? entry.day_hr.toFixed(2) : 'N/A' %></td>
                             </tr>
                             <% }); %>
                     </tbody>
