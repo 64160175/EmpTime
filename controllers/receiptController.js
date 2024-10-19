@@ -113,13 +113,7 @@ const receiptController = {
 
   updateSlipStatus: (req, res) => {
     const { u_name, month, year, status } = req.body;
-    const updateStatusSQL = `
-      UPDATE tbl_slip 
-      SET s_status = ?
-      WHERE u_name = ? AND DATE_FORMAT(day_slip, '%Y-%m') = ?
-    `;
-
-    db.query(updateStatusSQL, [status, u_name, `${year}-${month}`], (err, result) => {
+    receiptModel.updateSlipStatus(u_name, month, year, status, (err, result) => {
       if (err) {
         console.error('Error updating slip status:', err);
         res.status(500).json({ error: 'Error updating slip status' });

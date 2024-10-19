@@ -96,85 +96,52 @@ const receiptModel = {
   },
 
   uploadSlip: (slipData, callback) => {
-    // ตรวจสอบข้อมูลก่อนที่จะทำการ insert
-    if (!slipData.u_name || !slipData.hr_month || !slipData.money_month || !slipData.selectedMonth || !slipData.selectedYear) {
-      return callback(new Error('Missing required fields'), null);
-    }
-  
-    // สร้างวันที่แรกของเดือนจากข้อมูลที่ได้รับ
-    const day_slip = new Date(slipData.selectedYear, parseInt(slipData.selectedMonth) - 1, 1);
-  
-    const query = `
-      INSERT INTO tbl_slip 
-      (u_name, hr_month, money_month, s_pic, day_slip, s_status, stamp_day) 
-      VALUES (?, ?, ?, ?, ?, ?, NOW())
+    const { u_name, hr_month, money_month, s_pic, selectedMonth, selectedYear } = slipData;
+    const day_slip = `${selectedYear}-${selectedMonth}-01`;
+
+    // Check if a slip already exists for this user and month
+    const checkExistingSlipQuery = `
+      SELECT id FROM tbl_slip 
+      WHERE u_name = ? AND DATE_FORMAT(day_slip, '%Y-%m') = ?
     `;
-    const values = [
-      slipData.u_name,
-      slipData.hr_month,
-      slipData.money_month,
-      slipData.s_pic || null,  // ถ้าไม่มีรูปภาพให้เป็น null
-      day_slip,
-      slipData.s_status || 1,  // ใช้ค่าเริ่มต้นเป็น 1 ถ้าไม่มีการกำหนด
-    ];
-  
-    db.query(query, values, (err, result) => {
-      if (err) {
-        console.error("Error uploading slip:", err);
-        console.error("Query:", query);
-        console.error("Values:", values.map(v => v === slipData.s_pic ? 'BLOB_DATA' : v));
-        
-        // ตรวจสอบข้อผิดพลาดเฉพาะ
-        if (err.code === 'ER_DUP_ENTRY') {
-          return callback(new Error('Duplicate entry. This slip may already exist.'), null);
-        } else if (err.code === 'ER_DATA_TOO_LONG') {
-          return callback(new Error('File size is too large.'), null);
-        }
-        
-        callback(new Error(`Database error: ${err.message}`), null);
-      } else {
-        console.log("Slip uploaded successfully:", result);
-        callback(null, result);
+
+    db.query(checkExistingSlipQuery, [u_name, `${selectedYear}-${selectedMonth}`], (checkErr, checkResults) => {
+      if (checkErr) {
+        return callback(checkErr);
       }
-    });
-  },
-  
-  updateSlipStatus: (u_name, month, year, status, callback) => {
-    const query = `
-      UPDATE tbl_slip 
-      SET s_status = ?
-      WHERE u_name = ? AND YEAR(day_slip) = ? AND MONTH(day_slip) = ?
-    `;
-    const values = [status, u_name, year, month];
-  
-    db.query(query, values, (err, result) => {
-      if (err) {
-        console.error("Error updating slip status:", err);
-        callback(new Error(`Database error: ${err.message}`), null);
+
+      if (checkResults.length > 0) {
+        // Update existing slip
+        const updateQuery = `
+          UPDATE tbl_slip 
+          SET hr_month = ?, money_month = ?, s_pic = ?, s_status = 1
+          WHERE u_name = ? AND DATE_FORMAT(day_slip, '%Y-%m') = ?
+        `;
+        db.query(updateQuery, [hr_month, money_month, s_pic, u_name, `${selectedYear}-${selectedMonth}`], callback);
       } else {
-        console.log("Slip status updated successfully:", result);
-        callback(null, result);
+        // Insert new slip
+        const insertQuery = `
+          INSERT INTO tbl_slip (u_name, hr_month, money_month, s_pic, day_slip, s_status) 
+          VALUES (?, ?, ?, ?, ?, 1)
+        `;
+        db.query(insertQuery, [u_name, hr_month, money_month, s_pic, day_slip], callback);
       }
     });
   },
 
-  getSlipStatus: (u_name, month, year, callback) => {
-    const query = `
-      SELECT s_status
-      FROM tbl_slip
-      WHERE u_name = ? AND YEAR(day_slip) = ? AND MONTH(day_slip) = ?
-      LIMIT 1
+  updateSlipStatus: (u_name, month, year, status, callback) => {
+    const updateStatusSQL = `
+      UPDATE tbl_slip 
+      SET s_status = ?
+      WHERE u_name = ? AND DATE_FORMAT(day_slip, '%Y-%m') = ?
     `;
-    const values = [u_name, year, month];
-  
-    db.query(query, values, (err, result) => {
+
+    db.query(updateStatusSQL, [status, u_name, `${year}-${month}`], (err, result) => {
       if (err) {
-        console.error("Error fetching slip status:", err);
-        callback(new Error(`Database error: ${err.message}`), null);
+        console.error('Error updating slip status:', err);
+        callback(err, null);
       } else {
-        const status = result.length > 0 ? result[0].s_status : null;
-        console.log("Slip status fetched successfully:", status);
-        callback(null, status);
+        callback(null, result);
       }
     });
   }

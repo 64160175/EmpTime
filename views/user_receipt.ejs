@@ -38,6 +38,43 @@
         </div>
     </header>
 
+    </header>
+
+    <div class="container">
+        <div class="text-end">
+            <p class="mb-0">อัตราค่าจ้างต่อชั่วโมง: <%= hourlyRate %>
+            </p>
+        </div>
+    </div>
+
+    <main class="container mt-4">
+        <% if (receipts && receipts.length> 0) { %>
+            <% receipts.sort((a, b)=> new Date(b.slip_month) - new Date(a.slip_month)).forEach(receipt => { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">เงินเดือน
+                            <% let displayDate='ไม่ระบุวันที่' ; if (receipt.day_slip) { const date=new
+                                Date(receipt.day_slip); if (!isNaN(date.getTime())) {
+                                displayDate=date.toLocaleString('th-TH', { month: 'long' , year: 'numeric' }); } } %>
+                                <%= displayDate %>
+                        </h5>
+                        <p class="card-text">จำนวนชั่วโมงทำงาน: <%= receipt.hr_month %> ชั่วโมง</p>
+                        <p class="card-text">จำนวนเงิน: <%= receipt.money_month.toLocaleString('th-TH', {
+                                style: 'currency' , currency: 'THB' }) %>
+                        </p>
+                        <% if (receipt.s_pic) { %>
+                            <img src="data:image/jpeg;base64,<%= receipt.s_pic.toString('base64') %>" alt="Slip"
+                                class="img-fluid mx-auto d-block" style="max-width: 65%; height: auto;">
+                            <% } else { %>
+                                <p>ไม่มีรูปสลิปเงินเดือน</p>
+                                <% } %>
+                    </div>
+                </div>
+                <% }); %>
+                    <% } else { %>
+                        <div class="alert alert-info">ไม่พบข้อมูลเงินเดือน</div>
+                        <% } %>
+    </main>
 
 </body>
 

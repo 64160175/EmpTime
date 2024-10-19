@@ -238,6 +238,8 @@
                         <input type="hidden" name="current_month_salary" value="<%= user.current_month_salary %>">
                         <input type="hidden" name="selectedMonth" value="<%= selectedMonth %>">
                         <input type="hidden" name="selectedYear" value="<%= selectedYear %>">
+                        <!-- เพิ่มบรรทัดนี้ -->
+                        <input type="hidden" name="slip_id" value="<%= user.slip_id || '' %>">
                         <input type="file" name="slip" accept=".pdf,.jpg,.jpeg,.png" style="display: none;"
                           id="slip-<%= user.u_name %>">
                         <label for="slip-<%= user.u_name %>" class="btn btn-warning btn-sm file-label"
