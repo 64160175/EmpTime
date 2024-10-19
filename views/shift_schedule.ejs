@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>ตารางลงงานพนักงาน</title>
+    <title>การลงงานของพนักงาน</title>
     <link rel="icon" type="image" href="/image/logo_web.png">
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -112,9 +112,9 @@
                         </div>
 
                         <a class="nav-link" href="/employee"> พนักงาน </a>
-                        <a class="nav-link" href="/shift_schedule"> ตารางลงงานพนักงาน </a>
+                        <a class="nav-link" href="/shift_schedule"> การลงงานของพนักงาน </a>
                         <a class="nav-link" href="/request"> คำร้องขอ </a>
-                        <a class="nav-link" href="/receipt"> ใบเสร็จรับเงิน </a>
+                        <a class="nav-link" href="/receipt"> เงินเดือนพนักงาน </a>
                         <a class="nav-link" href="/store_setting"> ตั้งค่า</a>
                     </div>
                 </div>
@@ -127,12 +127,13 @@
                 <div class="container-fluid px-4">
                     <h1 class="mt-4">พนักงานลงงาน</h1>
 
+                    <br>
                     <!-- real content -->
                     <div class="card mb-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
                             ตารางลงงานพนักงานประจำเดือน <%= monthName %>
-                                <%= year %>
+                                <%= year + 543 %>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -140,7 +141,7 @@
                                     class="btn btn-warning">&lt; เดือนก่อนหน้า</a>
                                 <h2>
                                     <%= monthName %>
-                                        <%= year %>
+                                        <%= year + 543 %>
                                 </h2>
                                 <a href="/shift_schedule?year=<%= nextYear %>&month=<%= nextMonth %>"
                                     class="btn btn-warning">เดือนถัดไป &gt;</a>
