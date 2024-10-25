@@ -59,6 +59,11 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 
+
+app.get("/", (req, res) => {
+  res.redirect("/login");
+});
+
 // ------------------------- Login ------------------------- //
 const loginRoutes = require("./routes/loginRoutes");
 app.use("/", loginRoutes); // Use app.use to mount the router
