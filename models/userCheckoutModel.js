@@ -106,31 +106,8 @@ const checkoutModel = {
                 return callback(err, null);
               }
   
-              // After successful checkout, update in_status in tbl_checkin
-              const updateCheckinSql = `
-                UPDATE tbl_checkin 
-                SET in_status = 0 
-                WHERE u_name = ? 
-                AND in_date = CURDATE() 
-                AND in_status = 1
-              `;
-              db.query(
-                updateCheckinSql,
-                [username],
-                (updateErr, updateResult) => {
-                  if (updateErr) {
-                    console.error(
-                      "Error updating checkin status:",
-                      updateErr
-                    );
-                    // Handle the error, maybe rollback the checkout?
-                  } else {
-                    console.log("Checkin status updated successfully");
-                  }
-                  // Call the callback regardless of update success/failure
-                  callback(null, result);
-                }
-              );
+              // Call the callback regardless of update success/failure
+              callback(null, result);
             }
           );
         });
